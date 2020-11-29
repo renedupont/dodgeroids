@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public final class GameOverScreen implements IGameScreen {
+
 	/** class elements **/
 	private final AbstractGameActivity activity;
 	private final Scene scene;

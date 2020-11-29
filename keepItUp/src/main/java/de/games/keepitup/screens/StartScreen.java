@@ -15,6 +15,7 @@ import de.games.keepitup.datamanagers.KeepItUpSaveGame;
 import de.games.keepitup.datamanagers.KeepItUpSettingsManager;
 
 public final class StartScreen implements IGameScreen {
+
 	/** class elements **/
 	private final AbstractGameActivity activity;
 	private final Scene scene;

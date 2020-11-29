@@ -24,34 +24,12 @@ import de.games.keepitup.screens.GameLoopScreen;
 import de.games.keepitup.screens.StartScreen;
 
 public class KeepItUpActivity extends AbstractGameActivity {
-	/** meta variables */
-	// Um VM wieder freizuschalten auch in onCreate(),
-	// GameSensorManager.computeOrientation() und
-	// GameSensorManager.register() die Stellen frei machen
-	// public static boolean isVM = false; // TODO: temporary
-	// public static boolean RENDER_BOUNDS = false;
 
-	/** class elements */
 	private GLSurfaceView glSurface;
 	private IGameScreen screen;
-	private int width, height; /* with and height of the viewport */
-	private long lastFrameStart; /* start time of last frame in nano seconds */
-	private float deltaTime; /* delta time in seconds */
-
-	// private Thread.UncaughtExceptionHandler
-	// androidDefaultUncaughtExceptionHandler;
-	// private Thread.UncaughtExceptionHandler dodgeItUncaughtExceptionHandler =
-	// new Thread.UncaughtExceptionHandler() {
-	// @Override
-	// public void uncaughtException(Thread thread, Throwable exception) {
-	// Log.e("test", "Uncaught Exception is: ", exception);
-	// androidDefaultUncaughtExceptionHandler.uncaughtException(thread,
-	// exception);
-	// //TODO: app sauber schliessen
-	// // ApplicationErrorReport arp = new ApplicationErrorReport();
-	// System.exit(1);
-	// }
-	// };
+	private int width, height; // width and height of the viewport
+	private long lastFrameStart; // start time of last frame in nano seconds
+	private float deltaTime; // delta time in seconds
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -59,9 +37,6 @@ public class KeepItUpActivity extends AbstractGameActivity {
 		Log.d("KeepItUp!", "onCreate");
 
 		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-		// androidDefaultUncaughtExceptionHandler =
-		// Thread.getDefaultUncaughtExceptionHandler();
-		// Thread.setDefaultUncaughtExceptionHandler(dodgeItUncaughtExceptionHandler);
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -78,15 +53,6 @@ public class KeepItUpActivity extends AbstractGameActivity {
 		KeepItUpSettingsManager.init(this);
 		KeepItUpSaveGame.init(this);
 
-		// String[] build = Build.MODEL.split(" "); // TODO: temporary
-		// for (String part:build) { // *
-		// if (part.equals("androVM") || part.equals("VirtualBox") ||
-		// part.equals("PREVIEW")) {
-		// Log.d("device info", "Device seems to be virtual."); // *
-		// DodgeItActivity.isVM = true; // *
-		// return; // *
-		// } // *
-		// }
 		Log.d("KeepItUp!", "onCreate end");
 	}
 

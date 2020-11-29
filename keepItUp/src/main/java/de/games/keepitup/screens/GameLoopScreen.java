@@ -22,17 +22,20 @@ import de.games.keepitup.levels.SpaceLevelFactory;
 import de.games.keepitup.logic.GameLoopLogic;
 
 public final class GameLoopScreen implements IGameScreen {
+
     /* class elements */
     private final AbstractGameActivity activity;
     private final AbstractLevelFactory levelFactory;
     private final Scene scene;
     private final GameRenderer renderer;
     private final AbstractGameLogic logic;
+
     /* quick references */
     private final Player player;
     private final Text text_stats;
     private final Text immortalCounter;
     private final Text text_pause;
+
     /* control flags */
     private boolean isBackPressed = false;
     private boolean isDoneLoading = false;
