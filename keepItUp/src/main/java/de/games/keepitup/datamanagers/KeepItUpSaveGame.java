@@ -5,8 +5,8 @@ import java.io.Serializable;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.games.graphics.Vector;
-import android.games.objects.Player;
+import android.engine.graphics.Vector;
+import android.engine.objects.Player;
 import de.games.keepitup.R;
 
 // Hier wird irgendwann mal alle Variablen reinkommen die f�r den momentanten Spielstand relevant sind
