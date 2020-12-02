@@ -3,7 +3,7 @@ package de.games.keepitup.datamanagers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.games.datamanagers.ISettingsManager;
+import android.games.engine.datamanagers.ISettingsManager;
 
 public class KeepItUpSettingsManager implements ISettingsManager {
 

@@ -4,17 +4,17 @@ import java.util.HashMap;
 
 import javax.microedition.khronos.opengles.GL11;
 
-import android.games.AbstractGameActivity;
-import android.games.graphics.Camera;
-import android.games.graphics.Color;
-import android.games.graphics.Font;
-import android.games.graphics.Font.FontStyle;
-import android.games.graphics.Font.HorizontalAlign;
-import android.games.graphics.Font.SizeType;
-import android.games.graphics.Font.Text;
-import android.games.graphics.Font.VerticalAlign;
-import android.games.graphics.Vector;
-import android.games.screens.AbstractScreenFactory;
+import android.games.engine.AbstractGameActivity;
+import android.games.engine.graphics.Camera;
+import android.games.engine.graphics.Color;
+import android.games.engine.graphics.Font;
+import android.games.engine.graphics.Font.FontStyle;
+import android.games.engine.graphics.Font.HorizontalAlign;
+import android.games.engine.graphics.Font.SizeType;
+import android.games.engine.graphics.Font.Text;
+import android.games.engine.graphics.Font.VerticalAlign;
+import android.games.engine.graphics.Vector;
+import android.games.engine.screens.AbstractScreenFactory;
 import de.games.keepitup.R;
 import de.games.keepitup.datamanagers.KeepItUpSaveGame;
 

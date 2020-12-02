@@ -2,10 +2,10 @@ package de.games.keepitup.screens;
 
 import javax.microedition.khronos.opengles.GL11;
 
-import android.games.AbstractGameActivity;
-import android.games.datamanagers.Scene;
-import android.games.graphics.GameRenderer;
-import android.games.screens.IGameScreen;
+import android.games.engine.AbstractGameActivity;
+import android.games.engine.datamanagers.Scene;
+import android.games.engine.graphics.GameRenderer;
+import android.games.engine.screens.IGameScreen;
 import android.view.MotionEvent;
 import android.view.View;
 

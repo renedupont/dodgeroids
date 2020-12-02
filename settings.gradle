@@ -1,2 +1,2 @@
-include ':androidGameEngine'
+include ':androidGamesEngine'
 include ':keepItUp'

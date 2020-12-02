@@ -1,10 +1,9 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "de.games.keepitup"
         minSdkVersion 14
         targetSdkVersion 28
     }
@@ -18,5 +17,6 @@ android {
 }
 
 dependencies {
-    implementation project(':androidGamesEngine')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation files('libs/boxformat.jar')
 }
