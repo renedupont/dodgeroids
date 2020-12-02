@@ -7,11 +7,11 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import android.content.pm.ActivityInfo;
-import android.engine.AbstractGameActivity;
-import android.engine.datamanagers.KeyInputManager;
-import android.engine.datamanagers.SoundManager;
-import android.engine.graphics.Mesh;
-import android.engine.screens.IGameScreen;
+import android.games.engine.AbstractGameActivity;
+import android.games.engine.datamanagers.KeyInputManager;
+import android.games.engine.datamanagers.SoundManager;
+import android.games.engine.graphics.Mesh;
+import android.games.engine.screens.IGameScreen;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;

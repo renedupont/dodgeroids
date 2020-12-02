@@ -1,15 +1,15 @@
 package de.games.keepitup.screens;
 
-import android.engine.AbstractGameActivity;
-import android.engine.datamanagers.Scene;
-import android.engine.datamanagers.SoundManager;
-import android.engine.graphics.Color;
-import android.engine.graphics.Font.Text;
-import android.engine.graphics.GameRenderer;
-import android.engine.levels.AbstractLevelFactory;
-import android.engine.logic.AbstractGameLogic;
-import android.engine.objects.Player;
-import android.engine.screens.IGameScreen;
+import android.games.engine.AbstractGameActivity;
+import android.games.engine.datamanagers.Scene;
+import android.games.engine.datamanagers.SoundManager;
+import android.games.engine.graphics.Color;
+import android.games.engine.graphics.Font.Text;
+import android.games.engine.graphics.GameRenderer;
+import android.games.engine.levels.AbstractLevelFactory;
+import android.games.engine.logic.AbstractGameLogic;
+import android.games.engine.objects.Player;
+import android.games.engine.screens.IGameScreen;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
