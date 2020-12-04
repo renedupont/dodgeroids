@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "android.games.dodgeroids"
+        applicationId "de.games.dodgeroids"
         minSdkVersion 14
         targetSdkVersion 28
     }
