@@ -27,7 +27,6 @@ android {
 
 dependencies {
 	implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-	implementation files('libs/boxformat.jar')
 }
 
 // Run './gradlew spotlessApply' (linux) or 'gradlew.bat spotlessApply' (windows) in root folder to fix violations
