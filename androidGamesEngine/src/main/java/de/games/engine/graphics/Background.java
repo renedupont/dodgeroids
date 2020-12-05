@@ -4,30 +4,29 @@ import de.games.engine.graphics.Mesh.RenderType;
 
 public class Background {
 
-	private final Mesh backgroundMesh;
-	private final Texture backgroundTexture;
+    private final Mesh backgroundMesh;
+    private final Texture backgroundTexture;
 
-	public Background(final Mesh backgroundMesh, final Texture backgroundTexture) {
-		this.backgroundMesh = backgroundMesh;
-		this.backgroundTexture = backgroundTexture;
-	}
+    public Background(final Mesh backgroundMesh, final Texture backgroundTexture) {
+        this.backgroundMesh = backgroundMesh;
+        this.backgroundTexture = backgroundTexture;
+    }
 
-	public void render() {
-		backgroundTexture.bind();
-		backgroundMesh.render(RenderType.TRIANGLE_FAN);
-	}
+    public void render() {
+        backgroundTexture.bind();
+        backgroundMesh.render(RenderType.TRIANGLE_FAN);
+    }
 
-	public Mesh getBackgroundMesh() {
-		return backgroundMesh;
-	}
+    public Mesh getBackgroundMesh() {
+        return backgroundMesh;
+    }
 
-	public Texture getBackgroundTexture() {
-		return backgroundTexture;
-	}
+    public Texture getBackgroundTexture() {
+        return backgroundTexture;
+    }
 
-	public void dispose() {
-		backgroundMesh.dispose();
-		backgroundTexture.dispose();
-	}
-
+    public void dispose() {
+        backgroundMesh.dispose();
+        backgroundTexture.dispose();
+    }
 }

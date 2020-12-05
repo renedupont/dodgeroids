@@ -1,5 +1,12 @@
 package de.games.dodgeroids.screens;
 
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import de.games.dodgeroids.R;
+import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
+import de.games.dodgeroids.levels.SpaceLevelFactory;
+import de.games.dodgeroids.logic.GameLoopLogic;
 import de.games.engine.AbstractGameActivity;
 import de.games.engine.datamanagers.Scene;
 import de.games.engine.datamanagers.SoundManager;
@@ -10,16 +17,7 @@ import de.games.engine.levels.AbstractLevelFactory;
 import de.games.engine.logic.AbstractGameLogic;
 import de.games.engine.objects.Player;
 import de.games.engine.screens.IGameScreen;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
-
 import javax.microedition.khronos.opengles.GL11;
-
-import de.games.dodgeroids.R;
-import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
-import de.games.dodgeroids.levels.SpaceLevelFactory;
-import de.games.dodgeroids.logic.GameLoopLogic;
 
 public final class GameLoopScreen implements IGameScreen {
 
@@ -40,12 +38,11 @@ public final class GameLoopScreen implements IGameScreen {
     private boolean isBackPressed = false;
     private boolean isDoneLoading = false;
 
-    public GameLoopScreen(final AbstractGameActivity activity, final GL11 gl,
-                          final String levelName) {
+    public GameLoopScreen(
+            final AbstractGameActivity activity, final GL11 gl, final String levelName) {
         this.activity = activity;
         this.levelFactory = new SpaceLevelFactory();
-        this.scene = new Scene(activity, gl, new GameLoopFactory(),
-                levelFactory);
+        this.scene = new Scene(activity, gl, new GameLoopFactory(), levelFactory);
         this.renderer = new GameRenderer(gl, activity, scene);
         renderer.setAmbientColor(new Color(0.5f, 0.5f, 0.5f, 1.0f));
         this.logic = new GameLoopLogic(activity, scene, levelFactory);
@@ -53,20 +50,16 @@ public final class GameLoopScreen implements IGameScreen {
         SoundManager.getInstance().prepareMusic(R.raw.loop1);
         activity.getGLSurfaceView().setOnTouchListener(this);
 
-        this.text_stats = scene.getText(activity
-                .getString(R.string.label_stats));
-        this.immortalCounter = scene.getText(activity
-                .getString(R.string.label_immortalCounter));
-        this.text_pause = scene.getText(activity
-                .getString(R.string.label_pause));
+        this.text_stats = scene.getText(activity.getString(R.string.label_stats));
+        this.immortalCounter = scene.getText(activity.getString(R.string.label_immortalCounter));
+        this.text_pause = scene.getText(activity.getString(R.string.label_pause));
         this.player = scene.getPlayer();
 
         // Load savegame
         if (DodgeroidsSaveGame.getInstance().isResumable()) {
             player.lives = DodgeroidsSaveGame.getInstance().getPlayerLives();
             player.score = DodgeroidsSaveGame.getInstance().getScore();
-            player.setPosition(DodgeroidsSaveGame.getInstance()
-                    .getPlayerPosition());
+            player.setPosition(DodgeroidsSaveGame.getInstance().getPlayerPosition());
         } else {
             DodgeroidsSaveGame.getInstance().setResumable(true);
         }
@@ -78,10 +71,8 @@ public final class GameLoopScreen implements IGameScreen {
     public void update(final float deltaTime) {
         logic.update(deltaTime);
 
-        text_stats.setText("lives: " + player.lives + "  score: "
-                + (int) player.score);
-        immortalCounter
-                .setText((int) player.getRemainingImmortalityTime() + "");
+        text_stats.setText("lives: " + player.lives + "  score: " + (int) player.score);
+        immortalCounter.setText((int) player.getRemainingImmortalityTime() + "");
 
         if (logic.isPaused()) {
             text_pause.setText(activity.getString(R.string.text_pausehint));
@@ -90,8 +81,7 @@ public final class GameLoopScreen implements IGameScreen {
         }
 
         if (player.isImmortal()) {
-            immortalCounter.setText((int) player.getRemainingImmortalityTime()
-                    + "");
+            immortalCounter.setText((int) player.getRemainingImmortalityTime() + "");
         } else if (!immortalCounter.getText().equals("")) {
             immortalCounter.setText("");
         }
@@ -123,13 +113,14 @@ public final class GameLoopScreen implements IGameScreen {
     @Override
     public IGameScreen switchScreen(final GL11 gl) {
         float score = player.score;
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                activity.getWindow().clearFlags(
-                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            }
-        });
+        activity.runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        activity.getWindow()
+                                .clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    }
+                });
 
         if (isBackPressed) {
             return new StartScreen(activity, gl);
@@ -151,22 +142,25 @@ public final class GameLoopScreen implements IGameScreen {
         // spiel zu beenden und zum punktestand zu gehen
 
         if (isDoneLoading && event.getAction() == MotionEvent.ACTION_DOWN) {
-            ((GameLoopLogic) logic).setDownPressed(true); // TODO: setdownpressed in das interface der engine packen
+            ((GameLoopLogic) logic)
+                    .setDownPressed(
+                            true); // TODO: setdownpressed in das interface der engine packen
             //			SoundManager.getInstance().pauseMusic();
         } else if (isDoneLoading && event.getAction() == MotionEvent.ACTION_UP) {
             ((GameLoopLogic) logic).setDownPressed(false);
             if (logic.isPaused()) {
                 SoundManager.getInstance().startOrResumeMusic();
-                activity.runOnUiThread(new Runnable() { // TODO: muss hier evtl. nit in runonuithread laufen? und vll. auch in ACTIVE->Pause case obendr�ber setzen?
-                    @Override
-                    public void run() {
-                        activity.getWindow().addFlags(
-                                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                    }
-                });
+                activity.runOnUiThread(
+                        new Runnable() { // TODO: muss hier evtl. nit in runonuithread laufen? und
+                            // vll. auch in ACTIVE->Pause case obendr�ber setzen?
+                            @Override
+                            public void run() {
+                                activity.getWindow()
+                                        .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                            }
+                        });
                 logic.setPaused(false);
             }
-
         }
 
         //		} else if (isDoneLoading && event.getAction() == MotionEvent.ACTION_UP) {
@@ -225,5 +219,4 @@ public final class GameLoopScreen implements IGameScreen {
     public AbstractGameLogic getLogic() {
         return logic;
     }
-
 }

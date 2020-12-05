@@ -2,11 +2,11 @@ package de.games.engine.datamanagers;
 
 import android.app.Activity;
 import android.content.Context;
-import de.games.engine.graphics.Vector;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import de.games.engine.graphics.Vector;
 
 public class GameSensorManager implements SensorEventListener { // ,
     // KeyEventListener
@@ -25,12 +25,10 @@ public class GameSensorManager implements SensorEventListener { // ,
     private float[] latestMagnetic = new float[3];
     private boolean isSensorCalibrated = false;
 
-    private GameSensorManager() {
-    }
+    private GameSensorManager() {}
 
     private GameSensorManager(final Activity activity) {
-        m_sensorManager = (SensorManager) activity
-                .getSystemService(Context.SENSOR_SERVICE);
+        m_sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         register();
 
         // F�r Tastatur wieder Interface implementieren...
@@ -49,10 +47,12 @@ public class GameSensorManager implements SensorEventListener { // ,
     }
 
     public void register() {
-        m_sensorManager.registerListener(this,
+        m_sensorManager.registerListener(
+                this,
                 m_sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
                 SensorManager.SENSOR_DELAY_GAME);
-        m_sensorManager.registerListener(this,
+        m_sensorManager.registerListener(
+                this,
                 m_sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_GAME);
     }
@@ -76,12 +76,9 @@ public class GameSensorManager implements SensorEventListener { // ,
             }
             if (latestAccel != null && latestMagnetic != null) {
                 computeOrientation();
-                adjustedSensorValues[0] = orientation[0]
-                        - calibratedOrientation[0];
-                adjustedSensorValues[1] = orientation[1]
-                        - calibratedOrientation[1];
-                adjustedSensorValues[2] = orientation[2]
-                        - calibratedOrientation[2];
+                adjustedSensorValues[0] = orientation[0] - calibratedOrientation[0];
+                adjustedSensorValues[1] = orientation[1] - calibratedOrientation[1];
+                adjustedSensorValues[2] = orientation[2] - calibratedOrientation[2];
             }
         } else {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -93,8 +90,7 @@ public class GameSensorManager implements SensorEventListener { // ,
     }
 
     private void computeOrientation() {
-        if (SensorManager.getRotationMatrix(R, I,
-                latestAccel, latestMagnetic)) {
+        if (SensorManager.getRotationMatrix(R, I, latestAccel, latestMagnetic)) {
             SensorManager.getOrientation(R, orientation);
         }
     }
@@ -103,7 +99,8 @@ public class GameSensorManager implements SensorEventListener { // ,
         if (!isSensorCalibrated) {
             isSensorCalibrated = true;
             computeOrientation();
-            calibratedOrientation = orientation.clone();// latestAccel.clone();//accelerometerValues.clone();
+            calibratedOrientation =
+                    orientation.clone(); // latestAccel.clone();//accelerometerValues.clone();
         }
     }
 
@@ -165,8 +162,8 @@ public class GameSensorManager implements SensorEventListener { // ,
     }
 
     public Vector getAccelerationValues() {
-        return new Vector(adjustedSensorValues[0], adjustedSensorValues[1],
-                adjustedSensorValues[2]);
+        return new Vector(
+                adjustedSensorValues[0], adjustedSensorValues[1], adjustedSensorValues[2]);
     }
 
     // /************************************************************************

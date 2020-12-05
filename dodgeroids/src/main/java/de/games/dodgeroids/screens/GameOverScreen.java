@@ -1,71 +1,70 @@
 package de.games.dodgeroids.screens;
 
-import javax.microedition.khronos.opengles.GL11;
-
+import android.view.MotionEvent;
+import android.view.View;
 import de.games.engine.AbstractGameActivity;
 import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.GameRenderer;
 import de.games.engine.screens.IGameScreen;
-import android.view.MotionEvent;
-import android.view.View;
+import javax.microedition.khronos.opengles.GL11;
 
 public final class GameOverScreen implements IGameScreen {
 
-	/** class elements **/
-	private final AbstractGameActivity activity;
-	private final Scene scene;
-	private final GameRenderer renderer;
+    /** class elements * */
+    private final AbstractGameActivity activity;
 
-	/** control flags **/
-	private boolean isDone = false;
+    private final Scene scene;
+    private final GameRenderer renderer;
 
-	public GameOverScreen(final AbstractGameActivity activity, final GL11 gl) {
-		this.activity = activity;
-		this.scene = new Scene(activity, gl, new GameOverFactory());
-		this.renderer = new GameRenderer(gl, activity, scene);
-		activity.getGLSurfaceView().setOnTouchListener(this);
-	}
+    /** control flags * */
+    private boolean isDone = false;
 
-	@Override
-	public boolean isDone() {
-		return isDone;
-	}
+    public GameOverScreen(final AbstractGameActivity activity, final GL11 gl) {
+        this.activity = activity;
+        this.scene = new Scene(activity, gl, new GameOverFactory());
+        this.renderer = new GameRenderer(gl, activity, scene);
+        activity.getGLSurfaceView().setOnTouchListener(this);
+    }
 
-	@Override
-	public void onBackPressed() {
-		isDone = true;
-	}
+    @Override
+    public boolean isDone() {
+        return isDone;
+    }
 
-	@Override
-	public void update(final float deltaTime) {
-	}
+    @Override
+    public void onBackPressed() {
+        isDone = true;
+    }
 
-	@Override
-	public boolean onTouch(final View v, final MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_UP) {
-			isDone = true;
-		}
-		try {
-			Thread.sleep(30); // TODO: WTF? nur damit onTouch auch bei den
-								// update methoden mal als true ankommt? OMFG
-		} catch (Exception ex) {
-		}
-		return true;
-	}
+    @Override
+    public void update(final float deltaTime) {}
 
-	@Override
-	public IGameScreen switchScreen(final GL11 gl) {
-		return (new StartScreen(activity, gl));
-	}
+    @Override
+    public boolean onTouch(final View v, final MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            isDone = true;
+        }
+        try {
+            Thread.sleep(30); // TODO: WTF? nur damit onTouch auch bei den
+            // update methoden mal als true ankommt? OMFG
+        } catch (Exception ex) {
+        }
+        return true;
+    }
 
-	@Override
-	public GameRenderer getRenderer() {
-		return renderer;
-	}
+    @Override
+    public IGameScreen switchScreen(final GL11 gl) {
+        return (new StartScreen(activity, gl));
+    }
 
-	@Override
-	public void dispose() {
-		renderer.dispose();
-		scene.dispose();
-	}
+    @Override
+    public GameRenderer getRenderer() {
+        return renderer;
+    }
+
+    @Override
+    public void dispose() {
+        renderer.dispose();
+        scene.dispose();
+    }
 }
