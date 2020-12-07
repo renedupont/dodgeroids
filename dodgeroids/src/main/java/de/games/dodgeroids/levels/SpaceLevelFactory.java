@@ -134,11 +134,7 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
                         * scaleFactor;
         setRandomY(startPosition, asteroidRadius, maxRadius);
         return new Asteroid(
-                asteroidMeshes,
-                textures.get("asteroid.jpg"),
-                scaleFactor,
-                velocity,
-                startPosition);
+                asteroidMeshes, textures.get("asteroid.jpg"), scaleFactor, velocity, startPosition);
     }
 
     @Override

@@ -32,7 +32,6 @@ public class Texture {
     /** handle to gl wrapper * */
     private final GL11 gl;
 
-
     /** Creates a new texture based on the given image */
     public Texture(
             final GL11 gl,
@@ -172,5 +171,4 @@ public class Texture {
         gl.glDeleteTextures(1, textures, 0);
         textureHandle = 0;
     }
-
 }

@@ -1,6 +1,5 @@
 package de.games.engine.objects;
 
-import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.Mesh;
 import de.games.engine.graphics.RotationSettings;
 import de.games.engine.graphics.Texture;

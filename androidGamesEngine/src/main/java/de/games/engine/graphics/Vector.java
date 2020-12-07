@@ -39,9 +39,8 @@ public class Vector {
         this.z = f;
     }
 
-
     public Vector cross(final Vector a, final Vector b) {
-        return new Vector(       a.y * b.z - a.z * b.y, b.x * a.z - b.z * a.x, a.x * b.y - a.y * b.x);
+        return new Vector(a.y * b.z - a.z * b.y, b.x * a.z - b.z * a.x, a.x * b.y - a.y * b.x);
     }
 
     public Vector normalize() {

@@ -9,7 +9,8 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.SparseIntArray;
 
-// To use this class, there needs to be an array called 'sounds' created in array.xml mit links to the sound resources
+// To use this class, there needs to be an array called 'sounds' created in array.xml mit links to
+// the sound resources
 public class SoundManager {
 
     private static SoundManager instance;
@@ -31,8 +32,8 @@ public class SoundManager {
     }
 
     /**
-     * Requests the instance of the SoundManager and creates it if it does not
-     * exist. Returns a single instance of the SoundManager.
+     * Requests the instance of the SoundManager and creates it if it does not exist. Returns a
+     * single instance of the SoundManager.
      */
     public static synchronized SoundManager getInstance() {
         if (instance == null) {
@@ -53,7 +54,8 @@ public class SoundManager {
     }
 
     private void loadSounds(final Activity activity) {
-        // TODO: maybe an exception needs to be caught here in case the resources could not be loaded
+        // TODO: maybe an exception needs to be caught here in case the resources could not be
+        // loaded
 
         Resources resources = activity.getResources();
         TypedArray soundResources = resources.obtainTypedArray(soundListId); // R.array.sounds);

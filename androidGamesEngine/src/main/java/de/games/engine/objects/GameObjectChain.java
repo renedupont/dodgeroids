@@ -43,8 +43,7 @@ public final class GameObjectChain<T extends AbstractGameObject> {
         this.deathThresholdMax = deathThresholdMax;
 
         for (int i = 0; i < amountOfObjects; ++i) {
-            addGameObjectToChain(
-                    levelFactory.createGameObject(genericType, createStartPosition()));
+            addGameObjectToChain(levelFactory.createGameObject(genericType, createStartPosition()));
         }
     }
 
@@ -72,8 +71,7 @@ public final class GameObjectChain<T extends AbstractGameObject> {
             }
         }
         for (int i = 0; i < removedCounter; i++) {
-            gameObject =
-                    levelFactory.createGameObject(genericType, createStartPosition());
+            gameObject = levelFactory.createGameObject(genericType, createStartPosition());
             addGameObjectToChain(gameObject);
         }
         return removedCounter;

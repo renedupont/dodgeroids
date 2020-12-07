@@ -1,6 +1,5 @@
 package de.games.engine.objects;
 
-import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.Mesh;
 import de.games.engine.graphics.RotationSettings;
 import de.games.engine.graphics.Texture;
@@ -13,7 +12,6 @@ import javax.microedition.khronos.opengles.GL11;
 public class Asteroid extends AbstractGameObject {
 
     private float[][] transparencyZPosAndValue;
-
 
     public Asteroid(
             final HashMap<Mesh, RotationSettings> meshIds,

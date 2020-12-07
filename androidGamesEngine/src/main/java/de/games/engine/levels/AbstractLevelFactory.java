@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import de.games.engine.box.format.BoxFormat.Identifier;
 import de.games.engine.box.format.chunk.BoxMeshBound;
 import de.games.engine.box.format.chunk.BoxMeshDodgeIt;
@@ -21,7 +20,6 @@ import de.games.engine.graphics.Vector;
 import de.games.engine.objects.AbstractGameObject;
 import de.games.engine.objects.GameObjectChain;
 import de.games.engine.objects.Player;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.microedition.khronos.opengles.GL11;
 
 public abstract class AbstractLevelFactory {
@@ -69,8 +66,7 @@ public abstract class AbstractLevelFactory {
             Class<T> type, Scene scene, Vector range, float minRadius);
 
     public abstract HashMap<String, GameObjectChain<? extends AbstractGameObject>>
-    createGameObjectChains(Scene scene, Vector range);
-
+            createGameObjectChains(Scene scene, Vector range);
 
     protected void setRandomY(
             final Vector startPosition, final float objectRadius, final float maxRadius) {

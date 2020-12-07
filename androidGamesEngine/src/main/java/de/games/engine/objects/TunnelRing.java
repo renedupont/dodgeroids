@@ -1,6 +1,5 @@
 package de.games.engine.objects;
 
-import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.Mesh;
 import de.games.engine.graphics.RotationSettings;
 import de.games.engine.graphics.Texture;
@@ -19,7 +18,6 @@ public class TunnelRing extends AbstractGameObject {
         super(meshIds, textureId, velocity, startPosition);
         this.rotate(0f, 90.0f, 0f);
     }
-
 
     @Override
     public void update(final float delta) {

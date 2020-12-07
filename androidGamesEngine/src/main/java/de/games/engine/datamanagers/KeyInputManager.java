@@ -20,10 +20,10 @@ public class KeyInputManager extends Thread {
         return instance;
     }
 
-
     public void registerKeyEvent(KeyEvent event) {
         synchronized (eventsBuffer) {
-            // TODO ? alternative zu synchronized, evtl schneller: http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CopyOnWriteArrayList.html
+            // TODO ? alternative zu synchronized, evtl schneller:
+            // http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CopyOnWriteArrayList.html
             if (event != null) {
                 eventsBuffer.add(event);
             }

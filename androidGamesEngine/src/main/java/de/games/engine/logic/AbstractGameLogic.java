@@ -33,13 +33,11 @@ public abstract class AbstractGameLogic {
     public abstract boolean isGameDone();
 
     /** unimplemented methods as suggestions * */
-
     public void dispose() {}
 
     protected void movePlayer(final float delta) {}
 
     /** implemented methods which are abstract enough to be valid for every subclass */
-
     public boolean isCollidingWith(
             final AbstractGameObject obj1,
             final AbstractBound.DetectionMethod type1,

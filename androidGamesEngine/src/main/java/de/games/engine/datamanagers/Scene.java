@@ -36,7 +36,8 @@ public class Scene {
     public Scene(
             final AbstractGameActivity activity,
             final GL11 gl,
-            final AbstractScreenFactory screenFactory) { // currently intended for start and game over screen
+            final AbstractScreenFactory
+                    screenFactory) { // currently intended for start and game over screen
         this.gObjects = new LinkedList<>();
         this.lights = new ArrayList<>();
         // load screen objects
@@ -46,8 +47,7 @@ public class Scene {
         this.camera =
                 screenFactory.createCamera(
                         activity.getViewportWidth(), activity.getViewportHeight());
-        this.gameObjectChains =
-                new HashMap<>();
+        this.gameObjectChains = new HashMap<>();
     }
 
     public Scene(

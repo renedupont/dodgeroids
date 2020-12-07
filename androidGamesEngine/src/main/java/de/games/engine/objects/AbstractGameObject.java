@@ -1,17 +1,13 @@
 package de.games.engine.objects;
 
-import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.AbstractBound;
-import de.games.engine.graphics.Material;
 import de.games.engine.graphics.Mesh;
 import de.games.engine.graphics.Node;
 import de.games.engine.graphics.RotationSettings;
 import de.games.engine.graphics.Texture;
 import de.games.engine.graphics.Vector;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.microedition.khronos.opengles.GL11;
 
 public abstract class AbstractGameObject extends Node {
@@ -22,7 +18,6 @@ public abstract class AbstractGameObject extends Node {
     public HashMap<Mesh, RotationSettings> meshes;
     protected Vector velocity;
     public Mesh.RenderType renderType = Mesh.RenderType.TRIANGLES;
-
 
     public AbstractGameObject(
             final HashMap<Mesh, RotationSettings> meshIds,
@@ -36,10 +31,7 @@ public abstract class AbstractGameObject extends Node {
         this.setPosition(startPosition);
     }
 
-
-    public boolean isWithinPositionThreshold(
-            final Vector min,
-            final Vector max) {
+    public boolean isWithinPositionThreshold(final Vector min, final Vector max) {
         // TODO eigentlich waere eine Cube klasse cool die nen raum aufspannt und
         // man hier anstatt der min und max vals uebergeben koennte. vll dann
         // auch fuer die Boxbound interessant
@@ -87,11 +79,9 @@ public abstract class AbstractGameObject extends Node {
         return list;
     }
 
-
     public Vector getVelocity() {
         return velocity;
     }
-
 
     public void dispose() {
         texture.dispose();
