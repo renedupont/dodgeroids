@@ -18,12 +18,10 @@ public final class GameObjectChain<T extends AbstractGameObject> {
     private final float distanceToNextObject;
     private final Vector deathThresholdMin;
     private final Vector deathThresholdMax;
-    // private float deathThresholdRadius;
 
     private int removedCounter;
 
     @SuppressWarnings("unchecked")
-    // generic type erasure
     public GameObjectChain(
             final Class<? extends AbstractGameObject> genericType,
             final float minRadius,
@@ -33,8 +31,7 @@ public final class GameObjectChain<T extends AbstractGameObject> {
             final float zPosOfFirstObject,
             final float distanceToNextObject,
             final Vector deathThresholdMin,
-            final Vector deathThresholdMax,
-            final float deathThresholdRadius) {
+            final Vector deathThresholdMax) {
         this.genericType = genericType;
         this.minRadius = minRadius;
         this.scene = scene;
@@ -44,18 +41,11 @@ public final class GameObjectChain<T extends AbstractGameObject> {
         this.distanceToNextObject = distanceToNextObject;
         this.deathThresholdMin = deathThresholdMin;
         this.deathThresholdMax = deathThresholdMax;
-        // this.deathThresholdRadius = deathThresholdRadius;
 
         for (int i = 0; i < amountOfObjects; ++i) {
             addGameObjectToChain(
-                    (T)
-                            levelFactory.createGameObject(
-                                    genericType, createStartPosition(), minRadius));
+                    levelFactory.createGameObject(genericType, createStartPosition()));
         }
-    }
-
-    public List<T> getGameObjects() {
-        return gameObjects;
     }
 
     public void addGameObjectToChain(final T gameObject) {
@@ -64,10 +54,10 @@ public final class GameObjectChain<T extends AbstractGameObject> {
     }
 
     @SuppressWarnings("unchecked")
-    // generic type erasure
-    public int update(final float delta) {
+    public int update() {
         removedCounter = 0;
         // Iterator was used due to the need of removing objects while iterating
+        // TODO: improve this...
         Iterator<T> it = gameObjects.iterator();
         T gameObject;
         while (it.hasNext()) {
@@ -75,7 +65,7 @@ public final class GameObjectChain<T extends AbstractGameObject> {
             if (!gameObject.isWithinPositionThreshold(deathThresholdMin, deathThresholdMax)) {
                 // &&
                 // !gameObject.isWithinPositionThreshold(deathThresholdRadius))
-                // { // TODO bei Bedarf freischalten
+                // { // TODO active on demand
                 scene.removeGameObject(gameObject);
                 it.remove();
                 removedCounter++;
@@ -83,16 +73,14 @@ public final class GameObjectChain<T extends AbstractGameObject> {
         }
         for (int i = 0; i < removedCounter; i++) {
             gameObject =
-                    (T)
-                            levelFactory.createGameObject(
-                                    genericType, createStartPosition(), minRadius);
+                    levelFactory.createGameObject(genericType, createStartPosition());
             addGameObjectToChain(gameObject);
         }
         return removedCounter;
     }
 
     public Vector createStartPosition() {
-        // Diese Methode gibt die default start position an.
+        // this method determines the default start position
         return new Vector(
                 0.0f,
                 0.0f,
@@ -104,9 +92,5 @@ public final class GameObjectChain<T extends AbstractGameObject> {
 
     public T getFirst() {
         return gameObjects.get(0);
-    }
-
-    public float getMinRadius() {
-        return minRadius;
     }
 }

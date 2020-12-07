@@ -17,16 +17,7 @@ public class TunnelPart extends AbstractGameObject {
             final Texture textureId,
             final Vector velocity,
             final Vector startPosition) {
-        this(null, meshIds, textureId, velocity, startPosition);
-    }
-
-    public TunnelPart(
-            final Scene scene,
-            final HashMap<Mesh, RotationSettings> meshIds,
-            final Texture textureId,
-            final Vector velocity,
-            final Vector startPosition) {
-        super(scene, meshIds, textureId, velocity, startPosition);
+        super(meshIds, textureId, velocity, startPosition);
         this.transparent = true;
     }
 
@@ -36,7 +27,6 @@ public class TunnelPart extends AbstractGameObject {
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         gl.glColor4f(1, 1, 1, 0.35f);
         gl.glEnable(GL10.GL_BLEND);
-        // scene.getMesh("tunnelPart").render(type);
         for (Entry<Mesh, RotationSettings> entry : meshes.entrySet()) {
             entry.getKey().render(type);
         }

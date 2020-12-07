@@ -1,6 +1,5 @@
 package de.games.engine.objects;
 
-import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.Mesh;
 import de.games.engine.graphics.RotationSettings;
 import de.games.engine.graphics.Texture;
@@ -11,13 +10,6 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 public class Player extends AbstractGameObject {
-
-    /** player nicht skalieren * */
-    @Override
-    public void setScale(final Vector v) {}
-
-    @Override
-    public void setScale(final float x, final float y, final float z) {}
 
     public float score = 0.0f;
     public int lives;
@@ -34,31 +26,19 @@ public class Player extends AbstractGameObject {
             final float scale2dMovement,
             final int lives,
             final float immortalSeconds) {
-        this(
-                null,
-                meshIds,
-                textureId,
-                velocity,
-                startPosition,
-                scale2dMovement,
-                lives,
-                immortalSeconds);
-    }
-
-    public Player(
-            final Scene scene,
-            final HashMap<Mesh, RotationSettings> meshIds,
-            final Texture textureId,
-            final Vector velocity,
-            final Vector startPosition,
-            final float scale2dMovement,
-            final int lives,
-            final float immortalSeconds) {
-        super(scene, meshIds, textureId, velocity, startPosition);
+        super(meshIds, textureId, velocity, startPosition);
         this.scale2dMovement = scale2dMovement;
         this.lives = lives;
         this.immortalSeconds = immortalSeconds;
     }
+
+    @Override
+    public void setScale(final Vector v) {
+        // we don't want to scale the player
+    }
+
+    @Override
+    public void setScale(final float x, final float y, final float z) {}
 
     @Override
     public void update(final float delta) {

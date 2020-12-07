@@ -38,7 +38,7 @@ public class GameOverFactory extends AbstractScreenFactory {
 
     @Override
     public HashMap<String, Text> createTexts(final AbstractGameActivity activity, final GL11 gl) {
-        HashMap<String, Text> texts = new HashMap<String, Text>();
+        HashMap<String, Text> texts = new HashMap<>();
 
         font =
                 new Font(

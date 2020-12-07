@@ -20,7 +20,6 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL11;
 
 public class Scene {
-    public static final boolean renderBounds = true;
 
     /** class elements * */
     private final LinkedList<AbstractGameObject> gObjects;
@@ -33,14 +32,13 @@ public class Scene {
     private final Camera camera;
     private Player player;
 
-    // TODO ctors noch zusammenf�hren? oder verschiedene scenes erstellen
+    // TODO combine constructors? or create different scenes?
     public Scene(
             final AbstractGameActivity activity,
             final GL11 gl,
-            final AbstractScreenFactory screenFactory) { // im mom f�r start und
-        // gameover screen gedacht.
-        this.gObjects = new LinkedList<AbstractGameObject>();
-        this.lights = new ArrayList<Light>();
+            final AbstractScreenFactory screenFactory) { // currently intended for start and game over screen
+        this.gObjects = new LinkedList<>();
+        this.lights = new ArrayList<>();
         // load screen objects
         this.texts = screenFactory.createTexts(activity, gl);
         this.sprites = screenFactory.createSprites(activity, gl);
@@ -49,7 +47,7 @@ public class Scene {
                 screenFactory.createCamera(
                         activity.getViewportWidth(), activity.getViewportHeight());
         this.gameObjectChains =
-                new HashMap<String, GameObjectChain<? extends AbstractGameObject>>();
+                new HashMap<>();
     }
 
     public Scene(
@@ -57,7 +55,7 @@ public class Scene {
             final GL11 gl,
             final AbstractScreenFactory screenFactory,
             final AbstractLevelFactory levelFactory) {
-        this.gObjects = new LinkedList<AbstractGameObject>();
+        this.gObjects = new LinkedList<>();
         // load screen objects
         this.texts = screenFactory.createTexts(activity, gl);
         this.sprites = screenFactory.createSprites(activity, gl);
@@ -119,30 +117,6 @@ public class Scene {
         return gObjects.remove(o);
     }
 
-    public Sprite addSprite(final String label, final Sprite sprite) {
-        return sprites.put(label, sprite);
-    }
-
-    public Sprite removeSprite(final String label) {
-        return sprites.remove(label);
-    }
-
-    public Text addText(final String label, final Text text) {
-        return texts.put(label, text);
-    }
-
-    public Text removeText(final String label) {
-        return texts.remove(label);
-    }
-
-    public boolean addLight(final Light light) {
-        return lights.add(light);
-    }
-
-    public boolean removeLight(final Light light) {
-        return lights.remove(light);
-    }
-
     public void update(final float delta) {
         for (AbstractGameObject o : gObjects) {
             o.update(delta);
@@ -152,7 +126,7 @@ public class Scene {
             sprite.update(delta);
         }
         for (GameObjectChain<? extends AbstractGameObject> chain : gameObjectChains.values()) {
-            chain.update(delta);
+            chain.update();
         }
     }
 

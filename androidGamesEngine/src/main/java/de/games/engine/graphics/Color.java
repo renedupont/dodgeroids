@@ -81,8 +81,6 @@ public class Color {
     public static final Color MAGENTA = new Color(1, 0, 1, 1);
     public static final Color CYAN = new Color(0, 1, 1, 1);
 
-    @Deprecated public static Color tmp = new Color();
-
     /** the red, green, blue and alpha components * */
     public float r, g, b, a;
 
@@ -527,20 +525,5 @@ public class Color {
         color.g = ((value & 0x00ff0000) >>> 16) / 255f;
         color.b = ((value & 0x0000ff00) >>> 8) / 255f;
         color.a = ((value & 0x000000ff)) / 255f;
-    }
-
-    /**
-     * Returns a temporary copy of this color. This is not thread safe, do not save a reference to
-     * this instance.
-     *
-     * @return a temporary copy of this color
-     */
-    public Color tmp() {
-        return tmp.set(this);
-    }
-
-    /** @return a copy of this color */
-    public Color cpy() {
-        return new Color(this);
     }
 }

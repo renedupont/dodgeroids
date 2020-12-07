@@ -39,8 +39,7 @@ public class StartFactory extends AbstractScreenFactory {
 
     @Override
     public HashMap<String, Text> createTexts(final AbstractGameActivity activity, final GL11 gl) {
-        HashMap<String, Text> texts = new HashMap<String, Text>();
-        // altes Rot: 0xffff0000, wei�: 0xffffffff
+        HashMap<String, Text> texts = new HashMap<>();
         font =
                 new Font(
                         gl,
@@ -73,12 +72,11 @@ public class StartFactory extends AbstractScreenFactory {
         start.setVerticalAlign(VerticalAlign.Center);
         start.setText(activity.getString(R.string.text_start));
         texts.put(activity.getString(R.string.text_start), start);
+
         // resume
         if (DodgeroidsSaveGame.getInstance().isResumable()) {
-
             start.setPosition(
                     activity.getViewportWidth() / (8.f / 2), activity.getViewportHeight() / 2.f);
-
             font =
                     new Font(
                             gl,
@@ -99,6 +97,7 @@ public class StartFactory extends AbstractScreenFactory {
             start.setPosition(
                     activity.getViewportWidth() / 2.f, activity.getViewportHeight() / 2.f);
         }
+
         // sound label
         font =
                 new Font(
@@ -114,9 +113,7 @@ public class StartFactory extends AbstractScreenFactory {
         sound.setVerticalAlign(VerticalAlign.Center);
         sound.setText(activity.getString(R.string.text_sound));
         sound.setPosition(
-                activity.getViewportWidth() / (6.f / 3), activity.getViewportHeight() / 4.0f); /*
-		sound.setPosition(activity.getViewportWidth() / (6.f / 5),
-				activity.getViewportHeight() / 4.0f);*/
+                activity.getViewportWidth() / (6.f / 3), activity.getViewportHeight() / 4.0f);
         texts.put(activity.getString(R.string.text_sound), sound);
         // sound setting value
         font =
@@ -137,8 +134,6 @@ public class StartFactory extends AbstractScreenFactory {
                         : activity.getString(R.string.text_off));
         soundValue.setPosition(
                 activity.getViewportWidth() / (6.f / 3), activity.getViewportHeight() / 6.0f);
-        /*soundValue.setPosition(activity.getViewportWidth() / (6.f / 5),
-        activity.getViewportHeight() / 6.0f);*/
         texts.put(activity.getString(R.string.label_sound), soundValue);
 
         return texts;

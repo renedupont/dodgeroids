@@ -3,9 +3,8 @@ package de.games.engine.datamanagers;
 import android.view.KeyEvent;
 
 public interface KeyEventListener {
-    public void keyPressed(KeyEvent event);
 
-    public void keyReleased(KeyEvent event);
-
-    public void keyHeld(KeyEvent event);
+     void keyPressed(KeyEvent event);
+     void keyReleased(KeyEvent event);
+     void keyHeld(KeyEvent event);
 }

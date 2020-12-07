@@ -8,13 +8,11 @@ import de.games.engine.objects.AbstractGameObject;
 
 public abstract class AbstractGameLogic {
 
-    /** class elements * */
     protected final AbstractGameActivity activity;
 
     protected AbstractLevelFactory levelFactory;
     protected Scene scene;
 
-    /** ctors * */
     public AbstractGameLogic(
             final AbstractGameActivity activity,
             final Scene scene,
@@ -24,7 +22,6 @@ public abstract class AbstractGameLogic {
         this.scene = scene;
     }
 
-    /** abstract methods * */
     public abstract boolean isPaused();
 
     public abstract void setPaused(boolean isPaused);
@@ -36,19 +33,13 @@ public abstract class AbstractGameLogic {
     public abstract boolean isGameDone();
 
     /** unimplemented methods as suggestions * */
+
     public void dispose() {}
 
-    protected void movePlayer(final float delta, final float xChange, final float yChange) {}
-    ;
-
-    protected void moveGameObject(
-            final AbstractGameLogic o,
-            final float delta,
-            final float xChange,
-            final float yChange) {}
-    ;
+    protected void movePlayer(final float delta) {}
 
     /** implemented methods which are abstract enough to be valid for every subclass */
+
     public boolean isCollidingWith(
             final AbstractGameObject obj1,
             final AbstractBound.DetectionMethod type1,

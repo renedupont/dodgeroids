@@ -65,14 +65,10 @@ public final class StartScreen implements IGameScreen {
             int touchX = (int) event.getX();
             int touchY = (int) event.getY();
             activity.runOnUiThread(
-                    new Runnable() {
-                        @Override
-                        public void run() {
+                    () ->
                             activity.getWindow()
-                                    .clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                        }
-                    });
-            touchY = activity.getViewportHeight() - touchY; // LOL
+                                    .clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON));
+            touchY = activity.getViewportHeight() - touchY;
 
             if (scene.getText(activity.getString(R.string.text_start))
                     .isTouched(touchX, touchY, 30, 30)) {
@@ -90,15 +86,15 @@ public final class StartScreen implements IGameScreen {
             }
         }
         try {
-            Thread.sleep(30); // TODO: WTF? nur damit onTouch auch bei den
-            // update methoden mal als true ankommt? OMFG
+            Thread.sleep(30); // TODO: this exists only so that onTouch will be true in the update
+            // methods, please check if there is a better way
         } catch (Exception ex) {
         }
         return true;
     }
 
     @Override
-    public IGameScreen switchScreen(final GL11 gl) { // TODO space �bergabe?
+    public IGameScreen switchScreen(final GL11 gl) { // TODO: space as param?
         return new GameLoopScreen(activity, gl, "space");
     }
 

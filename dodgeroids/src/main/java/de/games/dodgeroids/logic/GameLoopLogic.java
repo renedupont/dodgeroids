@@ -6,7 +6,6 @@ import de.games.dodgeroids.datamanagers.DodgeroidsSettingsManager;
 import de.games.engine.AbstractGameActivity;
 import de.games.engine.datamanagers.Scene;
 import de.games.engine.datamanagers.SoundManager;
-import de.games.engine.graphics.AbstractBound;
 import de.games.engine.graphics.AbstractBound.DetectionMethod;
 import de.games.engine.graphics.SphereBound;
 import de.games.engine.graphics.Sprite;
@@ -20,12 +19,12 @@ import de.games.engine.objects.Player;
 import de.games.engine.objects.TunnelPart;
 
 public class GameLoopLogic extends AbstractGameLogic {
+
     /** control flags * */
     private boolean isPaused = true;
 
     private boolean isDownPressed = false;
 
-    //	private final List<Block[]> blockArray;
     /** quick references * */
     private final GameObjectChain<Asteroid> asteroidBelt;
 
@@ -35,7 +34,6 @@ public class GameLoopLogic extends AbstractGameLogic {
     private final int flipVal;
 
     @SuppressWarnings("unchecked")
-    // generic type erasure
     public GameLoopLogic(
             final AbstractGameActivity activity,
             final Scene scene,
@@ -47,15 +45,12 @@ public class GameLoopLogic extends AbstractGameLogic {
         this.asteroidBelt =
                 (GameObjectChain<Asteroid>) scene.getGameObjectChains().get("asteroids");
         this.tunnel = (GameObjectChain<TunnelPart>) scene.getGameObjectChains().get("tunnel");
-
-        //		this.blockArray =
     }
 
     @Override
     public void update(final float deltaTime) {
-        //		this.isDownPressed = isDownPressed;
         if (!isPaused) {
-            movePlayer(deltaTime, 0f, 0f); // TODO noch in engine ne alternativ methode anbieten
+            movePlayer(deltaTime); // TODO noch in engine ne alternativ methode anbieten
             collisionHandling(deltaTime);
             scene.update(deltaTime);
         }
@@ -78,10 +73,7 @@ public class GameLoopLogic extends AbstractGameLogic {
 
     @Override
     public boolean isGameDone() {
-        if (player.lives == 0 && !explosion.isPlaying) { // in case of game over
-            return true;
-        }
-        return false;
+        return player.lives == 0 && !explosion.isPlaying;
     }
 
     private void collisionHandling(final float delta) {
@@ -112,16 +104,13 @@ public class GameLoopLogic extends AbstractGameLogic {
     }
 
     @Override
-    protected void movePlayer(final float delta, final float xChange, final float yChange) {
+    protected void movePlayer(float delta) {
         TunnelPart tunnelPart = tunnel.getFirst();
         SphereBound bound =
                 (SphereBound)
                         tunnelPart
                                 .getBounds()
                                 .get(0); // FIXME get(0) ist statisch und h�ngt von der box datei ab
-        //			moveWithinYAxisLimit(player, delta, bound.getRadius(tunnelPart),
-        //					yChange * flipVal);
-        //		System.out.println(yChange);
         moveWithinYAxisLimit(
                 player,
                 delta,
@@ -148,137 +137,8 @@ public class GameLoopLogic extends AbstractGameLogic {
         }
     }
 
-    private void moveWithin2DRadius(
-            final AbstractGameObject o,
-            final float delta,
-            final float radius,
-            final float xChange,
-            final float yChange) {
-        float prevX = o.getPos().x;
-        float prevY = o.getPos().y;
-
-        Vector pos = o.getPos();
-
-        moveX(o, delta, xChange);
-        moveY(o, delta, yChange);
-
-        // Sonderfall weil Bound von TunnelPart nicht korrekt ist.
-        AbstractGameObject tunnelPart = tunnel.getFirst();
-        for (AbstractBound tunnelBound : tunnelPart.getBounds()) {
-            tunnelBound.getOffset().z = 0 - tunnelPart.getPos().z;
-        }
-
-        // Player hat noch SphereBound damit wir den Radius haben, welchen wir
-        // nur f�r das movement handling weiter unten ben�tigen
-        if (isCollidingWith(
-                o, DetectionMethod.OUTER, tunnelPart, DetectionMethod.INNER)) { // tunnel ber�hrt
-
-            float diff;
-            SphereBound bound =
-                    (SphereBound)
-                            o.getBounds().get(3); // FIXME get(3) ist statisch und h�ngt von der box
-            // datei ab
-            float r = radius - bound.getRadius(o);
-
-            if (pos.x >= 0 && pos.y >= 0) { // Quadrant 1
-                if (xChange >= yChange) {
-                    diff = xChange;
-                    pos.x = prevX + (delta * player.getVelocity().x * diff);
-                    if (pos.x <= r) {
-                        pos.y = (float) Math.sqrt(r * r - pos.x * pos.x);
-                    } else {
-                        pos.x = r;
-                        pos.y = 0.f;
-                    }
-                } else {
-                    diff = yChange;
-                    pos.y = prevY + (delta * player.getVelocity().y * diff);
-                    if (pos.y <= r) {
-                        pos.x = (float) Math.sqrt(r * r - pos.y * pos.y);
-                    } else {
-                        pos.y = r;
-                        pos.x = 0.f; // -0.01f;
-                    }
-                }
-            } else if (pos.x < 0 && pos.y >= 0) { // Quadrant 2
-                float xAbs = Math.abs(xChange);
-                if (xAbs >= yChange) {
-                    diff = xAbs;
-                    pos.x = prevX - (delta * player.getVelocity().x * diff);
-                    if (pos.x > -r) {
-                        pos.y = (float) Math.sqrt(r * r - pos.x * pos.x);
-                    } else {
-                        pos.x = -r;
-                        pos.y = 0.f; // -0.01f;
-                    }
-                } else {
-                    diff = yChange;
-                    pos.y = prevY + (delta * player.getVelocity().y * diff);
-                    if (pos.y <= r) {
-                        pos.x = -(float) Math.sqrt(r * r - pos.y * pos.y);
-                    } else {
-                        pos.y = r;
-                        pos.x = -Float.MIN_VALUE; // 0.01f;
-                    }
-                }
-            } else if (pos.x < 0 && pos.y < 0) { // Quadrant 3
-                if (xChange <= yChange) {
-                    diff = xChange;
-                    pos.x = prevX + (delta * player.getVelocity().x * diff);
-                    if (pos.x > -r) {
-                        pos.y = -(float) Math.sqrt(r * r - pos.x * pos.x);
-                    } else {
-                        pos.x = -r;
-                        pos.y = -Float.MIN_VALUE; // 0.01f;
-                    }
-                } else {
-                    diff = yChange;
-                    pos.y = prevY + (delta * player.getVelocity().y * diff);
-                    if (pos.y > -r) {
-                        pos.x = -(float) Math.sqrt(r * r - pos.y * pos.y);
-                    } else {
-                        pos.y = -r;
-                        pos.x = -Float.MIN_VALUE; // 0.01f;
-                    }
-                }
-            } else if (pos.x >= 0 && pos.y < 0) { // Quadrant 4
-                float yAbs = Math.abs(yChange);
-                if (xChange >= yAbs) {
-                    diff = xChange;
-                    pos.x = prevX + (delta * player.getVelocity().x * diff);
-                    if (pos.x <= r) {
-                        pos.y = -(float) Math.sqrt(r * r - pos.x * pos.x);
-                    } else {
-                        pos.x = r;
-                        pos.y = -Float.MIN_VALUE; // 0.01f;
-                    }
-                } else {
-                    diff = yAbs;
-                    pos.y = prevY - (delta * player.getVelocity().y * diff);
-                    if (pos.y > -r) {
-                        pos.x = (float) Math.sqrt(r * r - pos.y * pos.y);
-                    } else {
-                        pos.y = -r;
-                        pos.x = Float.MIN_VALUE; // 0.f;//-0.01f;
-                    }
-                }
-            } else {
-                pos.x = prevX;
-                pos.y = prevY;
-            }
-        }
-    }
-
-    private void moveX(final AbstractGameObject o, final float delta, final float xChange) {
-        o.getPos().x += (delta * player.getVelocity().x * xChange);
-    }
-
     private void moveY(final AbstractGameObject o, final float delta, final float yChange) {
         o.getPos().y += (delta * player.getVelocity().y * yChange);
-    }
-
-    public boolean isDownPressed() {
-        return isDownPressed;
     }
 
     public void setDownPressed(final boolean isDownPressed) {

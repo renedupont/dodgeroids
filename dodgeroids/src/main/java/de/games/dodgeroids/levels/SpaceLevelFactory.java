@@ -13,7 +13,6 @@ import de.games.engine.graphics.Vector;
 import de.games.engine.levels.AbstractLevelFactory;
 import de.games.engine.objects.AbstractGameObject;
 import de.games.engine.objects.Asteroid;
-import de.games.engine.objects.Block;
 import de.games.engine.objects.GameObjectChain;
 import de.games.engine.objects.Player;
 import de.games.engine.objects.TunnelPart;
@@ -28,13 +27,12 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
     @Override
     protected int getBoxId() {
         //		return R.raw.data;
-
         return R.raw.data_new;
     }
 
     @Override
     public List<String> createMeshIdList() {
-        List<String> meshIds = new ArrayList<String>();
+        List<String> meshIds = new ArrayList<>();
         meshIds.add("ufo_body");
         meshIds.add("ufo_ring");
         meshIds.add("asteroid_1");
@@ -49,7 +47,7 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
 
     @Override
     public List<String> createTextureIdList() {
-        List<String> textureIds = new ArrayList<String>();
+        List<String> textureIds = new ArrayList<>();
         textureIds.add("ufo_diffuse.jpg");
         textureIds.add("asteroid.jpg");
         textureIds.add("cloud2.png");
@@ -59,7 +57,7 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
 
     @Override
     public List<Light> createLights() {
-        List<Light> lights = new ArrayList<Light>();
+        List<Light> lights = new ArrayList<>();
 
         Light light1 = new Light(Type.POINT, Id.ONE);
         light1.setAmbient(Color.WHITE);
@@ -81,24 +79,23 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
 
     @Override
     @SuppressWarnings("unchecked")
-    // generic type erasure
     public <T extends AbstractGameObject> T createGameObject(
-            final Class<?> type, final Vector startPosition, final float minRadius) {
+            final Class<?> type, final Vector startPosition) {
         if (type.equals(Player.class)) {
             return (T) createPlayer(startPosition);
         } else if (type.equals(Asteroid.class)) {
-            return (T) createAsteroid(startPosition, minRadius);
+            return (T) createAsteroid(startPosition);
         } else if (type.equals(TunnelPart.class)) {
             return (T) createTunnelPart(startPosition);
         } else if (type.equals(TunnelRing.class)) {
             return (T) createTunnelRing(startPosition);
         }
-        return null; // TODO exception schmei�en bei null
+        return null; // TODO rather throw exception here
     }
 
     @Override
     public Player createPlayer(final Vector startPosition) {
-        HashMap<Mesh, RotationSettings> playerMeshes = new HashMap<Mesh, RotationSettings>();
+        HashMap<Mesh, RotationSettings> playerMeshes = new HashMap<>();
         playerMeshes.put(
                 meshes.get("ufo_body"),
                 new RotationSettings(new Vector(0.0f, 0.0f, 0.0f), new Vector(0.0f, 0.0f, 0.0f)));
@@ -117,12 +114,11 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
     }
 
     @Override
-    public AbstractGameObject createAsteroid(final Vector startPosition, final float minRadius) {
-        HashMap<Mesh, RotationSettings> asteroidMeshes = new HashMap<Mesh, RotationSettings>();
-        int asteroidType = new Random().nextInt(4); // choose randomly one of
-        // the four meshes
+    public AbstractGameObject createAsteroid(final Vector startPosition) {
+        HashMap<Mesh, RotationSettings> asteroidMeshes = new HashMap<>();
+        int asteroidType = new Random().nextInt(4); // choose randomly one of the four meshes
         asteroidMeshes.put(
-                meshes.get("asteroid_" + Integer.toString(asteroidType + 1)),
+                meshes.get("asteroid_" + (asteroidType + 1)),
                 new RotationSettings(
                         new Vector(0.0f, 0.0f, 0.0f),
                         new Vector(
@@ -133,15 +129,11 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
         float scaleFactor = 0.8f;
         float maxRadius = ((SphereBound) meshes.get("tunnelPart").getBounds().get(0)).getRadius();
         float asteroidRadius =
-                ((SphereBound)
-                                        meshes.get("asteroid_" + Integer.toString(asteroidType + 1))
-                                                .getBounds()
-                                                .get(0))
+                ((SphereBound) meshes.get("asteroid_" + (asteroidType + 1)).getBounds().get(0))
                                 .getRadius()
                         * scaleFactor;
         setRandomY(startPosition, asteroidRadius, maxRadius);
         return new Asteroid(
-                null,
                 asteroidMeshes,
                 textures.get("asteroid.jpg"),
                 scaleFactor,
@@ -151,7 +143,7 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
 
     @Override
     public AbstractGameObject createTunnelPart(final Vector startPosition) {
-        HashMap<Mesh, RotationSettings> tunnelPartMeshes = new HashMap<Mesh, RotationSettings>();
+        HashMap<Mesh, RotationSettings> tunnelPartMeshes = new HashMap<>();
         tunnelPartMeshes.put(
                 meshes.get("tunnelPart"),
                 new RotationSettings(new Vector(0.0f, 0.0f, 0.0f), new Vector(0.0f, 0.0f, 0.0f)));
@@ -165,38 +157,13 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
 
     @Override
     public AbstractGameObject createTunnelRing(final Vector startPosition) {
-        HashMap<Mesh, RotationSettings> tunnelRingMeshes = new HashMap<Mesh, RotationSettings>();
+        HashMap<Mesh, RotationSettings> tunnelRingMeshes = new HashMap<>();
         tunnelRingMeshes.put(
                 meshes.get("tunnelRing"),
                 new RotationSettings(new Vector(0.0f, 0.0f, 0.0f), new Vector(0.0f, 0.0f, 0.0f)));
         Vector velocity = new Vector(0.0f, 0.0f, 20.0f);
         return new TunnelRing(
                 tunnelRingMeshes, textures.get("tunnelring.png"), velocity, startPosition);
-    }
-
-    //	public LinkedList<Block[]> createStartBlockArray() {
-    //		this.amountOfBlockRows = 60;
-    //		this.amountOfBlockSlotsInRow = 30;
-    //		this.amountOfFilledBlockSlotsInRow = 10;
-    //		this.currentObstacleIndex = 0;
-    //		this.newObstacleIndex = 30;
-    //		LinkedList<Block[]> blockArray = new LinkedList<Block[]>();
-    //		Block[] lastBlockRow = null;
-    //		for (int i = 0; i < amountOfBlockRows; i++) {
-    //			blockArray.add(calculateNewBlockRow(lastBlockRow));
-    //			lastBlockRow = blockArray.getLast();
-    //		}
-    //		return blockArray;
-    //	}
-
-    public AbstractGameObject createBlock(final Vector startPosition) {
-        HashMap<Mesh, RotationSettings> blockMeshes = new HashMap<Mesh, RotationSettings>();
-        blockMeshes.put(
-                meshes.get("block"),
-                new RotationSettings( // TODO: hier den tats�chlichen namen des meshes
-                        new Vector(0.0f, 0.0f, 0.0f), new Vector(0.0f, 0.0f, 0.0f)));
-        Vector velocity = new Vector(0.0f, 0.0f, 20.0f);
-        return new Block(null, blockMeshes, textures.get("block.png"), velocity, startPosition);
     }
 
     @Override
@@ -207,7 +174,7 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
         if (type.equals(Asteroid.class)) {
             distanceToNextObject = 20.0f;
             amountOfObjects = (int) (range.z / distanceToNextObject) + 1;
-            return new GameObjectChain<T>(
+            return new GameObjectChain<>(
                     Asteroid.class,
                     minRadius,
                     scene,
@@ -219,13 +186,12 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
                             Float.NEGATIVE_INFINITY,
                             Float.NEGATIVE_INFINITY,
                             Float.NEGATIVE_INFINITY),
-                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 0.5f),
-                    ((SphereBound) meshes.get("tunnelPart").getBounds().get(0)).getRadius());
+                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 0.5f));
         }
         if (type.equals(TunnelPart.class)) {
             distanceToNextObject = 20.0f;
             amountOfObjects = (int) (range.z / distanceToNextObject) + 1;
-            return new GameObjectChain<T>(
+            return new GameObjectChain<>(
                     TunnelPart.class,
                     0,
                     scene,
@@ -237,13 +203,12 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
                             Float.NEGATIVE_INFINITY,
                             Float.NEGATIVE_INFINITY,
                             Float.NEGATIVE_INFINITY),
-                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 35.0f),
-                    Float.POSITIVE_INFINITY);
+                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 35.0f));
         }
         if (type.equals(TunnelRing.class)) {
             distanceToNextObject = 20.0f;
             amountOfObjects = (int) (range.z / distanceToNextObject) + 1;
-            return new GameObjectChain<T>(
+            return new GameObjectChain<>(
                     TunnelRing.class,
                     0,
                     scene,
@@ -255,23 +220,18 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
                             Float.NEGATIVE_INFINITY,
                             Float.NEGATIVE_INFINITY,
                             Float.NEGATIVE_INFINITY),
-                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 35.0f),
-                    Float.POSITIVE_INFINITY);
+                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 35.0f));
         }
-        return null; // TODO Exception schmei�en
+        return null; // TODO rather throw exception here
     }
 
     @Override
     public HashMap<String, GameObjectChain<? extends AbstractGameObject>> createGameObjectChains(
             final Scene scene, final Vector range) {
-        HashMap<String, GameObjectChain<? extends AbstractGameObject>> chains =
-                new HashMap<String, GameObjectChain<? extends AbstractGameObject>>();
-        /*		GameObjectChain<TunnelRing> tunnelRings = createGameObjectChain(
-        		TunnelRing.class, scene, range, 0);
-        chains.put("tunnelRings", tunnelRings); // TODO strings noch in
-        										// strings.xml bringen*/
+        HashMap<String, GameObjectChain<? extends AbstractGameObject>> chains = new HashMap<>();
         GameObjectChain<TunnelPart> tunnel =
                 createGameObjectChain(TunnelPart.class, scene, range, 0);
+        // TODO move strings into strings.xml?
         chains.put("tunnel", tunnel);
         GameObjectChain<Asteroid> asteroidBelt =
                 createGameObjectChain(Asteroid.class, scene, range, 0);

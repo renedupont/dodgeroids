@@ -15,7 +15,6 @@ public class Color {
     public static final Color YELLOW = new Color(1.0F, 1.0F, 0.0F, 1.0F);
     public static final Color MAGENTA = new Color(1.0F, 0.0F, 1.0F, 1.0F);
     public static final Color CYAN = new Color(0.0F, 1.0F, 1.0F, 1.0F);
-    @Deprecated public static Color tmp = new Color();
 
     public float r;
 
@@ -281,13 +280,5 @@ public class Color {
         color.g = ((value & 0xFF0000) >>> 16) / 255.0F;
         color.b = ((value & 0xFF00) >>> 8) / 255.0F;
         color.a = (value & 0xFF) / 255.0F;
-    }
-
-    public Color tmp() {
-        return tmp.set(this);
-    }
-
-    public Color cpy() {
-        return new Color(this);
     }
 }

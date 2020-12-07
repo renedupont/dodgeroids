@@ -7,8 +7,8 @@ import java.util.Stack;
 
 public class KeyInputManager extends Thread {
     private static final int THREAD_WAIT_TIME = 30;
-    private final Stack<KeyEvent> eventsBuffer = new Stack<KeyEvent>();
-    private final List<KeyEventListener> listeners = new ArrayList<KeyEventListener>();
+    private final Stack<KeyEvent> eventsBuffer = new Stack<>();
+    private final List<KeyEventListener> listeners = new ArrayList<>();
     private final KeyEvent[] keysCache = new KeyEvent[210];
     private static KeyInputManager instance = new KeyInputManager();
 
@@ -20,27 +20,10 @@ public class KeyInputManager extends Thread {
         return instance;
     }
 
-    public boolean addListener(final KeyEventListener listener) {
-        synchronized (listeners) {
-            if (!listeners.contains(listener)) {
-                return listeners.add(listener);
-            }
-        }
-        return false;
-    }
 
-    public boolean removeListener(final KeyEventListener listener) {
-        synchronized (listeners) {
-            return listeners.remove(listener);
-        }
-    }
-
-    public void registerKeyEvent(final KeyEvent event, final boolean status) {
+    public void registerKeyEvent(KeyEvent event) {
         synchronized (eventsBuffer) {
-            /**
-             * alternative zu synchronized, evtl schneller: http://docs.oracle.com
-             * /javase/7/docs/api/java/util/concurrent/CopyOnWriteArrayList.html
-             */
+            // TODO ? alternative zu synchronized, evtl schneller: http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CopyOnWriteArrayList.html
             if (event != null) {
                 eventsBuffer.add(event);
             }
@@ -71,7 +54,7 @@ public class KeyInputManager extends Thread {
                                 }
                             }
                             break;
-                        case (KeyEvent.ACTION_MULTIPLE):
+                        default:
                             break;
                     }
                 }

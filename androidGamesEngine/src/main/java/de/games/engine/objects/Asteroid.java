@@ -14,28 +14,14 @@ public class Asteroid extends AbstractGameObject {
 
     private float[][] transparencyZPosAndValue;
 
-    // private int asteroidType;
 
     public Asteroid(
-            final HashMap<Mesh, RotationSettings> meshIds,
-            final Texture textureId,
-            final float scaleFactor,
-            final Vector velocity,
-            final Vector startPosition,
-            final float[][] transparencyZPosAndValue) {
-        this(null, meshIds, textureId, scaleFactor, velocity, startPosition);
-        this.transparencyZPosAndValue = transparencyZPosAndValue;
-        this.transparent = true;
-    }
-
-    public Asteroid(
-            final Scene scene,
             final HashMap<Mesh, RotationSettings> meshIds,
             final Texture textureId,
             final float scaleFactor,
             final Vector velocity,
             final Vector startPosition) {
-        super(scene, meshIds, textureId, velocity, startPosition);
+        super(meshIds, textureId, velocity, startPosition);
         setScale(scaleFactor, scaleFactor, scaleFactor);
         // this.asteroidType = new Random().nextInt(4);
         // WHATSE FACK WAR DAS NOCHMAL FUER? und wieso so kompliziert? war das

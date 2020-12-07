@@ -5,16 +5,16 @@ import de.games.engine.graphics.GameRenderer;
 import javax.microedition.khronos.opengles.GL11;
 
 public interface IGameScreen extends OnTouchListener {
-    public GameRenderer getRenderer();
 
-    public void update(float deltaTime);
+    GameRenderer getRenderer();
 
-    // public void onSurfaceChanged(int width, int height);
-    public boolean isDone();
+    void update(float deltaTime);
 
-    public void onBackPressed();
+    boolean isDone();
 
-    public IGameScreen switchScreen(GL11 gl);
+    void onBackPressed();
 
-    public void dispose();
+    IGameScreen switchScreen(GL11 gl);
+
+    void dispose();
 }

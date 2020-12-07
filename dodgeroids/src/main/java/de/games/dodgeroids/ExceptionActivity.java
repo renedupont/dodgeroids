@@ -14,7 +14,7 @@ public class ExceptionActivity extends Activity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_dodgeroids);
 
-        error = (TextView) findViewById(R.id.error);
+        error = findViewById(R.id.error);
 
         error.setText(getIntent().getStringExtra("error"));
     }

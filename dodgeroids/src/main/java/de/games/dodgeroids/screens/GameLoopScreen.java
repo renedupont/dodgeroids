@@ -55,7 +55,7 @@ public final class GameLoopScreen implements IGameScreen {
         this.text_pause = scene.getText(activity.getString(R.string.label_pause));
         this.player = scene.getPlayer();
 
-        // Load savegame
+        // load savegame
         if (DodgeroidsSaveGame.getInstance().isResumable()) {
             player.lives = DodgeroidsSaveGame.getInstance().getPlayerLives();
             player.score = DodgeroidsSaveGame.getInstance().getScore();
@@ -114,95 +114,41 @@ public final class GameLoopScreen implements IGameScreen {
     public IGameScreen switchScreen(final GL11 gl) {
         float score = player.score;
         activity.runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
+                () ->
                         activity.getWindow()
-                                .clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                    }
-                });
+                                .clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON));
 
         if (isBackPressed) {
             return new StartScreen(activity, gl);
         }
         DodgeroidsSaveGame.getInstance().saveIfNewHighScore(score);
-        /*return new GameLoopScreen(activity, gl, "space");*/
         return new GameOverScreen(activity, gl);
     }
 
-    // @Override
-    // public void onSurfaceChanged(int width, int height) { // TODO wird evtl.
-    // nochmal gebraucht wenn in den Activity events noch gebastelt wird
-    // scene.getCamera().setFrustum(width, height);
-    // }
-
     @Override
     public boolean onTouch(final View v, final MotionEvent event) {
-        // TODO evtl hier noch von pause modus die m�glichkeit bieten das
-        // spiel zu beenden und zum punktestand zu gehen
+        // TODO consider the functionality to switch from pause- into game over mode to see final
+        // score, basically ending the game without the need to loose all lives
 
         if (isDoneLoading && event.getAction() == MotionEvent.ACTION_DOWN) {
             ((GameLoopLogic) logic)
-                    .setDownPressed(
-                            true); // TODO: setdownpressed in das interface der engine packen
+                    .setDownPressed(true); // TODO: move setDownPressed into the engines interface?
             //			SoundManager.getInstance().pauseMusic();
         } else if (isDoneLoading && event.getAction() == MotionEvent.ACTION_UP) {
             ((GameLoopLogic) logic).setDownPressed(false);
             if (logic.isPaused()) {
                 SoundManager.getInstance().startOrResumeMusic();
                 activity.runOnUiThread(
-                        new Runnable() { // TODO: muss hier evtl. nit in runonuithread laufen? und
-                            // vll. auch in ACTIVE->Pause case obendr�ber setzen?
-                            @Override
-                            public void run() {
+                        () ->
                                 activity.getWindow()
-                                        .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                            }
-                        });
+                                        .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON));
                 logic.setPaused(false);
             }
         }
 
-        //		} else if (isDoneLoading && event.getAction() == MotionEvent.ACTION_UP) {
-        //			// int touchX = (int)event.getX();
-        //			// int touchY = (int)event.getY();
-        //			isDownPressed = false;
-        //			if (!logic.isPaused()) {
-        //				activity.runOnUiThread(new Runnable() {
-        //					@Override
-        //					public void run() {
-        //						activity.getWindow().clearFlags(
-        //								WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //					}
-        //				});
-        //				SoundManager.getInstance().pauseMusic();
-        //				GameSensorManager.getInstance().setCalibrated(false);
-        //			} else {
-        //				// if (touchX <= activity.getViewportWidth() / 2) {
-        //				// DodgeroidsSaveGame.getInstance().storeSaveGame(player);
-        //				// isDone = true;
-        //				// }
-        //				// else {
-        //				GameSensorManager.getInstance().calibrate();
-        //				SoundManager.getInstance().startOrResumeMusic();
-        //				activity.runOnUiThread(new Runnable() { // TODO: muss hier evtl.
-        //														// nit in runonuithread
-        //														// laufen? und vll. auch
-        //														// in ACTIVE->Pause case
-        //														// obendr�ber setzen?
-        //					@Override
-        //					public void run() {
-        //						activity.getWindow().addFlags(
-        //								WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //					}
-        //				});
-        //				// }
-        //			}
-        //			logic.setPaused(!logic.isPaused());
-        //		}
         try {
-            Thread.sleep(30); // TODO: WTF? nur damit onTouch auch bei den
-            // update methoden mal als true ankommt? OMFG
+            Thread.sleep(30); // TODO: this exists only so that onTouch will be true in the update
+            // methods, please check if there is a better way
         } catch (Exception ex) {
         }
         return true;

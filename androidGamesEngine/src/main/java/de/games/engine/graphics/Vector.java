@@ -39,41 +39,12 @@ public class Vector {
         this.z = f;
     }
 
-    public Vector cross(final Vector v) {
-        set(Vector.cross(this, v));
-        return this;
-    }
 
-    public static Vector cross(final Vector a, final Vector b) {
-        Vector t =
-                new Vector(
-                        // a.y * b.z - b.y * a.z,
-                        // a.z * b.x - b.z * a.x,
-                        // a.x * b.y - b.x * a.y);
-
-                        a.y * b.z - a.z * b.y, b.x * a.z - b.z * a.x, a.x * b.y - a.y * b.x);
-
-        // x = v1.y*v2.z - v1.z*v2.y;
-        // y = v2.x*v1.z - v2.z*v1.x;
-        // z = v1.x*v2.y - v1.y*v2.x;
-
-        // float xh = a.y * b.z - b.y * a.z;
-        // float yh = a.z * b.x - b.z * a.x;
-        // float zh = a.x * b.y - b.x * a.y;
-        // return new Vector(xh, yh, zh);
-        return t;
+    public Vector cross(final Vector a, final Vector b) {
+        return new Vector(       a.y * b.z - a.z * b.y, b.x * a.z - b.z * a.x, a.x * b.y - a.y * b.x);
     }
 
     public Vector normalize() {
-        // Vector v2 = new Vector();
-        // float length = (float)Math.sqrt( x*x + y*y + z*z );
-        // if (length != 0) {
-        // v2.x = x/length;
-        // v2.y = y/length;
-        // v2.z = z/length;
-        // }
-        // return v2;
-
         float norm;
 
         norm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z));

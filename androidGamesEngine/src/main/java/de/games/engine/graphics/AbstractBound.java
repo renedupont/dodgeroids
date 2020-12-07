@@ -58,7 +58,7 @@ public abstract class AbstractBound {
         return false; // TODO: implementieren
     }
 
-    private final float squared(final float v) {
+    private float squared(final float v) {
         return v * v;
     }
 

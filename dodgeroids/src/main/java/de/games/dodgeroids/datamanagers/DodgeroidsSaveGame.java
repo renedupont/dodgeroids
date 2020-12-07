@@ -8,29 +8,19 @@ import de.games.engine.graphics.Vector;
 import de.games.engine.objects.Player;
 import java.io.Serializable;
 
-// Hier wird irgendwann mal alle Variablen reinkommen die f�r den momentanten Spielstand relevant
-// sind
 public class DodgeroidsSaveGame implements Serializable {
 
     /**
-     * der shit wird momentan noch in den preferences gespeichert. vll. wenn man mal mehr daten
-     * speichern will den ganzen shit in die DB speichern... die klasse ist eigentlich im mom nur ne
-     * singleton fassade um values aus den prefs zu l33chen
+     * This class is basically a singleton facade that saves game data to the android preferences
+     * store and pull them for there. If at any time more data need to be saved, please consider
+     * using the android internal database.
      */
     private static final long serialVersionUID = -2184423110712993233L;
 
     private static DodgeroidsSaveGame instance;
     private final Activity activity;
 
-    /*
-     * score, lives, steine position, player position, restzeit, maybe tunnel,
-     * welches level, GameStatus, GameMode
-     */
-
-    private DodgeroidsSaveGame(final Activity activity /* Player player/*,
-													* AbstractGameObjectChain
-													* obstacles, Game.Mode mode
-													*/) {
+    private DodgeroidsSaveGame(final Activity activity) {
         this.activity = activity;
     }
 

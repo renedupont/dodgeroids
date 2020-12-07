@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import de.games.engine.box.format.BoxFormat.Identifier;
 import de.games.engine.box.format.chunk.BoxMeshBound;
 import de.games.engine.box.format.chunk.BoxMeshDodgeIt;
@@ -20,6 +21,7 @@ import de.games.engine.graphics.Vector;
 import de.games.engine.objects.AbstractGameObject;
 import de.games.engine.objects.GameObjectChain;
 import de.games.engine.objects.Player;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+
 import javax.microedition.khronos.opengles.GL11;
 
 public abstract class AbstractLevelFactory {
@@ -38,10 +41,9 @@ public abstract class AbstractLevelFactory {
     private final HashMap<String, Bitmap> bitmapCache;
 
     public AbstractLevelFactory() {
-        this.meshes = new HashMap<String, Mesh>();
-        this.textures = new HashMap<String, Texture>();
-        bitmapCache = new HashMap<String, Bitmap>();
-        // loadResources();
+        this.meshes = new HashMap<>();
+        this.textures = new HashMap<>();
+        bitmapCache = new HashMap<>();
     }
 
     protected abstract int getBoxId();
@@ -53,11 +55,11 @@ public abstract class AbstractLevelFactory {
     public abstract List<Light> createLights();
 
     public abstract <T extends AbstractGameObject> T createGameObject(
-            Class<?> type, Vector startPosition, float minRadius);
+            Class<?> type, Vector startPosition);
 
     public abstract Player createPlayer(Vector startPosition);
 
-    protected abstract AbstractGameObject createAsteroid(Vector startPosition, float minRadius);
+    protected abstract AbstractGameObject createAsteroid(Vector startPosition);
 
     protected abstract AbstractGameObject createTunnelPart(Vector startPosition);
 
@@ -67,32 +69,8 @@ public abstract class AbstractLevelFactory {
             Class<T> type, Scene scene, Vector range, float minRadius);
 
     public abstract HashMap<String, GameObjectChain<? extends AbstractGameObject>>
-            createGameObjectChains(Scene scene, Vector range);
+    createGameObjectChains(Scene scene, Vector range);
 
-    @SuppressWarnings("unchecked")
-    // generic type erasure
-    public <T extends AbstractGameObject>
-            GameObjectChain<AbstractGameObject> createAbstractGameObjectChain(
-                    final Class<T> type,
-                    final Scene scene,
-                    final Vector range,
-                    final float minRadius) {
-        return (GameObjectChain<AbstractGameObject>)
-                createGameObjectChain(type, scene, range, minRadius);
-    }
-
-    // private float durationInSeconds;
-
-    protected void setRandomXY(
-            final Vector startPosition,
-            final float objectRadius,
-            final float minRadius,
-            final float maxRadius) {
-        double theta = Math.random() * 360;
-        float M = minRadius + ((float) Math.random() * (maxRadius - objectRadius));
-        startPosition.x = (float) (M * Math.cos(theta));
-        startPosition.y = (float) (M * Math.sin(theta));
-    }
 
     protected void setRandomY(
             final Vector startPosition, final float objectRadius, final float maxRadius) {
@@ -104,7 +82,6 @@ public abstract class AbstractLevelFactory {
     }
 
     private void loadMesh(final GL11 gl, final String id) {
-        // if (!meshes.containsKey(id)) {
         BoxBlock block = data.getBlock(data.findBySignature(id));
         if (block != null && block.getHeader().getId() == Identifier.MESHDODGEIT) {
             try {
@@ -149,14 +126,12 @@ public abstract class AbstractLevelFactory {
                     centroid.y /= verts.length;
                     centroid.z /= verts.length;
 
-                    switch (bound.getShape()) { // TODO ist das folgende final
-                            // so?
+                    switch (bound.getShape()) {
                         case Circle:
-                            SphereBound bnd = new SphereBound(bound.getRadius(), centroid, theMesh);
-                            mesh.addBound(bnd);
+                            mesh.addBound(new SphereBound(bound.getRadius(), centroid, theMesh));
                             break;
                         case Cube:
-                            BoxBound bnd2 =
+                            mesh.addBound(
                                     new BoxBound(
                                             new Vector(
                                                     bound.getMinValues()[0],
@@ -167,21 +142,21 @@ public abstract class AbstractLevelFactory {
                                                     bound.getMaxValues()[1],
                                                     bound.getMaxValues()[2]),
                                             centroid,
-                                            theMesh);
-                            mesh.addBound(bnd2);
+                                            theMesh));
+                            break;
+                        default:
                             break;
                     }
                 }
                 meshes.put(id, mesh);
             } catch (IOException e) {
+                // TODO proper exeption handling...
                 // Log.d("Dodge It!", "Scene: Could not load mesh <" + id + ">");
             }
         }
-        // }
     }
 
     private void loadTexture(final GL11 gl, final Activity activity, final String id) {
-        // if (id != null && !textures.containsKey(id)) {
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(activity.getAssets().open(id));
             Texture tex =
@@ -195,18 +170,16 @@ public abstract class AbstractLevelFactory {
             textures.put(id, tex);
             bitmapCache.put(id, bitmap);
             bitmap.recycle();
-            // //Log.d("Dodge It!", "Scene: Loading texture "+id);
         } catch (IOException e) {
+            // TODO proper exeption handling...
             // Log.d("Dodge It!", "Unable to load bitmap <" + id + ">");
         }
-        // }
     }
 
     public void loadResources(final GL11 gl, final Activity activity) {
         Resources resources = activity.getResources();
         File cacheFile = new File(activity.getCacheDir(), "tmp.box");
 
-        // if (!cacheFile.exists()) {
         try {
             InputStream is = resources.openRawResource(getBoxId());
             FileOutputStream os = new FileOutputStream(cacheFile);
@@ -224,7 +197,7 @@ public abstract class AbstractLevelFactory {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // }
+
         try {
             fileReader = new BoxFileReader(cacheFile);
             data = fileReader.read();

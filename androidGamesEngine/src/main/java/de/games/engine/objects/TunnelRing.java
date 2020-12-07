@@ -16,19 +16,10 @@ public class TunnelRing extends AbstractGameObject {
             final Texture textureId,
             final Vector velocity,
             final Vector startPosition) {
-        this(null, meshIds, textureId, velocity, startPosition);
+        super(meshIds, textureId, velocity, startPosition);
         this.rotate(0f, 90.0f, 0f);
     }
 
-    public TunnelRing(
-            final Scene scene,
-            final HashMap<Mesh, RotationSettings> meshIds,
-            final Texture textureId,
-            final Vector velocity,
-            final Vector startPosition) {
-        super(scene, meshIds, textureId, velocity, startPosition);
-        this.rotate(0f, 90.0f, 0f);
-    }
 
     @Override
     public void update(final float delta) {
@@ -37,20 +28,12 @@ public class TunnelRing extends AbstractGameObject {
 
     @Override
     public void render(final GL11 gl, final Mesh.RenderType type) {
-        // gl.glDisable(GL11.GL_LIGHTING);
-        // gl.glBlendFunc( GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA );
-
         gl.glColor4f(1, 1, 1, 1f);
-        // gl.glEnable( GL11.GL_BLEND );
         gl.glPushMatrix();
-        // scene.getMesh("tunnelRing").render(type);
         for (Entry<Mesh, RotationSettings> entry : meshes.entrySet()) {
             entry.getKey().render(type);
         }
         gl.glPopMatrix();
         gl.glColor4f(1, 1, 1, 1);
-
-        // gl.glDisable( GL11.GL_BLEND );
-        // gl.glEnable(GL11.GL_LIGHTING);
     }
 }

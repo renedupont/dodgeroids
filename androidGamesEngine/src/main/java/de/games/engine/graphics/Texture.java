@@ -31,17 +31,9 @@ public class Texture {
     private int textureHandle;
     /** handle to gl wrapper * */
     private final GL11 gl;
-    /** height of original image in pixels * */
-    private final int height;
-    /** width of original image in pixels * */
-    private final int width;
 
-    /**
-     * Creates a new texture based on the given image
-     *
-     * @param gl
-     * @param bitmap
-     */
+
+    /** Creates a new texture based on the given image */
     public Texture(
             final GL11 gl,
             final Bitmap image,
@@ -55,9 +47,6 @@ public class Texture {
         gl.glGenTextures(1, textures, 0);
         textureHandle = textures[0];
 
-        this.width = image.getWidth();
-        this.height = image.getHeight();
-
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textureHandle);
         gl.glTexParameterf(
                 GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, getTextureFilter(minFilter));
@@ -67,7 +56,7 @@ public class Texture {
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, getTextureWrap(tWrap));
         gl.glMatrixMode(GL10.GL_TEXTURE);
         gl.glLoadIdentity();
-        buildMipmap(gl, image);
+        buildMipmap(image);
         image.recycle();
     }
 
@@ -88,9 +77,6 @@ public class Texture {
         gl.glGenTextures(1, textures, 0);
         textureHandle = textures[0];
 
-        this.width = image.getWidth();
-        this.height = image.getHeight();
-
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textureHandle);
         gl.glTexParameterf(
                 GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, getTextureFilter(minFilter));
@@ -100,7 +86,7 @@ public class Texture {
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, getTextureWrap(tWrap));
         gl.glMatrixMode(GL10.GL_TEXTURE);
         gl.glLoadIdentity();
-        buildMipmap(gl, image);
+        buildMipmap(image);
         image.recycle();
     }
 
@@ -122,8 +108,7 @@ public class Texture {
         }
     }
 
-    private void buildMipmap(final GL11 gl, Bitmap bitmap) {
-
+    private void buildMipmap(Bitmap bitmap) {
         int level = 0;
         int height = bitmap.getHeight();
         int width = bitmap.getWidth();
@@ -148,14 +133,7 @@ public class Texture {
         }
     }
 
-    /**
-     * Draws the given image to the texture
-     *
-     * @param gl
-     * @param bitmap
-     * @param x
-     * @param y
-     */
+    /** Draws the given image to the texture */
     public void draw(final Object bmp, final int x, final int y) {
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textureHandle);
         Bitmap bitmap = (Bitmap) bmp;
@@ -183,31 +161,16 @@ public class Texture {
         }
     }
 
-    /**
-     * Binds the texture
-     *
-     * @param gl
-     */
+    /** Binds the texture */
     public void bind() {
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textureHandle);
     }
 
-    /**
-     * Disposes the texture and frees the associated resourcess
-     *
-     * @param gl
-     */
+    /** Disposes the texture and frees the associated resourcess */
     public void dispose() {
         int[] textures = {textureHandle};
         gl.glDeleteTextures(1, textures, 0);
         textureHandle = 0;
     }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
 }

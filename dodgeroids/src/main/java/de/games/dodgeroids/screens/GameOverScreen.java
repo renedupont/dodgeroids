@@ -45,8 +45,8 @@ public final class GameOverScreen implements IGameScreen {
             isDone = true;
         }
         try {
-            Thread.sleep(30); // TODO: WTF? nur damit onTouch auch bei den
-            // update methoden mal als true ankommt? OMFG
+            Thread.sleep(30); // TODO: this exists only so that onTouch will be true in the update
+            // methods, please check if there is a better way
         } catch (Exception ex) {
         }
         return true;

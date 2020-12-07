@@ -32,7 +32,7 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Dodgeroids", "onCreate");
+        Log.d("Dodgeroids", "onCreate start");
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
@@ -66,7 +66,7 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("Dodgeroids", "onSaveInstanceState");
+        Log.d("Dodgeroids", "onSaveInstanceState start");
         if (screen instanceof GameLoopScreen) {
             ((GameLoopScreen) screen).getLogic().storeSaveGame();
         }
@@ -76,7 +76,7 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("Dodgeroids", "onPause");
+        Log.d("Dodgeroids", "onPause start");
         glSurface.onPause();
         if (screen != null) {
             screen.dispose();
@@ -87,7 +87,7 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("Dodgeroids", "onResume");
+        Log.d("Dodgeroids", "onResume start");
         glSurface.onResume();
         SoundManager.getInstance().prepareMusic(R.raw.loop1);
         Log.d("Dodgeroids", "onResume end");
@@ -96,18 +96,16 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("Dodgeroids", "onDestroy");
+        Log.d("Dodgeroids", "onDestroy start");
         SoundManager.getInstance().dispose();
         KeyInputManager.getInstance().dispose();
-        // if( screen != null )
-        // screen.dispose();
         Log.d("Dodgeroids", "onDestroy end");
     }
 
     /** Called when the GLSurfaceView has finished initialization */
     @Override
     public void onSurfaceCreated(final GL10 gl, final EGLConfig config) {
-        Log.d("Dodgeroids", "onSurfaceCreated");
+        Log.d("Dodgeroids", "onSurfaceCreated start");
         lastFrameStart = System.nanoTime();
         String renderer = gl.glGetString(GL10.GL_RENDERER);
         if (renderer.toLowerCase(Locale.US).contains("pixelflinger")) {
@@ -119,16 +117,10 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     /** Called when the surface size changed, e.g. due to tilting */
     @Override
     public void onSurfaceChanged(final GL10 gl, final int width, final int height) {
-        // TODO was ist wenn diese Methode mitten im spiel aufgerufen wird weil	sich
-        // tats�chlich der surface ver�ndert hat und nicht weil es in standby ging und
-        // neu geladen hat? Ist dann nicht das savegame futsch oder generell ist es ja
-        // dann komisch das das game einfach in das startmen� geht.
-        Log.d("Dodgeroids", "onSurfaceChanged");
+        Log.d("Dodgeroids", "onSurfaceChanged start");
         this.width = width;
         this.height = height;
         screen = new StartScreen(this, (GL11) gl);
-        // screen.onSurfaceChanged(width, height); // TODO wird im Moment nicht
-        // gebraucht weil zur Zeit sowieso neuer Screen erstellt wird
         Log.d("Dodgeroids", "onSurfaceChanged end");
     }
 
@@ -142,16 +134,10 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     }
 
     public void mainLoopIteration(final GL11 gl) {
-        // setup
-        // if (firstSetup) {
-        // firstSetup = false;
-        // screen = new StartScreen(gl, this);
-        // }
         screen.update(deltaTime);
         if (screen.isDone()) {
             screen.dispose();
             screen = screen.switchScreen(gl);
-            // isBackPressed = false;
         }
         screen.getRenderer().render(gl, width, height);
     }
@@ -176,7 +162,7 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event) {
         boolean status = super.dispatchKeyEvent(event);
-        KeyInputManager.getInstance().registerKeyEvent(event, status);
+        KeyInputManager.getInstance().registerKeyEvent(event);
         return status;
     }
 }

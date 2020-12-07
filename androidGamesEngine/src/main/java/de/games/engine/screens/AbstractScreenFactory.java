@@ -21,12 +21,12 @@ public abstract class AbstractScreenFactory {
 
     public HashMap<String, Font.Text> createTexts(
             final AbstractGameActivity activity, final GL11 gl) {
-        return new HashMap<String, Font.Text>();
+        return new HashMap<>();
     }
 
     public HashMap<String, Sprite> createSprites(
             final AbstractGameActivity activity, final GL11 gl) {
-        return new HashMap<String, Sprite>();
+        return new HashMap<>();
     }
 
     protected abstract String getDefaultBackgroundTextureId();
@@ -61,7 +61,7 @@ public abstract class AbstractScreenFactory {
                                 Texture.TextureWrap.ClampToEdge);
                 bitmap.recycle();
             } catch (Exception ex) {
-                // Log.d("Dodge It!", "couldn't load textures");
+                // TODO proper exception handling, logging...
                 throw new RuntimeException(ex);
             }
 
