@@ -57,8 +57,6 @@ public class GameRenderer {
 
     protected void renderBounds(final GL11 gl) {
         for (AbstractGameObject o : scene.getGameObjects()) {
-            // if (o instanceof TunnelPart)
-            // continue;
             for (AbstractBound b : o.getBounds()) {
                 gl.glDisable(GL10.GL_LIGHTING);
                 gl.glDisable(GL10.GL_CULL_FACE);

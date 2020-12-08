@@ -15,8 +15,6 @@ import de.games.engine.objects.AbstractGameObject;
 import de.games.engine.objects.Asteroid;
 import de.games.engine.objects.GameObjectChain;
 import de.games.engine.objects.Player;
-import de.games.engine.objects.TunnelPart;
-import de.games.engine.objects.TunnelRing;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +28,10 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
         return R.raw.data_new;
     }
 
+    public float getMaxHeight() {
+        return 8f;
+    }
+
     @Override
     public List<String> createMeshIdList() {
         List<String> meshIds = new ArrayList<>();
@@ -39,8 +41,6 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
         meshIds.add("asteroid_2");
         meshIds.add("asteroid_3");
         meshIds.add("asteroid_4");
-        meshIds.add("tunnelPart");
-        meshIds.add("tunnelRing");
         meshIds.add("TerrainBox");
         return meshIds;
     }
@@ -50,8 +50,6 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
         List<String> textureIds = new ArrayList<>();
         textureIds.add("ufo_diffuse.jpg");
         textureIds.add("asteroid.jpg");
-        textureIds.add("cloud2.png");
-        textureIds.add("tunnelring.png");
         return textureIds;
     }
 
@@ -85,10 +83,6 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
             return (T) createPlayer(startPosition);
         } else if (type.equals(Asteroid.class)) {
             return (T) createAsteroid(startPosition);
-        } else if (type.equals(TunnelPart.class)) {
-            return (T) createTunnelPart(startPosition);
-        } else if (type.equals(TunnelRing.class)) {
-            return (T) createTunnelRing(startPosition);
         }
         return null; // TODO rather throw exception here
     }
@@ -127,39 +121,13 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
                                 (0.5f - (float) Math.random()) * 80.0f)));
         Vector velocity = new Vector(0.0f, 0.0f, 24.0f);
         float scaleFactor = 0.8f;
-        float maxRadius = ((SphereBound) meshes.get("tunnelPart").getBounds().get(0)).getRadius();
         float asteroidRadius =
                 ((SphereBound) meshes.get("asteroid_" + (asteroidType + 1)).getBounds().get(0))
                                 .getRadius()
                         * scaleFactor;
-        setRandomY(startPosition, asteroidRadius, maxRadius);
+        setRandomY(startPosition, asteroidRadius, getMaxHeight());
         return new Asteroid(
                 asteroidMeshes, textures.get("asteroid.jpg"), scaleFactor, velocity, startPosition);
-    }
-
-    @Override
-    public AbstractGameObject createTunnelPart(final Vector startPosition) {
-        HashMap<Mesh, RotationSettings> tunnelPartMeshes = new HashMap<>();
-        tunnelPartMeshes.put(
-                meshes.get("tunnelPart"),
-                new RotationSettings(new Vector(0.0f, 0.0f, 0.0f), new Vector(0.0f, 0.0f, 0.0f)));
-        Vector velocity = new Vector(0.0f, 0.0f, 20.0f);
-        TunnelPart tunnelPart =
-                new TunnelPart(
-                        tunnelPartMeshes, textures.get("cloud2.png"), velocity, startPosition);
-        tunnelPart.setHidden(true);
-        return tunnelPart;
-    }
-
-    @Override
-    public AbstractGameObject createTunnelRing(final Vector startPosition) {
-        HashMap<Mesh, RotationSettings> tunnelRingMeshes = new HashMap<>();
-        tunnelRingMeshes.put(
-                meshes.get("tunnelRing"),
-                new RotationSettings(new Vector(0.0f, 0.0f, 0.0f), new Vector(0.0f, 0.0f, 0.0f)));
-        Vector velocity = new Vector(0.0f, 0.0f, 20.0f);
-        return new TunnelRing(
-                tunnelRingMeshes, textures.get("tunnelring.png"), velocity, startPosition);
     }
 
     @Override
@@ -184,40 +152,6 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
                             Float.NEGATIVE_INFINITY),
                     new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 0.5f));
         }
-        if (type.equals(TunnelPart.class)) {
-            distanceToNextObject = 20.0f;
-            amountOfObjects = (int) (range.z / distanceToNextObject) + 1;
-            return new GameObjectChain<>(
-                    TunnelPart.class,
-                    0,
-                    scene,
-                    this,
-                    amountOfObjects,
-                    10.0f,
-                    distanceToNextObject,
-                    new Vector(
-                            Float.NEGATIVE_INFINITY,
-                            Float.NEGATIVE_INFINITY,
-                            Float.NEGATIVE_INFINITY),
-                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 35.0f));
-        }
-        if (type.equals(TunnelRing.class)) {
-            distanceToNextObject = 20.0f;
-            amountOfObjects = (int) (range.z / distanceToNextObject) + 1;
-            return new GameObjectChain<>(
-                    TunnelRing.class,
-                    0,
-                    scene,
-                    this,
-                    amountOfObjects,
-                    10.0f,
-                    distanceToNextObject,
-                    new Vector(
-                            Float.NEGATIVE_INFINITY,
-                            Float.NEGATIVE_INFINITY,
-                            Float.NEGATIVE_INFINITY),
-                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 35.0f));
-        }
         return null; // TODO rather throw exception here
     }
 
@@ -225,10 +159,7 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
     public HashMap<String, GameObjectChain<? extends AbstractGameObject>> createGameObjectChains(
             final Scene scene, final Vector range) {
         HashMap<String, GameObjectChain<? extends AbstractGameObject>> chains = new HashMap<>();
-        GameObjectChain<TunnelPart> tunnel =
-                createGameObjectChain(TunnelPart.class, scene, range, 0);
-        // TODO move strings into strings.xml?
-        chains.put("tunnel", tunnel);
+        // TODO move string into strings.xml?
         GameObjectChain<Asteroid> asteroidBelt =
                 createGameObjectChain(Asteroid.class, scene, range, 0);
         chains.put("asteroids", asteroidBelt);

@@ -45,6 +45,8 @@ public abstract class AbstractLevelFactory {
 
     protected abstract int getBoxId();
 
+    public abstract float getMaxHeight();
+
     public abstract List<String> createMeshIdList();
 
     public abstract List<String> createTextureIdList();
@@ -57,10 +59,6 @@ public abstract class AbstractLevelFactory {
     public abstract Player createPlayer(Vector startPosition);
 
     protected abstract AbstractGameObject createAsteroid(Vector startPosition);
-
-    protected abstract AbstractGameObject createTunnelPart(Vector startPosition);
-
-    protected abstract AbstractGameObject createTunnelRing(Vector startPosition);
 
     public abstract <T extends AbstractGameObject> GameObjectChain<T> createGameObjectChain(
             Class<T> type, Scene scene, Vector range, float minRadius);

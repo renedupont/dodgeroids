@@ -7,7 +7,6 @@ import de.games.engine.AbstractGameActivity;
 import de.games.engine.datamanagers.Scene;
 import de.games.engine.datamanagers.SoundManager;
 import de.games.engine.graphics.AbstractBound.DetectionMethod;
-import de.games.engine.graphics.SphereBound;
 import de.games.engine.graphics.Sprite;
 import de.games.engine.graphics.Vector;
 import de.games.engine.levels.AbstractLevelFactory;
@@ -16,7 +15,6 @@ import de.games.engine.objects.AbstractGameObject;
 import de.games.engine.objects.Asteroid;
 import de.games.engine.objects.GameObjectChain;
 import de.games.engine.objects.Player;
-import de.games.engine.objects.TunnelPart;
 
 public class GameLoopLogic extends AbstractGameLogic {
 
@@ -28,10 +26,10 @@ public class GameLoopLogic extends AbstractGameLogic {
     /** quick references * */
     private final GameObjectChain<Asteroid> asteroidBelt;
 
-    private final GameObjectChain<TunnelPart> tunnel;
     private final Player player;
     private final Sprite explosion;
     private final int flipVal;
+    private float maxLevelHeight;
 
     @SuppressWarnings("unchecked")
     public GameLoopLogic(
@@ -40,11 +38,11 @@ public class GameLoopLogic extends AbstractGameLogic {
             final AbstractLevelFactory levelFactory) {
         super(activity, scene, levelFactory);
         this.flipVal = DodgeroidsSettingsManager.getInstance().isControlFlipped() ? -1 : 1;
+        this.maxLevelHeight = levelFactory.getMaxHeight();
         this.player = scene.getPlayer();
         this.explosion = scene.getSprite(activity.getString(R.string.label_explosion));
         this.asteroidBelt =
                 (GameObjectChain<Asteroid>) scene.getGameObjectChains().get("asteroids");
-        this.tunnel = (GameObjectChain<TunnelPart>) scene.getGameObjectChains().get("tunnel");
     }
 
     @Override
@@ -105,40 +103,19 @@ public class GameLoopLogic extends AbstractGameLogic {
 
     @Override
     protected void movePlayer(float delta) {
-        TunnelPart tunnelPart = tunnel.getFirst();
-        SphereBound bound =
-                (SphereBound)
-                        tunnelPart
-                                .getBounds()
-                                .get(0); // FIXME get(0) ist statisch und h�ngt von der box datei ab
-        moveWithinYAxisLimit(
-                player,
-                delta,
-                bound.getRadius(tunnelPart),
-                (isDownPressed ? -0.3f : 0.3f) * flipVal);
-    }
-
-    private void moveWithinYAxisLimit(
-            final AbstractGameObject o,
-            final float delta,
-            final float radius,
-            final float yChange) {
-        moveY(o, delta, yChange * player.scale2dMovement);
-        SphereBound bound =
-                (SphereBound)
-                        o.getBounds()
-                                .get(3); // FIXME get(3) ist statisch und h�ngt von der box datei ab
-        Vector pos = o.getPos();
-        float r = radius - bound.getRadius(o);
-        if (pos.y > r) {
-            pos.y = r;
-        } else if (pos.y < -r) {
-            pos.y = -r;
+        float yChange = (isDownPressed ? -0.3f : 0.3f) * flipVal;
+        moveY(player, delta, yChange * player.scale2dMovement);
+        Vector pos = player.getPos();
+        float yMax = maxLevelHeight;
+        if (pos.y > yMax) {
+            pos.y = yMax;
+        } else if (pos.y < -yMax) {
+            pos.y = -yMax;
         }
     }
 
     private void moveY(final AbstractGameObject o, final float delta, final float yChange) {
-        o.getPos().y += (delta * player.getVelocity().y * yChange);
+        o.getPos().y += (delta * o.getVelocity().y * yChange);
     }
 
     public void setDownPressed(final boolean isDownPressed) {
