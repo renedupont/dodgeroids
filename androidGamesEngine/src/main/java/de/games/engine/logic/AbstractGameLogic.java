@@ -8,16 +8,12 @@ import de.games.engine.objects.AbstractGameObject;
 
 public abstract class AbstractGameLogic {
 
-    protected final AbstractGameActivity activity;
-
     protected AbstractLevelFactory levelFactory;
     protected Scene scene;
 
     public AbstractGameLogic(
-            final AbstractGameActivity activity,
             final Scene scene,
             final AbstractLevelFactory levelFactory) {
-        this.activity = activity;
         this.levelFactory = levelFactory;
         this.scene = scene;
     }

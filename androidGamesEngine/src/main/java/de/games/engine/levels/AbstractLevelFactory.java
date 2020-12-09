@@ -1,9 +1,20 @@
 package de.games.engine.levels;
 
-import android.app.Activity;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.microedition.khronos.opengles.GL11;
+
 import de.games.engine.box.format.BoxFormat.Identifier;
 import de.games.engine.box.format.chunk.BoxMeshBound;
 import de.games.engine.box.format.chunk.BoxMeshDodgeIt;
@@ -20,14 +31,6 @@ import de.games.engine.graphics.Vector;
 import de.games.engine.objects.AbstractGameObject;
 import de.games.engine.objects.GameObjectChain;
 import de.games.engine.objects.Player;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import javax.microedition.khronos.opengles.GL11;
 
 public abstract class AbstractLevelFactory {
 
@@ -150,9 +153,9 @@ public abstract class AbstractLevelFactory {
         }
     }
 
-    private void loadTexture(final GL11 gl, final Activity activity, final String id) {
+    private void loadTexture(final GL11 gl, final AssetManager assetManager, final String id) {
         try {
-            Bitmap bitmap = BitmapFactory.decodeStream(activity.getAssets().open(id));
+            Bitmap bitmap = BitmapFactory.decodeStream(assetManager.open(id));
             Texture tex =
                     new Texture(
                             gl,
@@ -170,9 +173,8 @@ public abstract class AbstractLevelFactory {
         }
     }
 
-    public void loadResources(final GL11 gl, final Activity activity) {
-        Resources resources = activity.getResources();
-        File cacheFile = new File(activity.getCacheDir(), "tmp.box");
+    public void loadResources( GL11 gl, Resources resources, File cacheDir, AssetManager assetManager) {
+        File cacheFile = new File(cacheDir, "tmp.box");
 
         try {
             InputStream is = resources.openRawResource(getBoxId());
@@ -207,7 +209,7 @@ public abstract class AbstractLevelFactory {
             loadMesh(gl, meshId);
         }
         for (String textureId : createTextureIdList()) {
-            loadTexture(gl, activity, textureId);
+            loadTexture(gl, assetManager, textureId);
         }
 
         try {

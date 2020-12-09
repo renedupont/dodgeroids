@@ -3,6 +3,8 @@ package de.games.dodgeroids.screens;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+
+import de.games.dodgeroids.DodgeroidsActivity;
 import de.games.dodgeroids.R;
 import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
 import de.games.dodgeroids.levels.SpaceLevelFactory;
@@ -17,12 +19,13 @@ import de.games.engine.levels.AbstractLevelFactory;
 import de.games.engine.logic.AbstractGameLogic;
 import de.games.engine.objects.Player;
 import de.games.engine.screens.IGameScreen;
+
 import javax.microedition.khronos.opengles.GL11;
 
 public final class GameLoopScreen implements IGameScreen {
 
     /* class elements */
-    private final AbstractGameActivity activity;
+    private final DodgeroidsActivity activity;
     private final AbstractLevelFactory levelFactory;
     private final Scene scene;
     private final GameRenderer renderer;
@@ -39,13 +42,13 @@ public final class GameLoopScreen implements IGameScreen {
     private boolean isDoneLoading = false;
 
     public GameLoopScreen(
-            final AbstractGameActivity activity, final GL11 gl, final String levelName) {
+            final DodgeroidsActivity activity, final GL11 gl, final String levelName) {
         this.activity = activity;
         this.levelFactory = new SpaceLevelFactory();
-        this.scene = new Scene(activity, gl, new GameLoopFactory(), levelFactory);
-        this.renderer = new GameRenderer(gl, activity, scene);
+        this.scene = new Scene(gl, new GameLoopFactory(), levelFactory, activity.getResources(), activity.getCacheDir(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
+        this.renderer = new GameRenderer(gl,  scene);
         renderer.setAmbientColor(new Color(0.5f, 0.5f, 0.5f, 1.0f));
-        this.logic = new GameLoopLogic(activity, scene, levelFactory);
+        this.logic = new GameLoopLogic(scene, levelFactory, activity.getString(R.string.label_explosion));
 
         SoundManager.getInstance().prepareMusic(R.raw.loop1);
         activity.getGLSurfaceView().setOnTouchListener(this);

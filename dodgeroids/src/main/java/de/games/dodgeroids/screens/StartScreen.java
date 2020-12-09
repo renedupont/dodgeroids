@@ -3,20 +3,22 @@ package de.games.dodgeroids.screens;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+
+import javax.microedition.khronos.opengles.GL11;
+
+import de.games.dodgeroids.DodgeroidsActivity;
 import de.games.dodgeroids.R;
 import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
 import de.games.dodgeroids.datamanagers.DodgeroidsSettingsManager;
-import de.games.engine.AbstractGameActivity;
 import de.games.engine.datamanagers.Scene;
 import de.games.engine.datamanagers.SoundManager;
 import de.games.engine.graphics.GameRenderer;
 import de.games.engine.screens.IGameScreen;
-import javax.microedition.khronos.opengles.GL11;
 
 public final class StartScreen implements IGameScreen {
 
     /** class elements * */
-    private final AbstractGameActivity activity;
+    private final DodgeroidsActivity activity;
 
     private final Scene scene;
     private final GameRenderer renderer;
@@ -26,10 +28,10 @@ public final class StartScreen implements IGameScreen {
 
     private boolean soundOptionChanged = false;
 
-    public StartScreen(final AbstractGameActivity activity, final GL11 gl) {
+    public StartScreen(DodgeroidsActivity activity, GL11 gl) {
         this.activity = activity;
-        this.scene = new Scene(activity, gl, new StartFactory());
-        this.renderer = new GameRenderer(gl, activity, scene);
+        this.scene = new Scene(gl, new StartFactory(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
+        this.renderer = new GameRenderer(gl,  scene);
         activity.getGLSurfaceView().setOnTouchListener(this);
     }
 

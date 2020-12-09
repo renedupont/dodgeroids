@@ -33,14 +33,13 @@ public class GameLoopLogic extends AbstractGameLogic {
 
     @SuppressWarnings("unchecked")
     public GameLoopLogic(
-            final AbstractGameActivity activity,
             final Scene scene,
-            final AbstractLevelFactory levelFactory) {
-        super(activity, scene, levelFactory);
+            final AbstractLevelFactory levelFactory, String explosionLabel) {
+        super( scene, levelFactory);
         this.flipVal = DodgeroidsSettingsManager.getInstance().isControlFlipped() ? -1 : 1;
         this.maxLevelHeight = levelFactory.getMaxHeight();
         this.player = scene.getPlayer();
-        this.explosion = scene.getSprite(activity.getString(R.string.label_explosion));
+        this.explosion = scene.getSprite(explosionLabel);
         this.asteroidBelt =
                 (GameObjectChain<Asteroid>) scene.getGameObjectChains().get("asteroids");
     }

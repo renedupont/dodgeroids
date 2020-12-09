@@ -15,13 +15,11 @@ public class GameRenderer {
 
     public static boolean RENDER_BOUNDS = false;
 
-    protected AbstractGameActivity activity;
     protected GL11 gl;
     protected Scene scene;
     protected Camera camera;
 
-    public GameRenderer(final GL11 gl, final AbstractGameActivity activity, final Scene scene) {
-        this.activity = activity;
+    public GameRenderer(final GL11 gl, final Scene scene) {
         this.gl = gl;
         this.scene = scene;
         this.camera = scene.getCamera();

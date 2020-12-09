@@ -1,5 +1,6 @@
 package de.games.dodgeroids;
 
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-public class DodgeroidsActivity extends AbstractGameActivity {
+public class DodgeroidsActivity extends Activity implements GLSurfaceView.Renderer {
 
     private GLSurfaceView glSurface;
     private IGameScreen screen;
@@ -143,18 +144,15 @@ public class DodgeroidsActivity extends AbstractGameActivity {
     }
 
     /** @return the viewport width in pixels */
-    @Override
     public int getViewportWidth() {
         return width;
     }
 
     /** @return the viewport height in pixels */
-    @Override
     public int getViewportHeight() {
         return height;
     }
 
-    @Override
     public GLSurfaceView getGLSurfaceView() {
         return glSurface;
     }

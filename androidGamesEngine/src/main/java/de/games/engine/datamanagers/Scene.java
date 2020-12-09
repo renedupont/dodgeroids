@@ -1,5 +1,8 @@
 package de.games.engine.datamanagers;
 
+import android.content.res.AssetManager;
+import android.content.res.Resources;
+
 import de.games.engine.AbstractGameActivity;
 import de.games.engine.graphics.Background;
 import de.games.engine.graphics.Camera;
@@ -12,6 +15,8 @@ import de.games.engine.objects.AbstractGameObject;
 import de.games.engine.objects.GameObjectChain;
 import de.games.engine.objects.Player;
 import de.games.engine.screens.AbstractScreenFactory;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,37 +39,34 @@ public class Scene {
 
     // TODO combine constructors? or create different scenes?
     public Scene(
-            final AbstractGameActivity activity,
             final GL11 gl,
             final AbstractScreenFactory
-                    screenFactory) { // currently intended for start and game over screen
+                    screenFactory, AssetManager assetManager, int frustumWidth, int frustumHeight) { // currently intended for start and game over screen
         this.gObjects = new LinkedList<>();
         this.lights = new ArrayList<>();
         // load screen objects
-        this.texts = screenFactory.createTexts(activity, gl);
-        this.sprites = screenFactory.createSprites(activity, gl);
-        this.background = screenFactory.createDefaultBackground(activity, gl);
+        this.texts = new HashMap<>();
+        this.sprites =  new HashMap<>();
+        this.background = screenFactory.createDefaultBackground(assetManager, gl);
         this.camera =
-                screenFactory.createCamera(
-                        activity.getViewportWidth(), activity.getViewportHeight());
+                screenFactory.createCamera(frustumWidth, frustumHeight);
         this.gameObjectChains = new HashMap<>();
     }
 
     public Scene(
-            final AbstractGameActivity activity,
             final GL11 gl,
             final AbstractScreenFactory screenFactory,
-            final AbstractLevelFactory levelFactory) {
+            final AbstractLevelFactory levelFactory, Resources resources, File cacheDir, AssetManager assetManager, int frustumWidth, int frustumHeight) {
         this.gObjects = new LinkedList<>();
         // load screen objects
-        this.texts = screenFactory.createTexts(activity, gl);
-        this.sprites = screenFactory.createSprites(activity, gl);
-        this.background = screenFactory.createDefaultBackground(activity, gl);
+        this.texts =  new HashMap<>();
+        this.sprites =  new HashMap<>();
+        this.background = screenFactory.createDefaultBackground(assetManager, gl);
         // load level objects
-        levelFactory.loadResources(gl, activity);
+        levelFactory.loadResources(gl, resources, cacheDir,assetManager);
         this.camera =
                 screenFactory.createCamera(
-                        activity.getViewportWidth(), activity.getViewportHeight());
+                        frustumWidth,frustumHeight);
         this.lights = levelFactory.createLights();
         this.player = levelFactory.createPlayer(new Vector(0f, 0f, -3.85f));
         addGameObject(player);

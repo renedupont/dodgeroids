@@ -1,7 +1,10 @@
 package de.games.dodgeroids.screens;
 
+import android.content.res.AssetManager;
 import android.view.MotionEvent;
 import android.view.View;
+
+import de.games.dodgeroids.DodgeroidsActivity;
 import de.games.engine.AbstractGameActivity;
 import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.GameRenderer;
@@ -11,7 +14,7 @@ import javax.microedition.khronos.opengles.GL11;
 public final class GameOverScreen implements IGameScreen {
 
     /** class elements * */
-    private final AbstractGameActivity activity;
+    private final DodgeroidsActivity activity;
 
     private final Scene scene;
     private final GameRenderer renderer;
@@ -19,10 +22,10 @@ public final class GameOverScreen implements IGameScreen {
     /** control flags * */
     private boolean isDone = false;
 
-    public GameOverScreen(final AbstractGameActivity activity, final GL11 gl) {
+    public GameOverScreen(final DodgeroidsActivity activity, final GL11 gl) {
         this.activity = activity;
-        this.scene = new Scene(activity, gl, new GameOverFactory());
-        this.renderer = new GameRenderer(gl, activity, scene);
+        this.scene = new Scene(gl, new GameOverFactory(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
+        this.renderer = new GameRenderer(gl,  scene);
         activity.getGLSurfaceView().setOnTouchListener(this);
     }
 
