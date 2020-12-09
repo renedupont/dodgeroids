@@ -45,7 +45,7 @@ public final class GameLoopScreen implements IGameScreen {
             final DodgeroidsActivity activity, final GL11 gl, final String levelName) {
         this.activity = activity;
         this.levelFactory = new SpaceLevelFactory();
-        this.scene = new Scene(gl, new GameLoopFactory(), levelFactory, activity.getResources(), activity.getCacheDir(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
+        this.scene = new Scene(activity,gl, new GameLoopFactory(), levelFactory, activity.getResources(), activity.getCacheDir(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
         this.renderer = new GameRenderer(gl,  scene);
         renderer.setAmbientColor(new Color(0.5f, 0.5f, 0.5f, 1.0f));
         this.logic = new GameLoopLogic(scene, levelFactory, activity.getString(R.string.label_explosion));

@@ -1,5 +1,6 @@
 package de.games.engine.datamanagers;
 
+import android.app.Activity;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 
@@ -38,29 +39,29 @@ public class Scene {
     private Player player;
 
     // TODO combine constructors? or create different scenes?
-    public Scene(
+    public Scene(Activity activity,
             final GL11 gl,
-            final AbstractScreenFactory
+                 final AbstractScreenFactory
                     screenFactory, AssetManager assetManager, int frustumWidth, int frustumHeight) { // currently intended for start and game over screen
         this.gObjects = new LinkedList<>();
         this.lights = new ArrayList<>();
         // load screen objects
-        this.texts = new HashMap<>();
-        this.sprites =  new HashMap<>();
+        this.texts = screenFactory.createTexts(activity, gl);
+        this.sprites = screenFactory.createSprites(activity, gl);
         this.background = screenFactory.createDefaultBackground(assetManager, gl);
         this.camera =
                 screenFactory.createCamera(frustumWidth, frustumHeight);
         this.gameObjectChains = new HashMap<>();
     }
 
-    public Scene(
+    public Scene(Activity activity,
             final GL11 gl,
             final AbstractScreenFactory screenFactory,
             final AbstractLevelFactory levelFactory, Resources resources, File cacheDir, AssetManager assetManager, int frustumWidth, int frustumHeight) {
         this.gObjects = new LinkedList<>();
         // load screen objects
-        this.texts =  new HashMap<>();
-        this.sprites =  new HashMap<>();
+        this.texts = screenFactory.createTexts(activity, gl);
+        this.sprites = screenFactory.createSprites(activity, gl);
         this.background = screenFactory.createDefaultBackground(assetManager, gl);
         // load level objects
         levelFactory.loadResources(gl, resources, cacheDir,assetManager);

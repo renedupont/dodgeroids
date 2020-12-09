@@ -30,7 +30,7 @@ public final class StartScreen implements IGameScreen {
 
     public StartScreen(DodgeroidsActivity activity, GL11 gl) {
         this.activity = activity;
-        this.scene = new Scene(gl, new StartFactory(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
+        this.scene = new Scene(activity, gl, new StartFactory(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
         this.renderer = new GameRenderer(gl,  scene);
         activity.getGLSurfaceView().setOnTouchListener(this);
     }

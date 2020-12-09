@@ -1,5 +1,8 @@
 package de.games.dodgeroids.screens;
 
+import android.app.Activity;
+
+import de.games.dodgeroids.DodgeroidsActivity;
 import de.games.dodgeroids.R;
 import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
 import de.games.engine.AbstractGameActivity;
@@ -37,9 +40,9 @@ public class GameOverFactory extends AbstractScreenFactory {
     }
 
     @Override
-    public HashMap<String, Text> createTexts(final AbstractGameActivity activity, final GL11 gl) {
+    public HashMap<String, Text> createTexts(final Activity a, final GL11 gl) {
+        DodgeroidsActivity activity = (DodgeroidsActivity)a; // TODO dirty hack, decouple scene from activity!
         HashMap<String, Text> texts = new HashMap<>();
-
         font =
                 new Font(
                         gl,

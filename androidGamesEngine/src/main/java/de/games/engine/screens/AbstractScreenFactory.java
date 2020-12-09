@@ -1,5 +1,6 @@
 package de.games.engine.screens;
 
+import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,17 @@ public abstract class AbstractScreenFactory {
     protected Font font;
 
     public abstract Camera createCamera(int frustumWidth, int frustumHeight);
+
+
+    public HashMap<String, Font.Text> createTexts(
+            final Activity activity, final GL11 gl) {
+        return new HashMap<>();
+    }
+
+    public HashMap<String, Sprite> createSprites(
+            final Activity activity, final GL11 gl) {
+        return new HashMap<>();
+    }
 
     protected abstract String getDefaultBackgroundTextureId();
 

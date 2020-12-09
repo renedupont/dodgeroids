@@ -24,7 +24,7 @@ public final class GameOverScreen implements IGameScreen {
 
     public GameOverScreen(final DodgeroidsActivity activity, final GL11 gl) {
         this.activity = activity;
-        this.scene = new Scene(gl, new GameOverFactory(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
+        this.scene = new Scene(activity, gl, new GameOverFactory(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
         this.renderer = new GameRenderer(gl,  scene);
         activity.getGLSurfaceView().setOnTouchListener(this);
     }
