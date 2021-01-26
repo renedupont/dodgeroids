@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import de.games.dodgeroids.R;
+import de.games.dodgeroids.objects.Player;
 import de.games.engine.graphics.Vector;
-import de.games.engine.objects.Player;
 import java.io.Serializable;
 
 public class DodgeroidsSaveGame implements Serializable {

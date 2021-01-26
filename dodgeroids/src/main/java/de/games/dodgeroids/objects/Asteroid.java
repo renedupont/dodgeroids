@@ -1,9 +1,10 @@
-package de.games.engine.objects;
+package de.games.dodgeroids.objects;
 
 import de.games.engine.graphics.Mesh;
 import de.games.engine.graphics.RotationSettings;
 import de.games.engine.graphics.Texture;
 import de.games.engine.graphics.Vector;
+import de.games.engine.objects.AbstractGameObject;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.microedition.khronos.opengles.GL10;
@@ -22,7 +23,7 @@ public class Asteroid extends AbstractGameObject {
         super(meshIds, textureId, velocity, startPosition);
         setScale(scaleFactor, scaleFactor, scaleFactor);
         // this.asteroidType = new Random().nextInt(4);
-        // WHATSE FACK WAR DAS NOCHMAL FUER? und wieso so kompliziert? war das
+        // Wofür war das nochmal? und wieso so kompliziert? war das
         // dafuer das steine am anfang nicht alle von selber rotation starten?
         rot.x = 2.0f * ((float) Math.random() / 1.0f) - 1.0f;
         rot.y = 2.0f * ((float) Math.random() / 1.0f) - 1.0f;

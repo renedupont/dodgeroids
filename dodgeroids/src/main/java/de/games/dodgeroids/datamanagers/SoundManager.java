@@ -1,4 +1,4 @@
-package de.games.engine.datamanagers;
+package de.games.dodgeroids.datamanagers;
 
 import android.app.Activity;
 import android.content.Context;

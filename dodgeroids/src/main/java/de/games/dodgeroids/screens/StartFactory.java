@@ -1,12 +1,10 @@
 package de.games.dodgeroids.screens;
 
 import android.app.Activity;
-
 import de.games.dodgeroids.DodgeroidsActivity;
 import de.games.dodgeroids.R;
 import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
 import de.games.dodgeroids.datamanagers.DodgeroidsSettingsManager;
-import de.games.engine.AbstractGameActivity;
 import de.games.engine.graphics.Camera;
 import de.games.engine.graphics.Color;
 import de.games.engine.graphics.Font;
@@ -16,14 +14,13 @@ import de.games.engine.graphics.Font.SizeType;
 import de.games.engine.graphics.Font.Text;
 import de.games.engine.graphics.Font.VerticalAlign;
 import de.games.engine.graphics.Vector;
-import de.games.engine.screens.AbstractScreenFactory;
 import java.util.HashMap;
 import javax.microedition.khronos.opengles.GL11;
 
 public class StartFactory extends AbstractScreenFactory {
 
     @Override
-    public Camera createCamera(final int frustumWidth, final int frustumHeight) {
+    public Camera createCamera(int frustumWidth, int frustumHeight) {
         return new Camera(
                 new Vector(13f, 0f, -15f),
                 new Vector(0f, 0f, -15f),
@@ -41,8 +38,9 @@ public class StartFactory extends AbstractScreenFactory {
     }
 
     @Override
-    public HashMap<String, Text> createTexts(final Activity a, final GL11 gl) {
-        DodgeroidsActivity activity = (DodgeroidsActivity)a; // TODO dirty hack, decouple scene from activity!
+    public HashMap<String, Text> createTexts(Activity a, GL11 gl) {
+        DodgeroidsActivity activity =
+                (DodgeroidsActivity) a; // TODO dirty hack, decouple scene from activity!
         HashMap<String, Text> texts = new HashMap<>();
         font =
                 new Font(

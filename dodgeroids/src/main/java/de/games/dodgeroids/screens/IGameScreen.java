@@ -1,4 +1,4 @@
-package de.games.engine.screens;
+package de.games.dodgeroids.screens;
 
 import android.view.View.OnTouchListener;
 import de.games.engine.graphics.GameRenderer;

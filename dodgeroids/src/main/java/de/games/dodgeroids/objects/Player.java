@@ -1,9 +1,10 @@
-package de.games.engine.objects;
+package de.games.dodgeroids.objects;
 
 import de.games.engine.graphics.Mesh;
 import de.games.engine.graphics.RotationSettings;
 import de.games.engine.graphics.Texture;
 import de.games.engine.graphics.Vector;
+import de.games.engine.objects.AbstractGameObject;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.microedition.khronos.opengles.GL10;

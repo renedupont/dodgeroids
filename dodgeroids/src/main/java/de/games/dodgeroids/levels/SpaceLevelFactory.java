@@ -1,7 +1,8 @@
 package de.games.dodgeroids.levels;
 
 import de.games.dodgeroids.R;
-import de.games.engine.datamanagers.Scene;
+import de.games.dodgeroids.objects.Asteroid;
+import de.games.dodgeroids.objects.Player;
 import de.games.engine.graphics.Color;
 import de.games.engine.graphics.Light;
 import de.games.engine.graphics.Light.Id;
@@ -12,13 +13,12 @@ import de.games.engine.graphics.SphereBound;
 import de.games.engine.graphics.Vector;
 import de.games.engine.levels.AbstractLevelFactory;
 import de.games.engine.objects.AbstractGameObject;
-import de.games.engine.objects.Asteroid;
 import de.games.engine.objects.GameObjectChain;
-import de.games.engine.objects.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 public class SpaceLevelFactory extends AbstractLevelFactory {
 
@@ -75,19 +75,6 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
         return lights;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T extends AbstractGameObject> T createGameObject(
-            final Class<?> type, final Vector startPosition) {
-        if (type.equals(Player.class)) {
-            return (T) createPlayer(startPosition);
-        } else if (type.equals(Asteroid.class)) {
-            return (T) createAsteroid(startPosition);
-        }
-        return null; // TODO rather throw exception here
-    }
-
-    @Override
     public Player createPlayer(final Vector startPosition) {
         HashMap<Mesh, RotationSettings> playerMeshes = new HashMap<>();
         playerMeshes.put(
@@ -107,61 +94,53 @@ public class SpaceLevelFactory extends AbstractLevelFactory {
                 3.0f);
     }
 
-    @Override
-    public AbstractGameObject createAsteroid(final Vector startPosition) {
-        HashMap<Mesh, RotationSettings> asteroidMeshes = new HashMap<>();
-        int asteroidType = new Random().nextInt(4); // choose randomly one of the four meshes
-        asteroidMeshes.put(
-                meshes.get("asteroid_" + (asteroidType + 1)),
-                new RotationSettings(
-                        new Vector(0.0f, 0.0f, 0.0f),
-                        new Vector(
-                                (0.5f - (float) Math.random()) * 80.0f,
-                                (0.5f - (float) Math.random()) * 80.0f,
-                                (0.5f - (float) Math.random()) * 80.0f)));
-        Vector velocity = new Vector(0.0f, 0.0f, 24.0f);
-        float scaleFactor = 0.8f;
-        float asteroidRadius =
-                ((SphereBound) meshes.get("asteroid_" + (asteroidType + 1)).getBounds().get(0))
-                                .getRadius()
-                        * scaleFactor;
-        setRandomY(startPosition, asteroidRadius, getMaxHeight());
-        return new Asteroid(
-                asteroidMeshes, textures.get("asteroid.jpg"), scaleFactor, velocity, startPosition);
+    public Function<Vector, Asteroid> createAsteroid() {
+        return (startPosition) -> {
+            HashMap<Mesh, RotationSettings> asteroidMeshes = new HashMap<>();
+            int asteroidType = new Random().nextInt(4); // choose randomly one of the four meshes
+            asteroidMeshes.put(
+                    meshes.get("asteroid_" + (asteroidType + 1)),
+                    new RotationSettings(
+                            new Vector(0.0f, 0.0f, 0.0f),
+                            new Vector(
+                                    (0.5f - (float) Math.random()) * 80.0f,
+                                    (0.5f - (float) Math.random()) * 80.0f,
+                                    (0.5f - (float) Math.random()) * 80.0f)));
+            Vector velocity = new Vector(0.0f, 0.0f, 24.0f);
+            float scaleFactor = 0.8f;
+            float asteroidRadius =
+                    ((SphereBound) meshes.get("asteroid_" + (asteroidType + 1)).getBounds().get(0))
+                                    .getRadius()
+                            * scaleFactor;
+            setRandomY(startPosition, asteroidRadius, getMaxHeight());
+            return new Asteroid(
+                    asteroidMeshes,
+                    textures.get("asteroid.jpg"),
+                    scaleFactor,
+                    velocity,
+                    startPosition);
+        };
     }
 
-    @Override
-    public <T extends AbstractGameObject> GameObjectChain<T> createGameObjectChain(
-            final Class<T> type, final Scene scene, final Vector range, final float minRadius) {
-        float distanceToNextObject;
-        int amountOfObjects;
-        if (type.equals(Asteroid.class)) {
-            distanceToNextObject = 20.0f;
-            amountOfObjects = (int) (range.z / distanceToNextObject) + 1;
-            return new GameObjectChain<>(
-                    Asteroid.class,
-                    minRadius,
-                    scene,
-                    this,
-                    amountOfObjects,
-                    -50.0f,
-                    distanceToNextObject,
-                    new Vector(
-                            Float.NEGATIVE_INFINITY,
-                            Float.NEGATIVE_INFINITY,
-                            Float.NEGATIVE_INFINITY),
-                    new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 0.5f));
-        }
-        return null; // TODO rather throw exception here
+    public GameObjectChain<Asteroid> createAsteroidBelt(Vector range) {
+        float distanceToNextObject = 20.0f;
+        int amountOfObjects = (int) (range.z / distanceToNextObject) + 1;
+        return new GameObjectChain<>(
+                createAsteroid(),
+                amountOfObjects,
+                -50.0f,
+                distanceToNextObject,
+                new Vector(
+                        Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY),
+                new Vector(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 0.5f));
     }
 
     @Override
     public HashMap<String, GameObjectChain<? extends AbstractGameObject>> createGameObjectChains(
-            final Scene scene, final Vector range) {
+            Vector range) {
         HashMap<String, GameObjectChain<? extends AbstractGameObject>> chains = new HashMap<>();
         // TODO move string into strings.xml?
-        GameObjectChain<Asteroid> asteroidBelt =
-                createGameObjectChain(Asteroid.class, scene, range, 0);
+        GameObjectChain<Asteroid> asteroidBelt = createAsteroidBelt(range);
         chains.put("asteroids", asteroidBelt);
         return chains;
     }

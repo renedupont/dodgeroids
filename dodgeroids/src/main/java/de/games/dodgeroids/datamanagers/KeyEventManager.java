@@ -1,22 +1,19 @@
-package de.games.engine.datamanagers;
+package de.games.dodgeroids.datamanagers;
 
 import android.view.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
-public class KeyInputManager extends Thread {
+public class KeyEventManager extends Thread {
     private static final int THREAD_WAIT_TIME = 30;
     private final Stack<KeyEvent> eventsBuffer = new Stack<>();
-    private final List<KeyEventListener> listeners = new ArrayList<>();
     private final KeyEvent[] keysCache = new KeyEvent[210];
-    private static KeyInputManager instance = new KeyInputManager();
+    private static KeyEventManager instance = new KeyEventManager();
 
-    private KeyInputManager() {
+    private KeyEventManager() {
         start();
     }
 
-    public static KeyInputManager getInstance() {
+    public static KeyEventManager getInstance() {
         return instance;
     }
 
@@ -40,19 +37,9 @@ public class KeyInputManager extends Thread {
                             if (keysCache[event.getKeyCode()] == null) {
                                 keysCache[event.getKeyCode()] = event;
                             }
-                            synchronized (listeners) {
-                                for (KeyEventListener listener : listeners) {
-                                    listener.keyPressed(event);
-                                }
-                            }
                             break;
                         case (KeyEvent.ACTION_UP):
                             keysCache[event.getKeyCode()] = null;
-                            synchronized (listeners) {
-                                for (KeyEventListener listener : listeners) {
-                                    listener.keyReleased(event);
-                                }
-                            }
                             break;
                         default:
                             break;
@@ -60,16 +47,6 @@ public class KeyInputManager extends Thread {
                 }
                 eventsBuffer.clear();
             }
-            for (KeyEvent event : keysCache) {
-                if (event != null) {
-                    synchronized (listeners) {
-                        for (KeyEventListener listener : listeners) {
-                            listener.keyHeld(event);
-                        }
-                    }
-                }
-            }
-
             try {
                 Thread.sleep(THREAD_WAIT_TIME);
             } catch (InterruptedException ex) {

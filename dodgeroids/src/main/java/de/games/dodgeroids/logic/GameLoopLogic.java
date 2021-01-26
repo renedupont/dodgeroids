@@ -3,48 +3,41 @@ package de.games.dodgeroids.logic;
 import de.games.dodgeroids.R;
 import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
 import de.games.dodgeroids.datamanagers.DodgeroidsSettingsManager;
-import de.games.engine.AbstractGameActivity;
-import de.games.engine.datamanagers.Scene;
-import de.games.engine.datamanagers.SoundManager;
+import de.games.dodgeroids.datamanagers.SoundManager;
+import de.games.dodgeroids.objects.Asteroid;
+import de.games.dodgeroids.objects.Player;
+import de.games.engine.graphics.AbstractBound;
 import de.games.engine.graphics.AbstractBound.DetectionMethod;
 import de.games.engine.graphics.Sprite;
 import de.games.engine.graphics.Vector;
-import de.games.engine.levels.AbstractLevelFactory;
-import de.games.engine.logic.AbstractGameLogic;
 import de.games.engine.objects.AbstractGameObject;
-import de.games.engine.objects.Asteroid;
 import de.games.engine.objects.GameObjectChain;
-import de.games.engine.objects.Player;
+import de.games.engine.scenes.Scene;
 
-public class GameLoopLogic extends AbstractGameLogic {
+public class GameLoopLogic {
 
-    /** control flags * */
-    private boolean isPaused = true;
+    private Scene scene;
 
-    private boolean isDownPressed = false;
-
-    /** quick references * */
-    private final GameObjectChain<Asteroid> asteroidBelt;
-
-    private final Player player;
-    private final Sprite explosion;
-    private final int flipVal;
+    private GameObjectChain<Asteroid> asteroidBelt;
+    private Player player;
+    private Sprite explosion;
+    private int flipVal;
     private float maxLevelHeight;
 
+    private boolean isPaused = true;
+    private boolean isDownPressed = false;
+
     @SuppressWarnings("unchecked")
-    public GameLoopLogic(
-            final Scene scene,
-            final AbstractLevelFactory levelFactory, String explosionLabel) {
-        super( scene, levelFactory);
+    public GameLoopLogic(Scene scene, float maxLevelHeight, Player player, String explosionLabel) {
+        this.scene = scene;
         this.flipVal = DodgeroidsSettingsManager.getInstance().isControlFlipped() ? -1 : 1;
-        this.maxLevelHeight = levelFactory.getMaxHeight();
-        this.player = scene.getPlayer();
+        this.maxLevelHeight = maxLevelHeight;
+        this.player = player;
         this.explosion = scene.getSprite(explosionLabel);
         this.asteroidBelt =
                 (GameObjectChain<Asteroid>) scene.getGameObjectChains().get("asteroids");
     }
 
-    @Override
     public void update(final float deltaTime) {
         if (!isPaused) {
             movePlayer(deltaTime); // TODO noch in engine ne alternativ methode anbieten
@@ -53,24 +46,35 @@ public class GameLoopLogic extends AbstractGameLogic {
         }
     }
 
-    @Override
     public boolean isPaused() {
         return isPaused;
     }
 
-    @Override
     public void setPaused(final boolean isPaused) {
         this.isPaused = isPaused;
     }
 
-    @Override
     public void storeSaveGame() {
         DodgeroidsSaveGame.getInstance().storeSaveGame(player);
     }
 
-    @Override
     public boolean isGameDone() {
         return player.lives == 0 && !explosion.isPlaying;
+    }
+
+    public boolean isCollidingWith(
+            final AbstractGameObject obj1,
+            final AbstractBound.DetectionMethod type1,
+            final AbstractGameObject obj2,
+            final AbstractBound.DetectionMethod type2) {
+        for (AbstractBound bound1 : obj1.getBounds()) {
+            for (AbstractBound bound2 : obj2.getBounds()) {
+                if (bound1.isCollidingWith(obj1, type1, obj2, type2, bound2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void collisionHandling(final float delta) {
@@ -100,8 +104,13 @@ public class GameLoopLogic extends AbstractGameLogic {
         }
     }
 
-    @Override
-    protected void movePlayer(float delta) {
+    public void setDownPressed(final boolean isDownPressed) {
+        this.isDownPressed = isDownPressed;
+    }
+
+    public void dispose() {}
+
+    private void movePlayer(float delta) {
         float yChange = (isDownPressed ? -0.3f : 0.3f) * flipVal;
         moveY(player, delta, yChange * player.scale2dMovement);
         Vector pos = player.getPos();
@@ -115,9 +124,5 @@ public class GameLoopLogic extends AbstractGameLogic {
 
     private void moveY(final AbstractGameObject o, final float delta, final float yChange) {
         o.getPos().y += (delta * o.getVelocity().y * yChange);
-    }
-
-    public void setDownPressed(final boolean isDownPressed) {
-        this.isDownPressed = isDownPressed;
     }
 }

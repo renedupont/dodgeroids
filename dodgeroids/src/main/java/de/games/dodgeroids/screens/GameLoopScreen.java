@@ -3,33 +3,30 @@ package de.games.dodgeroids.screens;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-
 import de.games.dodgeroids.DodgeroidsActivity;
 import de.games.dodgeroids.R;
 import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
+import de.games.dodgeroids.datamanagers.SoundManager;
 import de.games.dodgeroids.levels.SpaceLevelFactory;
 import de.games.dodgeroids.logic.GameLoopLogic;
-import de.games.engine.AbstractGameActivity;
-import de.games.engine.datamanagers.Scene;
-import de.games.engine.datamanagers.SoundManager;
+import de.games.dodgeroids.objects.Player;
+import de.games.engine.graphics.Camera;
 import de.games.engine.graphics.Color;
 import de.games.engine.graphics.Font.Text;
 import de.games.engine.graphics.GameRenderer;
-import de.games.engine.levels.AbstractLevelFactory;
-import de.games.engine.logic.AbstractGameLogic;
-import de.games.engine.objects.Player;
-import de.games.engine.screens.IGameScreen;
-
+import de.games.engine.graphics.Vector;
+import de.games.engine.scenes.Scene;
+import java.util.LinkedList;
 import javax.microedition.khronos.opengles.GL11;
 
 public final class GameLoopScreen implements IGameScreen {
 
     /* class elements */
     private final DodgeroidsActivity activity;
-    private final AbstractLevelFactory levelFactory;
+    private final SpaceLevelFactory levelFactory;
     private final Scene scene;
     private final GameRenderer renderer;
-    private final AbstractGameLogic logic;
+    private final GameLoopLogic logic;
 
     /* quick references */
     private final Player player;
@@ -44,11 +41,33 @@ public final class GameLoopScreen implements IGameScreen {
     public GameLoopScreen(
             final DodgeroidsActivity activity, final GL11 gl, final String levelName) {
         this.activity = activity;
+        GameLoopFactory screen = new GameLoopFactory();
+        Camera camera =
+                screen.createCamera(activity.getViewportWidth(), activity.getViewportHeight());
         this.levelFactory = new SpaceLevelFactory();
-        this.scene = new Scene(activity,gl, new GameLoopFactory(), levelFactory, activity.getResources(), activity.getCacheDir(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
-        this.renderer = new GameRenderer(gl,  scene);
+        levelFactory.loadResources(
+                gl, activity.getResources(), activity.getCacheDir(), activity.getAssets());
+        this.scene =
+                new Scene(
+                        screen.createTexts(activity, gl),
+                        screen.createSprites(activity, gl),
+                        screen.createBackground(
+                                activity.getAssets(), gl, screen.getDefaultBackgroundTextureId()),
+                        levelFactory.createLights(),
+                        camera,
+                        new LinkedList<>(),
+                        levelFactory.createGameObjectChains(
+                                new Vector(0.0f, 0.0f, camera.getzFar() - camera.getzNear())));
+        this.player = levelFactory.createPlayer(new Vector(0f, 0f, -3.85f));
+        this.scene.addGameObject(player);
+        this.renderer = new GameRenderer(gl, scene);
         renderer.setAmbientColor(new Color(0.5f, 0.5f, 0.5f, 1.0f));
-        this.logic = new GameLoopLogic(scene, levelFactory, activity.getString(R.string.label_explosion));
+        this.logic =
+                new GameLoopLogic(
+                        scene,
+                        levelFactory.getMaxHeight(),
+                        player,
+                        activity.getString(R.string.label_explosion));
 
         SoundManager.getInstance().prepareMusic(R.raw.loop1);
         activity.getGLSurfaceView().setOnTouchListener(this);
@@ -56,7 +75,6 @@ public final class GameLoopScreen implements IGameScreen {
         this.text_stats = scene.getText(activity.getString(R.string.label_stats));
         this.immortalCounter = scene.getText(activity.getString(R.string.label_immortalCounter));
         this.text_pause = scene.getText(activity.getString(R.string.label_pause));
-        this.player = scene.getPlayer();
 
         // load savegame
         if (DodgeroidsSaveGame.getInstance().isResumable()) {
@@ -165,7 +183,7 @@ public final class GameLoopScreen implements IGameScreen {
         SoundManager.getInstance().resetMusic();
     }
 
-    public AbstractGameLogic getLogic() {
+    public GameLoopLogic getLogic() {
         return logic;
     }
 }

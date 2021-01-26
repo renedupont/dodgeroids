@@ -1,21 +1,17 @@
-package de.games.engine.screens;
+package de.games.dodgeroids.screens;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import java.util.HashMap;
-
-import javax.microedition.khronos.opengles.GL11;
-
-import de.games.engine.AbstractGameActivity;
 import de.games.engine.graphics.Background;
 import de.games.engine.graphics.Camera;
 import de.games.engine.graphics.Font;
 import de.games.engine.graphics.Mesh;
 import de.games.engine.graphics.Sprite;
 import de.games.engine.graphics.Texture;
+import java.util.HashMap;
+import javax.microedition.khronos.opengles.GL11;
 
 public abstract class AbstractScreenFactory {
 
@@ -23,25 +19,21 @@ public abstract class AbstractScreenFactory {
 
     public abstract Camera createCamera(int frustumWidth, int frustumHeight);
 
-
-    public HashMap<String, Font.Text> createTexts(
-            final Activity activity, final GL11 gl) {
+    public HashMap<String, Font.Text> createTexts(Activity activity, GL11 gl) {
         return new HashMap<>();
     }
 
-    public HashMap<String, Sprite> createSprites(
-            final Activity activity, final GL11 gl) {
+    public HashMap<String, Sprite> createSprites(Activity activity, GL11 gl) {
         return new HashMap<>();
     }
 
     protected abstract String getDefaultBackgroundTextureId();
 
-    public Background createDefaultBackground(final AssetManager assetManager, final GL11 gl) {
+    public Background createDefaultBackground(AssetManager assetManager, GL11 gl) {
         return createBackground(assetManager, gl, getDefaultBackgroundTextureId());
     }
 
-   public Background createBackground(
-            final AssetManager assetManager, final GL11 gl, final String textureId) {
+    public Background createBackground(AssetManager assetManager, GL11 gl, String textureId) {
         if (textureId != null) {
             Mesh mesh = new Mesh(gl, 4, false, true, false);
             mesh.texCoord(0, 0);

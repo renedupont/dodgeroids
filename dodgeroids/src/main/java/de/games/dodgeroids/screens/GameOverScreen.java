@@ -1,31 +1,32 @@
 package de.games.dodgeroids.screens;
 
-import android.content.res.AssetManager;
 import android.view.MotionEvent;
 import android.view.View;
-
 import de.games.dodgeroids.DodgeroidsActivity;
-import de.games.engine.AbstractGameActivity;
-import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.GameRenderer;
-import de.games.engine.screens.IGameScreen;
+import de.games.engine.scenes.Scene;
 import javax.microedition.khronos.opengles.GL11;
 
 public final class GameOverScreen implements IGameScreen {
 
-    /** class elements * */
-    private final DodgeroidsActivity activity;
+    private DodgeroidsActivity activity;
+    private Scene scene;
+    private GameRenderer renderer;
 
-    private final Scene scene;
-    private final GameRenderer renderer;
-
-    /** control flags * */
     private boolean isDone = false;
 
-    public GameOverScreen(final DodgeroidsActivity activity, final GL11 gl) {
+    public GameOverScreen(DodgeroidsActivity activity, GL11 gl) {
         this.activity = activity;
-        this.scene = new Scene(activity, gl, new GameOverFactory(), activity.getAssets(), activity.getViewportWidth(), activity.getViewportHeight());
-        this.renderer = new GameRenderer(gl,  scene);
+        GameOverFactory screen = new GameOverFactory();
+        this.scene =
+                new Scene(
+                        screen.createTexts(activity, gl),
+                        screen.createSprites(activity, gl),
+                        screen.createBackground(
+                                activity.getAssets(), gl, screen.getDefaultBackgroundTextureId()),
+                        screen.createCamera(
+                                activity.getViewportWidth(), activity.getViewportHeight()));
+        this.renderer = new GameRenderer(gl, scene);
         activity.getGLSurfaceView().setOnTouchListener(this);
     }
 
@@ -43,7 +44,7 @@ public final class GameOverScreen implements IGameScreen {
     public void update(final float deltaTime) {}
 
     @Override
-    public boolean onTouch(final View v, final MotionEvent event) {
+    public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             isDone = true;
         }
@@ -56,7 +57,7 @@ public final class GameOverScreen implements IGameScreen {
     }
 
     @Override
-    public IGameScreen switchScreen(final GL11 gl) {
+    public IGameScreen switchScreen(GL11 gl) {
         return (new StartScreen(activity, gl));
     }
 

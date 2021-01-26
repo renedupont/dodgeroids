@@ -3,9 +3,8 @@ package de.games.dodgeroids.datamanagers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import de.games.engine.datamanagers.ISettingsManager;
 
-public class DodgeroidsSettingsManager implements ISettingsManager {
+public class DodgeroidsSettingsManager {
 
     private final Activity activity;
 

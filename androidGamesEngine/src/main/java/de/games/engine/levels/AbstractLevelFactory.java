@@ -4,24 +4,12 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.microedition.khronos.opengles.GL11;
-
 import de.games.engine.box.format.BoxFormat.Identifier;
 import de.games.engine.box.format.chunk.BoxMeshBound;
 import de.games.engine.box.format.chunk.BoxMeshDodgeIt;
 import de.games.engine.box.primitive.BoxBlock;
 import de.games.engine.box.primitive.BoxFile;
 import de.games.engine.box.primitive.BoxFileReader;
-import de.games.engine.datamanagers.Scene;
 import de.games.engine.graphics.BoxBound;
 import de.games.engine.graphics.Light;
 import de.games.engine.graphics.Mesh;
@@ -30,20 +18,27 @@ import de.games.engine.graphics.Texture;
 import de.games.engine.graphics.Vector;
 import de.games.engine.objects.AbstractGameObject;
 import de.games.engine.objects.GameObjectChain;
-import de.games.engine.objects.Player;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import javax.microedition.khronos.opengles.GL11;
 
 public abstract class AbstractLevelFactory {
 
-    private BoxFile data;
-    private BoxFileReader fileReader;
-    protected final HashMap<String, Mesh> meshes;
-    protected final HashMap<String, Texture> textures;
-    private final HashMap<String, Bitmap> bitmapCache;
+    protected BoxFile data;
+    protected BoxFileReader fileReader;
+    protected HashMap<String, Mesh> meshes;
+    protected HashMap<String, Texture> textures;
+    protected HashMap<String, Bitmap> bitmapCache;
 
     public AbstractLevelFactory() {
         this.meshes = new HashMap<>();
         this.textures = new HashMap<>();
-        bitmapCache = new HashMap<>();
+        this.bitmapCache = new HashMap<>();
     }
 
     protected abstract int getBoxId();
@@ -56,18 +51,8 @@ public abstract class AbstractLevelFactory {
 
     public abstract List<Light> createLights();
 
-    public abstract <T extends AbstractGameObject> T createGameObject(
-            Class<?> type, Vector startPosition);
-
-    public abstract Player createPlayer(Vector startPosition);
-
-    protected abstract AbstractGameObject createAsteroid(Vector startPosition);
-
-    public abstract <T extends AbstractGameObject> GameObjectChain<T> createGameObjectChain(
-            Class<T> type, Scene scene, Vector range, float minRadius);
-
     public abstract HashMap<String, GameObjectChain<? extends AbstractGameObject>>
-            createGameObjectChains(Scene scene, Vector range);
+            createGameObjectChains(Vector range);
 
     protected void setRandomY(
             final Vector startPosition, final float objectRadius, final float maxRadius) {
@@ -173,7 +158,8 @@ public abstract class AbstractLevelFactory {
         }
     }
 
-    public void loadResources( GL11 gl, Resources resources, File cacheDir, AssetManager assetManager) {
+    public void loadResources(
+            GL11 gl, Resources resources, File cacheDir, AssetManager assetManager) {
         File cacheFile = new File(cacheDir, "tmp.box");
 
         try {

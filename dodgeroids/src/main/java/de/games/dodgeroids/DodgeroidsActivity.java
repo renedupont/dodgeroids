@@ -10,13 +10,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import de.games.dodgeroids.datamanagers.DodgeroidsSaveGame;
 import de.games.dodgeroids.datamanagers.DodgeroidsSettingsManager;
+import de.games.dodgeroids.datamanagers.KeyEventManager;
+import de.games.dodgeroids.datamanagers.SoundManager;
 import de.games.dodgeroids.screens.GameLoopScreen;
+import de.games.dodgeroids.screens.IGameScreen;
 import de.games.dodgeroids.screens.StartScreen;
-import de.games.engine.AbstractGameActivity;
-import de.games.engine.datamanagers.KeyInputManager;
-import de.games.engine.datamanagers.SoundManager;
 import de.games.engine.graphics.Mesh;
-import de.games.engine.screens.IGameScreen;
 import java.util.Locale;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -99,7 +98,7 @@ public class DodgeroidsActivity extends Activity implements GLSurfaceView.Render
         super.onDestroy();
         Log.d("Dodgeroids", "onDestroy start");
         SoundManager.getInstance().dispose();
-        KeyInputManager.getInstance().dispose();
+        KeyEventManager.getInstance().dispose();
         Log.d("Dodgeroids", "onDestroy end");
     }
 
@@ -160,7 +159,7 @@ public class DodgeroidsActivity extends Activity implements GLSurfaceView.Render
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event) {
         boolean status = super.dispatchKeyEvent(event);
-        KeyInputManager.getInstance().registerKeyEvent(event);
+        KeyEventManager.getInstance().registerKeyEvent(event);
         return status;
     }
 }

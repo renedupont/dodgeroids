@@ -1,8 +1,9 @@
 package de.games.engine.graphics;
 
 public class BoxBound extends AbstractBound {
-    private final Vector min; // nicht verwenden, nur getMin();
-    private final Vector max; // nicht verwenden, nur getMax();
+
+    private Vector min;
+    private Vector max;
 
     public BoxBound(final Vector min, final Vector max, final Vector offset, final Mesh mesh) {
         super(offset, mesh);
