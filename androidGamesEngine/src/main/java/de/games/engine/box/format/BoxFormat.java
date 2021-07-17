@@ -1,11 +1,9 @@
 package de.games.engine.box.format;
 
-import de.games.engine.box.primitive.BoxVersion;
-
 public class BoxFormat {
     public enum Identifier {
         MESH(0),
-        MESHDODGEIT(1);
+        MESH_DODGEROIDS(1);
 
         private final int flag;
 
@@ -30,7 +28,6 @@ public class BoxFormat {
         }
     }
 
-    public static final byte[] MAGIC_BYTES = new byte[] {61, 66, 79, /* 31 */ 88};
-    public static final BoxVersion CURRENT_VERSION = new BoxVersion((short) 0, (short) /* 33 */ 1);
+    public static final byte[] MAGIC_BYTES = new byte[] {61, 66, 79, 88};
     public static String ENCODING = "UTF-8";
 }

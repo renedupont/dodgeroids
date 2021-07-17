@@ -17,14 +17,6 @@ public class Background {
         backgroundMesh.render(RenderType.TRIANGLE_FAN);
     }
 
-    public Mesh getBackgroundMesh() {
-        return backgroundMesh;
-    }
-
-    public Texture getBackgroundTexture() {
-        return backgroundTexture;
-    }
-
     public void dispose() {
         backgroundMesh.dispose();
         backgroundTexture.dispose();

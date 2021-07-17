@@ -21,7 +21,7 @@ public class BoxMeshBoundWriter extends BoxChunkWriter {
                 raw[++offset] = ByteConversion.floatArrayToBytes(bound.getMaxValues());
                 break;
         }
-        BoxMeshDodgeItWriter meshWriter = new BoxMeshDodgeItWriter(bound.getMesh());
+        BoxMeshDodgeroidsWriter meshWriter = new BoxMeshDodgeroidsWriter(bound.getMesh());
         raw[++offset] = meshWriter.getRawBytes();
         setRawBytes(concat(raw));
     }

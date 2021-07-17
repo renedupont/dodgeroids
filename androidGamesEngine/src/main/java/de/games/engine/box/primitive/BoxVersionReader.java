@@ -7,7 +7,6 @@ public class BoxVersionReader {
     public BoxVersion read(BinaryReader reader) throws IOException {
         short major = reader.readShort();
         short minor = reader.readShort();
-        BoxVersion version = new BoxVersion(major, minor);
-        return version;
+        return new BoxVersion(major, minor);
     }
 }

@@ -2,7 +2,7 @@ package de.games.engine.box.primitive;
 
 import de.games.engine.box.format.BoxChunkInterface;
 import de.games.engine.box.format.BoxFormat;
-import de.games.engine.box.format.chunk.BoxMeshDodgeItReader;
+import de.games.engine.box.format.chunk.BoxMeshDodgeroidsReader;
 import de.games.engine.box.format.chunk.BoxMeshReader;
 import de.games.engine.box.io.BinaryReader;
 import de.games.engine.box.io.ByteConversion;
@@ -68,7 +68,7 @@ public class BoxFileReader {
 
     public BoxChunkInterface readChunk(BoxBlock block) throws IOException {
         BoxMeshReader mr;
-        BoxMeshDodgeItReader mrd;
+        BoxMeshDodgeroidsReader mrd;
         if (block == null) {
             return null;
         }
@@ -89,8 +89,8 @@ public class BoxFileReader {
                 mr = new BoxMeshReader();
                 block.setChunk((BoxChunkInterface) mr.read(this.reader));
                 return block.getChunk();
-            case MESHDODGEIT:
-                mrd = new BoxMeshDodgeItReader();
+            case MESH_DODGEROIDS:
+                mrd = new BoxMeshDodgeroidsReader();
                 block.setChunk((BoxChunkInterface) mrd.read(this.reader));
                 return block.getChunk();
         }

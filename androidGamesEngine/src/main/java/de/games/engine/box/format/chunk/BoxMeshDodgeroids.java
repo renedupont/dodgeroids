@@ -1,15 +1,16 @@
 package de.games.engine.box.format.chunk;
 
 import de.games.engine.box.format.BoxChunkInterface;
-import de.games.engine.box.format.chunk.meshDodgeItStuff.Material;
+import de.games.engine.box.format.chunk.meshDodgeroidsStuff.Material;
 import de.games.engine.box.primitive.BoxString;
 import java.util.ArrayList;
 
-public class BoxMeshDodgeIt implements BoxChunkInterface {
+public class BoxMeshDodgeroids implements BoxChunkInterface {
+
     protected float[] faces;
     protected float[] normals;
     protected float[] uvs;
-    protected final ArrayList<BoxMeshBound> bounds = new ArrayList<BoxMeshBound>();
+    protected final ArrayList<BoxMeshBound> bounds = new ArrayList<>();
 
     protected boolean hasMaterial = false;
 
@@ -25,11 +26,11 @@ public class BoxMeshDodgeIt implements BoxChunkInterface {
 
     protected Material mat;
 
-    public BoxMeshDodgeIt(float[] faces, float[] normals, float[] uvs) {
+    public BoxMeshDodgeroids(float[] faces, float[] normals, float[] uvs) {
         this(faces, normals, uvs, null);
     }
 
-    public BoxMeshDodgeIt(float[] faces, float[] normals, float[] uvs, Material mat) {
+    public BoxMeshDodgeroids(float[] faces, float[] normals, float[] uvs, Material mat) {
         this.faces = faces;
         this.normals = normals;
         this.uvs = uvs;
@@ -70,10 +71,6 @@ public class BoxMeshDodgeIt implements BoxChunkInterface {
         return this.normals;
     }
 
-    public void setNormals(float[] normals) {
-        this.normals = normals;
-    }
-
     public float[] getUvs() {
         return this.uvs;
     }
@@ -84,10 +81,6 @@ public class BoxMeshDodgeIt implements BoxChunkInterface {
 
     public boolean hasMaterial() {
         return this.hasMaterial;
-    }
-
-    public void setHasMaterial(boolean hasMaterial) {
-        this.hasMaterial = hasMaterial;
     }
 
     public BoxString getId() {
@@ -102,10 +95,6 @@ public class BoxMeshDodgeIt implements BoxChunkInterface {
         return this.ambient;
     }
 
-    public void setAmbient(float[] ambient) {
-        this.ambient = ambient;
-    }
-
     public float[] getDiffuse() {
         return this.diffuse;
     }
@@ -118,39 +107,15 @@ public class BoxMeshDodgeIt implements BoxChunkInterface {
         return this.specular;
     }
 
-    public void setSpecular(float[] specular) {
-        this.specular = specular;
-    }
-
     public float[] getEmissive() {
         return this.emissive;
-    }
-
-    public void setEmissive(float[] emissive) {
-        this.emissive = emissive;
     }
 
     public float getShininess() {
         return this.shininess;
     }
 
-    public void setShininess(float shininess) {
-        this.shininess = shininess;
-    }
-
     public float getOpacity() {
         return this.opacity;
-    }
-
-    public void setOpacity(float opacity) {
-        this.opacity = opacity;
-    }
-
-    public Material getMat() {
-        return this.mat;
-    }
-
-    public void setMat(Material mat) {
-        this.mat = mat;
     }
 }

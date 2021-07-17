@@ -1,6 +1,5 @@
 package de.games.engine.box.primitive;
 
-import de.games.engine.box.format.BoxChunkInterface;
 import java.util.ArrayList;
 
 public class BoxFile {
@@ -9,13 +8,7 @@ public class BoxFile {
 
     public BoxFile(BoxVersion version) {
         this.version = version;
-        this.blocks = new ArrayList<BoxBlock>();
-    }
-
-    public void addBlock(BoxChunkHeader header, BoxChunkInterface boxChunk) {
-        BoxBlock block = new BoxBlock(header);
-        block.setChunk(boxChunk);
-        this.blocks.add(block);
+        this.blocks = new ArrayList<>();
     }
 
     public void addBlock(BoxBlock block) {
@@ -40,7 +33,7 @@ public class BoxFile {
     }
 
     public ArrayList<BoxChunkHeader> getHeaders() {
-        ArrayList<BoxChunkHeader> l = new ArrayList<BoxChunkHeader>();
+        ArrayList<BoxChunkHeader> l = new ArrayList<>();
         for (BoxBlock block : this.blocks) {
             l.add(block.getHeader());
         }
@@ -54,44 +47,6 @@ public class BoxFile {
             }
         }
         return null;
-    }
-
-    public BoxChunkHeader findBySignature(BoxString signature) {
-        for (BoxChunkHeader header : getHeaders()) {
-            if (header.getSignature().equals(signature)) {
-                return header;
-            }
-        }
-        return null;
-    }
-
-    public ArrayList<BoxChunkHeader> findBySignatureMulti(BoxString signature) {
-        ArrayList<BoxChunkHeader> l = new ArrayList<BoxChunkHeader>();
-        for (BoxChunkHeader header : getHeaders()) {
-            if (header.getSignature().equals(signature)) {
-                l.add(header);
-            }
-        }
-        return l;
-    }
-
-    public BoxChunkHeader findByVersion(BoxVersion version) {
-        for (BoxChunkHeader header : getHeaders()) {
-            if (header.getVersion().equals(version)) {
-                return header;
-            }
-        }
-        return null;
-    }
-
-    public ArrayList<BoxChunkHeader> findByVersionMulti(BoxVersion version) {
-        ArrayList<BoxChunkHeader> l = new ArrayList<BoxChunkHeader>();
-        for (BoxChunkHeader header : getHeaders()) {
-            if (header.getVersion().equals(version)) {
-                l.add(header);
-            }
-        }
-        return l;
     }
 
     public BoxVersion getVersion() {

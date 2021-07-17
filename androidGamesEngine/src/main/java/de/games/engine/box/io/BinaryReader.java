@@ -30,18 +30,6 @@ public class BinaryReader {
         return value[0];
     }
 
-    public byte[] readByte(int arraySize) throws IOException {
-        byte[] value = new byte[arraySize];
-        this.input.read(value);
-        return value;
-    }
-
-    public char readChar() throws IOException {
-        byte[] data = new byte[2];
-        this.input.read(data);
-        return ByteConversion.charFromBytes(data);
-    }
-
     public char[] readChar(int arraySize) throws IOException {
         byte[] data = new byte[2 * arraySize];
         this.input.read(data);
@@ -66,24 +54,6 @@ public class BinaryReader {
         return ByteConversion.intFromBytes(data);
     }
 
-    public int[] readInt(int arraySize) throws IOException {
-        byte[] data = new byte[4 * arraySize];
-        this.input.read(data);
-        return ByteConversion.intArrayFromBytes(data);
-    }
-
-    public long readLong() throws IOException {
-        byte[] data = new byte[8];
-        this.input.read(data);
-        return ByteConversion.longFromBytes(data);
-    }
-
-    public long[] readLong(int arraySize) throws IOException {
-        byte[] data = new byte[8 * arraySize];
-        this.input.read(data);
-        return ByteConversion.longArrayFromBytes(data);
-    }
-
     public float readFloat() throws IOException {
         byte[] value = new byte[4];
         this.input.read(value);
@@ -94,17 +64,5 @@ public class BinaryReader {
         byte[] value = new byte[4 * arraySize];
         this.input.read(value);
         return ByteConversion.floatArrayFromBytes(value);
-    }
-
-    public double readDouble() throws IOException {
-        byte[] value = new byte[8];
-        this.input.read(value);
-        return ByteConversion.doubleFromBytes(value);
-    }
-
-    public double[] readDouble(int arraySize) throws IOException {
-        byte[] value = new byte[8 * arraySize];
-        this.input.read(value);
-        return ByteConversion.doubleArrayFromBytes(value);
     }
 }

@@ -28,8 +28,8 @@ public class BoxMeshBoundReader {
                 theShape = BoxMeshBound.Shape.Circle;
                 break;
         }
-        BoxMeshDodgeItReader meshReader = new BoxMeshDodgeItReader();
-        BoxMeshDodgeIt mesh = meshReader.read(reader);
+        BoxMeshDodgeroidsReader meshReader = new BoxMeshDodgeroidsReader();
+        BoxMeshDodgeroids mesh = meshReader.read(reader);
         BoxMeshBound bound = new BoxMeshBound(identifier, theShape, mesh);
         switch (theShape) {
             case Circle:

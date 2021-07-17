@@ -6,22 +6,14 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 public class Texture {
-    /**
-     * Texture filter enum featuring the 3 most used filters
-     *
-     * @author mzechner
-     */
+    /** Texture filter enum featuring the 3 most used filters */
     public enum TextureFilter {
         Nearest,
         Linear,
         MipMap
     }
 
-    /**
-     * Texture wrap enum
-     *
-     * @author mzechner
-     */
+    /** Texture wrap enum */
     public enum TextureWrap {
         ClampToEdge,
         Wrap

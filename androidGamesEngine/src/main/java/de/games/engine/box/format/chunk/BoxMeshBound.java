@@ -8,14 +8,14 @@ public class BoxMeshBound {
     protected float[] minValues;
     protected float[] maxValues;
     protected float radius;
-    protected BoxMeshDodgeIt mesh;
+    protected BoxMeshDodgeroids mesh;
 
     public enum Shape {
         Circle,
         Cube;
     }
 
-    public BoxMeshBound(BoxString identifier, Shape shape, BoxMeshDodgeIt mesh) {
+    public BoxMeshBound(BoxString identifier, Shape shape, BoxMeshDodgeroids mesh) {
         float x, y, z, a, b, c;
         int i;
         this.minValues = new float[3];
@@ -95,11 +95,11 @@ public class BoxMeshBound {
         this.radius = radius;
     }
 
-    public BoxMeshDodgeIt getMesh() {
+    public BoxMeshDodgeroids getMesh() {
         return this.mesh;
     }
 
-    public void setMesh(BoxMeshDodgeIt mesh) {
+    public void setMesh(BoxMeshDodgeroids mesh) {
         this.mesh = mesh;
     }
 

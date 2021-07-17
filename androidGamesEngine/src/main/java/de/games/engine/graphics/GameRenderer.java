@@ -146,10 +146,8 @@ public class GameRenderer {
     }
 
     public void renderBackgroundPass(GL11 gl) {}
-    ;
 
     public void renderMainPass(GL11 gl) {}
-    ;
 
     public void renderUIPass(GL11 gl) {}
 

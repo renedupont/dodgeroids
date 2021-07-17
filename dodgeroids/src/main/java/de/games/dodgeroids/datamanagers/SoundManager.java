@@ -9,7 +9,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.SparseIntArray;
 
-// To use this class, there needs to be an array called 'sounds' created in array.xml mit links to
+// To use this class, there needs to be an array called 'sounds' created in array.xml with links to
 // the sound resources
 public class SoundManager {
 

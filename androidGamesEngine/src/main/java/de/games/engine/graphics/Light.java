@@ -3,20 +3,15 @@ package de.games.engine.graphics;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-public class Light { //
+public class Light {
+
     public enum Id {
-        ZERO(GL11.GL_LIGHT0),
         ONE(GL11.GL_LIGHT1),
-        TWO(GL11.GL_LIGHT2),
-        THREE(GL11.GL_LIGHT3),
-        FOUR(GL11.GL_LIGHT4),
-        FIVE(GL11.GL_LIGHT5),
-        SIX(GL11.GL_LIGHT6),
-        SEVEN(GL11.GL_LIGHT7);
+        THREE(GL11.GL_LIGHT3);
 
         private final int flag;
 
-        private Id(final int f) {
+        Id(final int f) {
             this.flag = f;
         }
 
@@ -70,17 +65,6 @@ public class Light { //
 
     public void setSpecular(final Color specular) {
         this.specular = specular;
-    }
-
-    public void setCutoff(final float cutoff) {
-        if (cutoff > 180 || cutoff < 0) {
-            throw new IllegalArgumentException("cutoff has to be between 0 and 180");
-        }
-        this.cutoff = cutoff;
-    }
-
-    public void setExponent(final float exponent) {
-        this.exponent = exponent;
     }
 
     public void render(final GL11 gl) {

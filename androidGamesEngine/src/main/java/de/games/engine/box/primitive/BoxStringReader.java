@@ -9,8 +9,7 @@ public class BoxStringReader {
 
     public BoxString read(BinaryReader reader) throws IOException {
         int length = reader.readShort();
-        char[] data = new char[length];
-        data = reader.readChar(length);
+        char[] data = reader.readChar(length);
         return new BoxString(new String(data));
     }
 }

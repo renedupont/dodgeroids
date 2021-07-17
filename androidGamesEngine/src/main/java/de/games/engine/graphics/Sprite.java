@@ -114,8 +114,7 @@ public class Sprite {
 
     public void render(final GL11 gl) {
         /********
-         * TEMP ***************************************** FIXME: GAAAAAAANZ
-         * DRECKIG HIER * TODO: es wird die gesamte sequenz einmal offscreen
+         * FIXME: es wird die gesamte sequenz einmal offscreen
          * gerendert * XXX: damit es sp�ter nichtmehr flackert *
          ****************************************************************/
         if (firstIteration) {
@@ -130,7 +129,7 @@ public class Sprite {
             position = oldPos.clone();
             firstIteration = false;
         }
-        /******** TEMP ENDE ************/
+        /******** FIXME ENDE ************/
 
         if (isPlaying) {
             texture.bind();

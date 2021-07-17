@@ -4,13 +4,12 @@ import de.games.engine.box.format.BoxWriterInterface;
 import de.games.engine.box.io.BinaryWriter;
 import de.games.engine.box.io.ByteConversion;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class BoxStringWriter implements BoxWriterInterface {
     protected short length;
     protected char[] data;
 
-    public BoxStringWriter(BoxString string) throws UnsupportedEncodingException {
+    public BoxStringWriter(BoxString string) {
         this.data = string.getString().toCharArray();
         this.length = (short) this.data.length;
     }

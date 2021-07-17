@@ -55,14 +55,14 @@ public abstract class AbstractBound {
             final SphereBound sphereBound,
             final Node boxNode,
             final BoxBound boxBound) {
-        return false; // TODO: implementieren
+        return false; // TODO: implement
     }
 
     private float squared(final float v) {
         return v * v;
     }
 
-    /** TODO: ungetestet * */
+    /** TODO: untested */
     protected boolean isSphereOutsideCube(
             final Node sphereNode,
             final SphereBound sphereBound,

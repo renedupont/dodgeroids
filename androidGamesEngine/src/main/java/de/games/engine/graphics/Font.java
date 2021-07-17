@@ -25,20 +25,9 @@ public class Font {
             width = 0;
             height = 0;
         }
-
-        public Rectangle(final float x, final float y, final float width, final float height) {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-        }
     }
 
-    /**
-     * A FontStyle defines the style of a font
-     *
-     * @author mzechner
-     */
+    /** A FontStyle defines the style of a font */
     public enum FontStyle {
         Plain,
         Bold,
@@ -57,7 +46,7 @@ public class Font {
 
         private int intVal;
 
-        private SizeType(final int intVal) {
+        SizeType(final int intVal) {
             this.intVal = intVal;
         }
 
@@ -67,7 +56,7 @@ public class Font {
     }
 
     /** glyph hashmap * */
-    private final HashMap<Character, Glyph> glyphs = new HashMap<Character, Glyph>();
+    private final HashMap<Character, Glyph> glyphs = new HashMap<>();
     /** current position in glyph texture to write the next glyph to * */
     private int glyphX = 0;
 
@@ -77,31 +66,6 @@ public class Font {
     private final int fontColor;
     private final FontMetrics metrics;
     private final Texture texture;
-
-    public Font(
-            final GL11 gl,
-            final String fontName,
-            final SizeType sizeType,
-            final int screenWidth,
-            final FontStyle style,
-            final int fontColor) {
-        this.texture =
-                new Texture(
-                        gl,
-                        512,
-                        512,
-                        Texture.TextureFilter.Nearest,
-                        Texture.TextureFilter.Nearest,
-                        Texture.TextureWrap.ClampToEdge,
-                        Texture.TextureWrap.ClampToEdge);
-        font = Typeface.create(fontName, getFontStyle(style));
-        paint = new Paint();
-        paint.setTypeface(font);
-        paint.setTextSize(getFontSizeInPx(sizeType, screenWidth));
-        paint.setAntiAlias(false);
-        this.fontColor = fontColor;
-        metrics = paint.getFontMetrics();
-    }
 
     public Font(
             final GL11 gl,
@@ -129,25 +93,8 @@ public class Font {
         metrics = paint.getFontMetrics();
     }
 
-    private float getFontSizeInPx(
-            final SizeType size /* , int screenHeight */, final int screenWidth) {
+    private float getFontSizeInPx(final SizeType size, final int screenWidth) {
         return (screenWidth / size.getIntVal());
-        // return 1920.f/size.getIntVal(); // f�r testzwecke da lassen
-    }
-
-    private int getFontStyle(final FontStyle style) {
-        switch (style) {
-            case Bold:
-                return Typeface.BOLD;
-            case BoldItalic:
-                return Typeface.BOLD_ITALIC;
-            case Italic:
-                return Typeface.ITALIC;
-            case Plain:
-                return Typeface.NORMAL;
-            default:
-                return Typeface.NORMAL;
-        }
     }
 
     public int getGlyphAdvance(final char character) {
@@ -168,7 +115,7 @@ public class Font {
         paint.setColor(0x00000000);
         paint.setStyle(Style.FILL);
         g.drawRect(new Rect(0, 0, rect.width() + 5, getLineHeight()), paint);
-        paint.setColor(fontColor); // 0xFFFFFFFF);
+        paint.setColor(fontColor);
         g.drawText("" + character, 0, -metrics.ascent, paint);
         return bitmap;
     }
@@ -204,11 +151,6 @@ public class Font {
         return new Text(gl);
     }
 
-    /** @return The glyph texture */
-    protected Texture getTexture() {
-        return texture;
-    }
-
     /**
      * Returns the glyph for the given character
      *
@@ -240,7 +182,6 @@ public class Font {
                 new Glyph(
                         getGlyphAdvance(character),
                         (int) rect.width,
-                        (int) rect.height,
                         glyphX / 512.0f,
                         glyphY / 512.0f,
                         rect.width / 512.0f,
@@ -252,7 +193,6 @@ public class Font {
     private class Glyph {
         public int advance;
         public int width;
-        // public int height;
         public float u;
         public float v;
         public float uWidth;
@@ -261,14 +201,12 @@ public class Font {
         public Glyph(
                 final int advance,
                 final int width,
-                final int height,
                 final float u,
                 final float v,
                 final float uWidth,
                 final float vHeight) {
             this.advance = advance;
             this.width = width;
-            // this.height = height;
             this.u = u;
             this.v = v;
             this.uWidth = uWidth;
@@ -279,8 +217,6 @@ public class Font {
     /**
      * A textrun is a mesh that holds the glyphs of the given string formated to fit the rectangle
      * and alignment.
-     *
-     * @author mzechner
      */
     public class Text {
         private final GL11 gl;
@@ -290,12 +226,11 @@ public class Font {
         private int height;
         private HorizontalAlign hAlign;
         private VerticalAlign vAlign;
-        // private boolean wordWrap = false;
         private String[] lines;
         private int[] widths;
         private float posX, posY;
 
-        /**** tempor�r *****/
+        /**** temporary *****/
         private float positionX;
 
         private float positionY;
@@ -304,11 +239,6 @@ public class Font {
 
         protected Text(final GL11 gl) {
             this.gl = gl;
-        }
-
-        public void setTextArea(final int width, final int height) {
-            this.width = width;
-            this.height = height;
         }
 
         public void setHorizontalAlign(final HorizontalAlign hAlign) {
@@ -341,17 +271,6 @@ public class Font {
             rebuild();
         }
 
-        /**
-         * FIXME diese klasse noch entbuggen und besser machen /** FIXME: rebuild() schmeisst
-         * nullpointer exception
-         */
-        // public void setPosition( float x, float y )
-        // {
-        // posX = x;
-        // posY = y;
-        // rebuild( );
-        // }
-
         /** workaround * */
         public void setPosition(final float x, final float y) {
             positionX = x;
@@ -365,18 +284,6 @@ public class Font {
         public float getPosY() {
             return positionY;
         }
-
-        // public String getLongestLine() {
-        // // returns the longest line regarding characters
-        // String tmp = "";
-        // if (widths != null && lines != null) {
-        // for (int i = 0; i < widths.length; i++) {
-        // if (widths[i] > tmp.length())
-        // tmp = lines[i];
-        // }
-        // }
-        // return tmp;
-        // }
 
         private void rebuild() {
             if (mesh == null) {
@@ -432,28 +339,23 @@ public class Font {
                     mesh.vertex(posX + x, y, 0);
                     x += glyph.advance;
                 }
-                // temp: ist nur f�r one liners korrekt
+                // temp: ist nur fuer one liners korrekt
                 w = x;
                 h = y;
-                // //Log.d("Dodge It!", text+" || x: "+x+" y: "+y);
             }
         }
 
-        // vom Brezzmaster, vll noch �berarbeiten...
         public boolean isTouched(final int x, final int y, final int padX, final int padY) {
-            return (x > (positionX - w /* /2 */) - padX
-                    && x < (positionX + w /* /2 */) + padX
-                    && y > (positionY - y /* /2 */) - padY
-                    && y < (positionY + h /*
-																				* /2
-																				*/) + padY);
+            return (x > (positionX - w) - padX
+                    && x < (positionX + w) + padX
+                    && y > (positionY - y) - padY
+                    && y < (positionY + h) + padY);
         }
 
         public void render() {
             if (mesh == null) {
                 return;
             }
-
             texture.bind();
             mesh.render(RenderType.TRIANGLES);
         }
@@ -465,22 +367,14 @@ public class Font {
         }
     }
 
-    /**
-     * Horizontal text alignement
-     *
-     * @author mzechner
-     */
+    /** Horizontal text alignement */
     public enum HorizontalAlign {
         Left,
         Center,
         Right
     }
 
-    /**
-     * Vertical text alignement
-     *
-     * @author mzechner
-     */
+    /** Vertical text alignement */
     public enum VerticalAlign {
         Top,
         Center,

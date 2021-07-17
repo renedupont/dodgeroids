@@ -13,16 +13,8 @@ public final class BoxVersion {
         return this.major;
     }
 
-    public void setMajor(short major) {
-        this.major = major;
-    }
-
     public short getMinor() {
         return this.minor;
-    }
-
-    public void setMinor(short minor) {
-        this.minor = minor;
     }
 
     public BoxVersion clone() {

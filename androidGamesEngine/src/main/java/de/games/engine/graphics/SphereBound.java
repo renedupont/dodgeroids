@@ -28,10 +28,6 @@ public class SphereBound extends AbstractBound {
                     case INNER: // pruefen ob beide ineinander sind (geht nicht)
                         return false;
                     case OUTER: // pruefen ob otherNode in myNode drin ist
-                        // return (Vector.add(myNode.getPos(),
-                        // getOffset()).distance(Vector.add(otherNode.getPos(),
-                        // otherBound.getOffset())) + this.radius >=
-                        // otherBound.getRadius());
                         return (Vector.add(myNode.getPos(), getOffset())
                                                 .distance(
                                                         Vector.add(
@@ -43,10 +39,6 @@ public class SphereBound extends AbstractBound {
             case OUTER:
                 switch (otherType) {
                     case INNER: // pruefen ob myNode in otherNode ist
-                        // return (Vector.add(myNode.getPos(),
-                        // getOffset()).distance(Vector.add(otherNode.getPos(),
-                        // otherBound.getOffset())) + otherBound.getRadius() >=
-                        // this.radius);
                         return (Vector.add(myNode.getPos(), getOffset())
                                                 .distance(
                                                         Vector.add(
@@ -74,17 +66,17 @@ public class SphereBound extends AbstractBound {
         switch (myType) {
             case INNER:
                 switch (otherType) {
-                    case INNER: // pr�fen ob beide ineinander sind (geht nicht)
+                    case INNER: // pruefen ob beide ineinander sind (geht nicht)
                         return false;
-                    case OUTER: // Ich bin Kreis und in mir muss ein W�rfel sein
+                    case OUTER: // Ich bin Kreis und in mir muss ein Wuerfel sein
                         return isCubeInSphere(myNode, this, otherNode, otherBound);
                 }
                 break;
             case OUTER:
                 switch (otherType) {
-                    case INNER: // Ich bin Kreis und in einem W�rfel sein.
+                    case INNER: // Ich bin Kreis und in einem Wuerfel sein.
                         return isSphereInCube(myNode, this, otherNode, otherBound);
-                    case OUTER: // Ich bin Kreis und darf einen W�rfel nicht ber�hren.
+                    case OUTER: // Ich bin Kreis und darf einen Wuerfel nicht beruehren.
                         return isSphereOutsideCube(myNode, this, otherNode, otherBound);
                 }
                 break;

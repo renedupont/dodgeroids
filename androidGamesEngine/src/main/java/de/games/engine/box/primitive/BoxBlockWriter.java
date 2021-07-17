@@ -1,7 +1,7 @@
 package de.games.engine.box.primitive;
 
 import de.games.engine.box.format.BoxWriterInterface;
-import de.games.engine.box.format.chunk.BoxMeshDodgeItWriter;
+import de.games.engine.box.format.chunk.BoxMeshDodgeroidsWriter;
 import de.games.engine.box.format.chunk.BoxMeshWriter;
 import de.games.engine.box.io.BinaryWriter;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class BoxBlockWriter implements BoxWriterInterface {
 
     public void write(BinaryWriter writer) throws IOException {
         BoxMeshWriter meshWriter;
-        BoxMeshDodgeItWriter mw;
+        BoxMeshDodgeroidsWriter mw;
         BoxChunkHeader blockHeader = this.block.getHeader();
         BoxStringWriter signatureWriter = new BoxStringWriter(blockHeader.getSignature());
         BoxVersionWriter versionWriter = new BoxVersionWriter(blockHeader.getVersion());
@@ -27,8 +27,8 @@ public class BoxBlockWriter implements BoxWriterInterface {
                 meshWriter = new BoxMeshWriter(this.block.getChunk());
                 writer.writeInt(meshWriter.getLength());
                 meshWriter.write(writer);
-            case MESHDODGEIT:
-                mw = new BoxMeshDodgeItWriter(this.block.getChunk());
+            case MESH_DODGEROIDS:
+                mw = new BoxMeshDodgeroidsWriter(this.block.getChunk());
                 writer.writeInt(mw.getLength());
                 mw.write(writer);
                 break;

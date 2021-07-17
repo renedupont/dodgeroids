@@ -1,14 +1,14 @@
 package de.games.engine.box.format.chunk;
 
-import de.games.engine.box.format.chunk.meshDodgeItStuff.Color;
-import de.games.engine.box.format.chunk.meshDodgeItStuff.Material;
+import de.games.engine.box.format.chunk.meshDodgeroidsStuff.Color;
+import de.games.engine.box.format.chunk.meshDodgeroidsStuff.Material;
 import de.games.engine.box.io.BinaryReader;
 import de.games.engine.box.primitive.BoxString;
 import de.games.engine.box.primitive.BoxStringReader;
 import java.io.IOException;
 
-public class BoxMeshDodgeItReader {
-    public BoxMeshDodgeIt read(BinaryReader reader) throws IOException {
+public class BoxMeshDodgeroidsReader {
+    public BoxMeshDodgeroids read(BinaryReader reader) throws IOException {
         int numFaces = reader.readInt();
         float[] faces = reader.readFloat(numFaces);
         int numNormals = reader.readInt();
@@ -37,9 +37,9 @@ public class BoxMeshDodgeItReader {
             mat.emissive = new Color(emissive[0], emissive[2], emissive[3], emissive[4]);
             mat.shininess = reader.readFloat();
             mat.opacity = reader.readFloat();
-            BoxMeshDodgeIt boxMeshDodgeIt = new BoxMeshDodgeIt(faces, normals, uvs, mat);
+            BoxMeshDodgeroids boxMeshDodgeroids = new BoxMeshDodgeroids(faces, normals, uvs, mat);
         }
-        BoxMeshDodgeIt r = new BoxMeshDodgeIt(faces, normals, uvs);
+        BoxMeshDodgeroids r = new BoxMeshDodgeroids(faces, normals, uvs);
         byte b;
         int j;
         BoxMeshBound[] arrayOfBoxMeshBound1;

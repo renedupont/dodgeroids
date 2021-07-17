@@ -6,12 +6,12 @@ import de.games.engine.box.io.ByteConversion;
 import de.games.engine.box.primitive.BoxStringWriter;
 import java.io.IOException;
 
-public class BoxMeshDodgeItWriter extends BoxChunkWriter {
-    protected BoxMeshDodgeIt mesh;
+public class BoxMeshDodgeroidsWriter extends BoxChunkWriter {
+    protected BoxMeshDodgeroids mesh;
     protected byte[] rawBytes;
 
-    public BoxMeshDodgeItWriter(BoxChunkInterface mesh) throws IOException {
-        this.mesh = (BoxMeshDodgeIt) mesh;
+    public BoxMeshDodgeroidsWriter(BoxChunkInterface mesh) throws IOException {
+        this.mesh = (BoxMeshDodgeroids) mesh;
         float[] faces = this.mesh.getFaces();
         float[] normals = this.mesh.getNormals();
         float[] uvs = this.mesh.getUvs();

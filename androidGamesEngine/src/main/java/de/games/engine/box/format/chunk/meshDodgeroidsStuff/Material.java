@@ -1,8 +1,8 @@
-package de.games.engine.box.format.chunk.meshDodgeItStuff;
+package de.games.engine.box.format.chunk.meshDodgeroidsStuff;
 
 public class Material {
+
     public String id;
-    public MaterialType type;
     public Color ambient;
     public Color diffuse;
     public Color specular;
@@ -12,10 +12,5 @@ public class Material {
 
     public Material() {
         this.opacity = 1.0F;
-    }
-
-    public enum MaterialType {
-        Lambert,
-        Phong;
     }
 }

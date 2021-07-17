@@ -10,10 +10,6 @@ public class Camera {
         ORTHOGRAPHIC
     }
 
-    // public enum Type {
-    // TWO_D, THREE_D, DEFAULT
-    // }
-
     private float frustumWidth;
     private float frustumHeight;
     private float fovY;
@@ -22,16 +18,6 @@ public class Camera {
     private final Vector up;
     private Vector position;
     private Vector direction;
-
-    // public Camera(Vector position, Vector direction, Vector up, float fovY,
-    // float zNear, float zFar) {
-    // this.position = position;
-    // this.direction = direction;
-    // this.up = up;
-    // this.fovY = fovY;
-    // this.zNear = zNear;
-    // this.zFar = zFar;
-    // }
 
     public Camera(
             final Vector position,
@@ -42,7 +28,6 @@ public class Camera {
             final float fovY,
             final float zNear,
             final float zFar) {
-        // this(position, direction, up, fovY, zNear, zFar);
         this.position = position;
         this.direction = direction;
         this.up = up;
@@ -73,8 +58,6 @@ public class Camera {
 
         switch (mode) {
             case ORTHOGRAPHIC:
-                // GLU.gluOrtho2D( gl, -frustumWidth, frustumWidth, -frustumHeight,
-                // frustumHeight );
                 gl.glOrthof(0, frustumWidth, 0, frustumHeight, -1f, 1f);
                 break;
             case PERSPECTIVE:
@@ -86,37 +69,8 @@ public class Camera {
         gl.glLoadIdentity();
     }
 
-    public Vector getPosition() {
-        return position;
-    }
-
     public void setPosition(final Vector position) {
         this.position = position;
-    }
-
-    public Vector getDirection() {
-        return direction;
-    }
-
-    public void setDirection(final Vector direction) {
-        this.direction = direction;
-    }
-
-    public float getFov() {
-        return fovY;
-    }
-
-    public void setFov(final float fov) {
-        this.fovY = fov;
-    }
-
-    public void setFrustum(final float width, final float height) { // TODO:
-        // Bildschirmaufloesung
-        // fuer pixelspace,
-        // andere werte fuer
-        // ortho effeckt
-        frustumWidth = width;
-        frustumHeight = height;
     }
 
     public void update(final float delta) {}
@@ -125,15 +79,7 @@ public class Camera {
         return zFar;
     }
 
-    public void setzFar(final float zFar) {
-        this.zFar = zFar;
-    }
-
     public float getzNear() {
         return zNear;
-    }
-
-    public void setzNear(final float zNear) {
-        this.zNear = zNear;
     }
 }

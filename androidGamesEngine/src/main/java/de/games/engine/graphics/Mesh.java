@@ -10,23 +10,16 @@ import javax.microedition.khronos.opengles.GL11;
 /**
  * A simple Mesh class that wraps OpenGL ES Vertex Arrays. Just instantiate it with the proper
  * parameters then fill it with the color, texCoord, normal and vertex method.
- *
- * @author mzechner
  */
 public final class Mesh {
 
     public enum RenderType {
-        POINTS(GL11.GL_POINTS),
-        LINES(GL11.GL_LINES),
-        LINE_LOOP(GL11.GL_LINE_LOOP),
-        LINE_STRIP(GL11.GL_LINE_STRIP),
         TRIANGLES(GL11.GL_TRIANGLES),
-        TRIANGLE_STRIP(GL11.GL_TRIANGLE_STRIP),
         TRIANGLE_FAN(GL11.GL_TRIANGLE_FAN);
 
         private final int value;
 
-        private RenderType(final int $value) {
+        RenderType(final int $value) {
             this.value = $value;
         }
 
@@ -39,25 +32,25 @@ public final class Mesh {
     private final GL11 gl;
 
     /** vertex position buffer and array * */
-    private float vertices[];
+    private float[] vertices;
 
     private int vertexHandle = -1;
     private FloatBuffer vertexBuffer;
 
     /** color buffer and array * */
-    private float colors[];
+    private float[] colors;
 
     private int colorHandle = -1;
     private FloatBuffer colorBuffer;
 
     /** texture coordinate buffer and array * */
-    private float texCoords[];
+    private float[] texCoords;
 
     private int texHandle = -1;
     private FloatBuffer texCoordBuffer;
 
     /** normal buffer and array * */
-    private float normals[];
+    private float[] normals;
 
     private int normalHandle = -1;
     private FloatBuffer normalBuffer;
@@ -80,11 +73,7 @@ public final class Mesh {
     /** mesh count * */
     public static int meshes = 0;
 
-    private final ArrayList<AbstractBound> bounds = new ArrayList<AbstractBound>();
-
-    // private Vector min;
-    // private Vector max;
-    // private float maxRadius = 0; // in regard of max and min values...
+    private final ArrayList<AbstractBound> bounds = new ArrayList<>();
 
     public Mesh(
             final GL11 gl,
@@ -94,8 +83,6 @@ public final class Mesh {
             final boolean hasNormals) {
         this.gl = gl;
         vertices = new float[numVertices * 3];
-        // min = new Vector();
-        // max = new Vector();
         int[] buffer = new int[1];
 
         if (!globalVBO) {
@@ -140,25 +127,6 @@ public final class Mesh {
         }
     }
 
-    // public ArrayList<AbstractBound> getBounds(CollisionShape shape) {
-    // ArrayList<Bound> r = new ArrayList<Bound>();
-    // for (AbstractBound bound:bounds) {
-    // if (bound.getShape() == shape) {
-    // r.add(bound);
-    // }
-    // }
-    // return r;
-    // }
-
-    // public Bound getBound(String name) {
-    // for (Bound bound:bounds) {
-    // if (bound.getName().equals(name)) {
-    // return bound;
-    // }
-    // }
-    // return null;
-    // }
-
     public ArrayList<AbstractBound> getBounds() {
         return bounds;
     }
@@ -166,68 +134,6 @@ public final class Mesh {
     public boolean addBound(final AbstractBound bnd) {
         return bounds.add(bnd);
     }
-
-    // public void setMinMaxVerticeValues(float min[], float max[]) { //float
-    // minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
-    // this.min.set(min[0], min[1], max[2]);
-    // this.max.set(max[0], max[1], max[2]);
-    // }
-
-    public static float calculateMaxRadius(final Vector min, final Vector max) {
-        return calculateMaxRadius(min, max, false);
-    }
-
-    public static float calculateMaxRadius(
-            final Vector min, final Vector max, final boolean onlyXY) {
-        // considers only x and y axis regarding the calculation if onlyXY is
-        // set to true
-        float maxRadius = 0f;
-        // TODO: Exceptions schmei�en
-        if (min != null
-                && max != null
-                && min.x < Float.POSITIVE_INFINITY
-                && min.y < Float.POSITIVE_INFINITY
-                && min.z < Float.POSITIVE_INFINITY
-                && max.x > Float.NEGATIVE_INFINITY
-                && max.y > Float.NEGATIVE_INFINITY
-                && max.z > Float.NEGATIVE_INFINITY) {
-            float distX = max.x - min.x;
-            float distY = max.y - min.y;
-            float distZ = max.z - min.z;
-            maxRadius = maxRadius < distX ? distX : maxRadius;
-            maxRadius = maxRadius < distY ? distY : maxRadius;
-            if (!onlyXY) {
-                maxRadius = maxRadius < distZ ? distZ : maxRadius;
-            }
-            maxRadius /= 2; // setzt voraus das min und max jeweils gleiche
-            // distanz zum nullpunkt haben...
-        }
-        return maxRadius;
-    }
-
-    // public void setMaxRadius(float maxRadius) {
-    // this.maxRadius = maxRadius;
-    // }
-    //
-    // public float getMaxRadius() {
-    // return maxRadius;
-    // }
-    //
-    // public void setMin(Vector min) {
-    // this.min = min;
-    // }
-    //
-    // public void setMax(Vector max) {
-    // this.max = max;
-    // }
-    //
-    // public Vector getMin() {
-    // return min;
-    // }
-    //
-    // public Vector getMax() {
-    // return max;
-    // }
 
     /**
      * Allocates a direct FloatBuffer of the given size. Sets order to native
@@ -390,10 +296,6 @@ public final class Mesh {
         vertices[offset + 1] = y;
         vertices[offset + 2] = z;
         index++;
-    }
-
-    public void vertex(final Vector p) {
-        vertex(p.x, p.y, p.z);
     }
 
     public void color(final Color c) {

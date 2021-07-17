@@ -29,10 +29,6 @@ public class Node {
         return pos;
     }
 
-    public Vector getRotation() {
-        return rot;
-    }
-
     public void setPos(final float x, final float y, final float z) {
         pos.set(x, y, z);
     }
@@ -57,18 +53,6 @@ public class Node {
         scale.set(x, y, z);
     }
 
-    public void setRot(final Vector v) {
-        rot.x = v.x % 360.0f;
-        rot.y = v.y % 360.0f;
-        rot.z = v.z % 360.0f;
-    }
-
-    public void setRot(final float x, final float y, final float z) {
-        rot.x = x % 360.0f;
-        rot.y = y % 360.0f;
-        rot.z = z % 360.0f;
-    }
-
     public void setRotation(final Vector v) {
         rot.x = v.x % 360.0f;
         rot.y = v.y % 360.0f;
@@ -81,41 +65,15 @@ public class Node {
         rot.z = z % 360.0f;
     }
 
-    public void rotate(final Vector v) {
-        rot.x = (rot.x + v.x) % 360.0f;
-        rot.y = (rot.y + v.y) % 360.0f;
-        rot.z = (rot.z + v.z) % 360.0f;
-    }
-
-    public void rotate(final float x, final float y, final float z) {
-        rot.x = (rot.x + x) % 360.0f;
-        rot.y = (rot.y + y) % 360.0f;
-        rot.z = (rot.z + z) % 360.0f;
-    }
-
     public void setPosition(final Node n, final float x, final float y, final float z) {
         pos.set(toLocal(n, x, y, z));
     }
-
-    public Vector getPosition(final Node n) {
-        return toLocal(n, pos.x, pos.y, pos.z);
-    }
-
-    // public Vector getRotation(Node n) {
-    // return toLocal(n, pos.x, pos.y, pos.z);
-    // }
 
     /************************
      * LOCAL TRANSFOMATIONS *
      ************************/
 
-    // public void rotateLocal(Vector amount) {
-    // rotate(0f, (float)amount, 0f);
-    // anglesToAxes(getRot());
-    // }
-
     public void setPosition(final Node n, final Vector v) {
-        // pos.set(toLocal(n, v.x, v.y, v.z));
         anglesToAxes(n.rot);
         pos.set(n.pos);
         getPos().add(Vector.mul(forward, Math.abs(v.z)));
@@ -156,10 +114,6 @@ public class Node {
         forward.x = sy;
         forward.y = -sx * cy;
         forward.z = cx * cy;
-    }
-
-    protected Vector toLocal(final float dx, final float dy, final float dz) {
-        return toLocal(this, dx, dy, dz);
     }
 
     protected Vector toLocal(final Node n, final float dx, final float dy, final float dz) {

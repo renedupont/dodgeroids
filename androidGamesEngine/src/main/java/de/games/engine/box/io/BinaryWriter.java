@@ -24,20 +24,9 @@ public class BinaryWriter {
         return this.output;
     }
 
-    public int writeByte(byte data) throws IOException {
-        this.output.write(data);
-        return 1;
-    }
-
     public int writeByte(byte[] data) throws IOException {
         this.output.write(data);
         return data.length;
-    }
-
-    public int writeChar(char data) throws IOException {
-        byte[] d = ByteConversion.charToBytes(data);
-        this.output.write(d);
-        return d.length;
     }
 
     public int writeChar(char[] data) throws IOException {
@@ -52,56 +41,8 @@ public class BinaryWriter {
         return d.length;
     }
 
-    public int writeShort(short[] data) throws IOException {
-        byte[] d = ByteConversion.shortArrayToBytes(data);
-        this.output.write(d);
-        return d.length;
-    }
-
     public int writeInt(int data) throws IOException {
         byte[] d = ByteConversion.intToBytes(data);
-        this.output.write(d);
-        return d.length;
-    }
-
-    public int writeInt(int[] data) throws IOException {
-        byte[] d = ByteConversion.intArrayToBytes(data);
-        this.output.write(d);
-        return d.length;
-    }
-
-    public int writeLong(long data) throws IOException {
-        byte[] d = ByteConversion.longToBytes(data);
-        this.output.write(d);
-        return d.length;
-    }
-
-    public int writeLong(long[] data) throws IOException {
-        byte[] d = ByteConversion.longArrayToBytes(data);
-        this.output.write(d);
-        return d.length;
-    }
-
-    public int writeFloat(float data) throws IOException {
-        byte[] d = ByteConversion.floatToBytes(data);
-        this.output.write(d);
-        return d.length;
-    }
-
-    public int writeFloat(float[] data) throws IOException {
-        byte[] d = ByteConversion.floatArrayToBytes(data);
-        this.output.write(d);
-        return d.length;
-    }
-
-    public int writeDouble(double data) throws IOException {
-        byte[] d = ByteConversion.doubleToBytes(data);
-        this.output.write(d);
-        return d.length;
-    }
-
-    public int writeDouble(double[] data) throws IOException {
-        byte[] d = ByteConversion.doubleArrayToBytes(data);
         this.output.write(d);
         return d.length;
     }

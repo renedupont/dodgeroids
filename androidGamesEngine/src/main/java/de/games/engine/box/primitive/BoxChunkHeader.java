@@ -26,10 +26,6 @@ public class BoxChunkHeader {
         return this.signature;
     }
 
-    public void setSignature(BoxString signature) {
-        this.signature = signature;
-    }
-
     public BoxVersion getVersion() {
         return this.version;
     }

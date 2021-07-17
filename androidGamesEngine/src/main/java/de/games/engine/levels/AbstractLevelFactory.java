@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import de.games.engine.box.format.BoxFormat.Identifier;
 import de.games.engine.box.format.chunk.BoxMeshBound;
-import de.games.engine.box.format.chunk.BoxMeshDodgeIt;
+import de.games.engine.box.format.chunk.BoxMeshDodgeroids;
 import de.games.engine.box.primitive.BoxBlock;
 import de.games.engine.box.primitive.BoxFile;
 import de.games.engine.box.primitive.BoxFileReader;
@@ -65,11 +65,11 @@ public abstract class AbstractLevelFactory {
 
     private void loadMesh(final GL11 gl, final String id) {
         BoxBlock block = data.getBlock(data.findBySignature(id));
-        if (block != null && block.getHeader().getId() == Identifier.MESHDODGEIT) {
+        if (block != null && block.getHeader().getId() == Identifier.MESH_DODGEROIDS) {
             try {
                 fileReader.readChunk(block);
 
-                BoxMeshDodgeIt chunk = (BoxMeshDodgeIt) block.getChunk();
+                BoxMeshDodgeroids chunk = (BoxMeshDodgeroids) block.getChunk();
                 Mesh mesh = new Mesh(gl, chunk.getFaces().length, false, true, true);
 
                 for (int i = 0; i < chunk.getFaces().length / 3; i++) {
@@ -85,7 +85,7 @@ public abstract class AbstractLevelFactory {
                 }
 
                 for (BoxMeshBound bound : chunk.getBounds()) {
-                    BoxMeshDodgeIt boundMesh = bound.getMesh();
+                    BoxMeshDodgeroids boundMesh = bound.getMesh();
                     Mesh theMesh = new Mesh(gl, boundMesh.getFaces().length, false, true, true);
                     for (int i = 0; i < boundMesh.getFaces().length / 3; i++) {
                         theMesh.normal(

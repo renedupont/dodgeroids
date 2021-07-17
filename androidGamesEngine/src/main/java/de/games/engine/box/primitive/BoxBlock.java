@@ -19,10 +19,6 @@ public class BoxBlock {
         return this.chunk;
     }
 
-    public boolean hasChunk() {
-        return (this.chunk != null);
-    }
-
     public void setChunk(BoxChunkInterface chunk) {
         this.chunk = chunk;
     }
