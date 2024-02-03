@@ -11,13 +11,13 @@ android {
 		applicationId "de.games.dodgeroids"
 		minSdkVersion 24
 		targetSdkVersion 34
-		versionCode 2
+		versionCode 3
 		versionName '1.0.1'
 	}
 
 	buildTypes {
 		release {
-			minifyEnabled false
+			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}
 	}
