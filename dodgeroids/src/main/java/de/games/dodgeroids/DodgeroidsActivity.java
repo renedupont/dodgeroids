@@ -142,12 +142,16 @@ public class DodgeroidsActivity extends Activity implements GLSurfaceView.Render
         screen.getRenderer().render(gl, width, height);
     }
 
-    /** @return the viewport width in pixels */
+    /**
+     * @return the viewport width in pixels
+     */
     public int getViewportWidth() {
         return width;
     }
 
-    /** @return the viewport height in pixels */
+    /**
+     * @return the viewport height in pixels
+     */
     public int getViewportHeight() {
         return height;
     }

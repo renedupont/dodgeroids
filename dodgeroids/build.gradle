@@ -1,17 +1,18 @@
 plugins {
 	id 'com.android.application'
-	id "com.diffplug.spotless" version "5.8.2"
+	id "com.diffplug.spotless" version "6.25.0"
 }
 
 android {
-	compileSdkVersion 29
+	namespace "de.games.dodgeroids"
+	compileSdk 34
 
 	defaultConfig {
 		applicationId "de.games.dodgeroids"
 		minSdkVersion 24
-		targetSdkVersion 29
-		versionCode 1
-		versionName "1.0"
+		targetSdkVersion 34
+		versionCode 2
+		versionName '1.0.1'
 	}
 
 	buildTypes {
@@ -21,16 +22,25 @@ android {
 		}
 	}
 	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
 	}
+	buildToolsVersion "34.0.0"
 }
 
 dependencies {
 	implementation project(':androidGamesEngine')
 }
 
-// Run './gradlew spotlessApply' (linux) or 'gradlew.bat spotlessApply' (windows) in root folder to fix violations
+/*
+check violations with:
+	unix:		./gradlew spotlessCheck
+	windows:	gradlew.bat spotlessCheck
+fix violations with:
+	unix:		./gradlew spotlessApply
+	windows 	gradlew.bat spotlessApply
+for further information, visit: https://github.com/diffplug/spotless/tree/main/plugin-gradle#google-java-format
+ */
 spotless {
 	format 'misc', {
 		// define the files to apply `misc` to
@@ -42,8 +52,10 @@ spotless {
 		endWithNewline()
 	}
 	java {
-		target 'src/*/java/**/*.java'
-		// apply a specific flavor of google-java-format
-		googleJavaFormat('1.8').aosp()
+		googleJavaFormat('1.17.0').aosp()
+		target('src/**/*.java')
+		trimTrailingWhitespace()
+		endWithNewline()
+		removeUnusedImports()
 	}
 }

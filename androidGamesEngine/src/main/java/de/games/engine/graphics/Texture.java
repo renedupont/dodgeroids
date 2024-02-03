@@ -21,6 +21,7 @@ public class Texture {
 
     /** the texture handle * */
     private int textureHandle;
+
     /** handle to gl wrapper * */
     private final GL11 gl;
 

@@ -37,11 +37,11 @@ public class DodgeroidsSaveGame implements Serializable {
 
     public void storeSaveGame(final Player player) {
         SharedPreferences.Editor prefs = activity.getPreferences(Context.MODE_PRIVATE).edit();
-        prefs.putFloat("xPlayer", player.getPos().x).commit();
-        prefs.putFloat("yPlayer", player.getPos().y).commit();
-        prefs.putFloat("zPlayer", player.getPos().z).commit();
-        prefs.putInt("playerLives", player.lives).commit();
-        prefs.putFloat("playerScore", player.score).commit();
+        prefs.putFloat("xPlayer", player.getPos().x).apply();
+        prefs.putFloat("yPlayer", player.getPos().y).apply();
+        prefs.putFloat("zPlayer", player.getPos().z).apply();
+        prefs.putInt("playerLives", player.lives).apply();
+        prefs.putFloat("playerScore", player.score).apply();
     }
 
     public Vector getPlayerPosition() {
@@ -65,7 +65,7 @@ public class DodgeroidsSaveGame implements Serializable {
 
     public synchronized void setResumable(final boolean loadable) {
         SharedPreferences.Editor prefs = activity.getPreferences(Context.MODE_PRIVATE).edit();
-        prefs.putBoolean("saveGameResumable", loadable).commit();
+        prefs.putBoolean("saveGameResumable", loadable).apply();
     }
 
     public boolean saveIfNewHighScore(final float score) {
@@ -73,7 +73,7 @@ public class DodgeroidsSaveGame implements Serializable {
         if (score > highScore) {
             SharedPreferences.Editor gameScore =
                     activity.getPreferences(Context.MODE_PRIVATE).edit();
-            gameScore.putFloat(activity.getString(R.string.pref_highscore), score).commit();
+            gameScore.putFloat(activity.getString(R.string.pref_highscore), score).apply();
             return true;
         }
         return false;

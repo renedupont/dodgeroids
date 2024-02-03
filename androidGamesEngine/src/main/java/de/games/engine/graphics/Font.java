@@ -57,6 +57,7 @@ public class Font {
 
     /** glyph hashmap * */
     private final HashMap<Character, Glyph> glyphs = new HashMap<>();
+
     /** current position in glyph texture to write the next glyph to * */
     private int glyphX = 0;
 

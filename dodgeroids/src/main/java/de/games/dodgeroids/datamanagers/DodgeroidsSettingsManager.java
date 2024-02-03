@@ -31,20 +31,20 @@ public class DodgeroidsSettingsManager {
 
     public synchronized void saveAllToPreferences() {
         SharedPreferences.Editor prefs = activity.getPreferences(Context.MODE_PRIVATE).edit();
-        prefs.putBoolean("isSoundOn", isSoundOn).commit();
-        prefs.putBoolean("isControlFlipped", isControlFlipped).commit();
+        prefs.putBoolean("isSoundOn", isSoundOn).apply();
+        prefs.putBoolean("isControlFlipped", isControlFlipped).apply();
     }
 
     public synchronized void saveSound(final boolean isSoundOn) {
         this.isSoundOn = isSoundOn;
         SharedPreferences.Editor prefs = activity.getPreferences(Context.MODE_PRIVATE).edit();
-        prefs.putBoolean("isSoundOn", isSoundOn).commit();
+        prefs.putBoolean("isSoundOn", isSoundOn).apply();
     }
 
     public synchronized void saveControlFlipped(final boolean isFlipped) {
         this.isControlFlipped = isFlipped;
         SharedPreferences.Editor prefs = activity.getPreferences(Context.MODE_PRIVATE).edit();
-        prefs.putBoolean("isControlFlipped", isControlFlipped).commit();
+        prefs.putBoolean("isControlFlipped", isControlFlipped).apply();
     }
 
     private void loadAllFromPreferences() {

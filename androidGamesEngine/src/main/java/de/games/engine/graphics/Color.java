@@ -12,7 +12,9 @@ public class Color {
     /** Constructs a new Color with all components set to 0. */
     public Color() {}
 
-    /** @see #rgba8888ToColor(Color, int) */
+    /**
+     * @see #rgba8888ToColor(Color, int)
+     */
     public Color(final int rgba8888) {
         rgba8888ToColor(this, rgba8888);
     }
@@ -74,7 +76,9 @@ public class Color {
         return clamp();
     }
 
-    /** @return this Color for chaining */
+    /**
+     * @return this Color for chaining
+     */
     public Color clamp() {
         if (r < 0) {
             r = 0;
@@ -102,7 +106,9 @@ public class Color {
         return this;
     }
 
-    /** @return this Color for chaining */
+    /**
+     * @return this Color for chaining
+     */
     public Color add(final float r, final float g, final float b, final float a) {
         this.r += r;
         this.g += g;

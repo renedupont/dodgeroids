@@ -36,6 +36,7 @@ public class Light {
     private Vector direction = new Vector();
 
     private float cutoff = 30.0f;
+
     /** cutoff = winkel des lichtkegels * 2, also maximal 180 sonst hat man ein pointlight */
     private float exponent = 0.0f;
 
