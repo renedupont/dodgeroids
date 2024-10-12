@@ -12,7 +12,7 @@
 - Log into Developer Console
 - On first Dashboard ("Startseite" in german) go into Details of Dodgeroids ("App ansehen" in german)
 - In menu on the left side select Production ("Produktion" in german)
-- Press create new release "Neuen Release erstellen" in german" in top right corner
+- Press create new release ("Neuen Release erstellen" in german) in top right corner
 - Follow upcoming flow where you can also upload the signed bundle at some point
 - At some point there is the possibility to press the three dots in the just uploaded 
   app bundle entry and upload a ReTrace file which has been created during the build in 

@@ -20,3 +20,32 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn de.games.engine.graphics.AbstractBound$DetectionMethod
+-dontwarn de.games.engine.graphics.AbstractBound
+-dontwarn de.games.engine.graphics.Background
+-dontwarn de.games.engine.graphics.Camera
+-dontwarn de.games.engine.graphics.Color
+-dontwarn de.games.engine.graphics.Font$FontStyle
+-dontwarn de.games.engine.graphics.Font$HorizontalAlign
+-dontwarn de.games.engine.graphics.Font$SizeType
+-dontwarn de.games.engine.graphics.Font$Text
+-dontwarn de.games.engine.graphics.Font$VerticalAlign
+-dontwarn de.games.engine.graphics.Font
+-dontwarn de.games.engine.graphics.GameRenderer
+-dontwarn de.games.engine.graphics.Light$Id
+-dontwarn de.games.engine.graphics.Light$Type
+-dontwarn de.games.engine.graphics.Light
+-dontwarn de.games.engine.graphics.Mesh
+-dontwarn de.games.engine.graphics.Node
+-dontwarn de.games.engine.graphics.RotationSettings
+-dontwarn de.games.engine.graphics.SphereBound
+-dontwarn de.games.engine.graphics.Sprite
+-dontwarn de.games.engine.graphics.Texture$TextureFilter
+-dontwarn de.games.engine.graphics.Texture$TextureWrap
+-dontwarn de.games.engine.graphics.Texture
+-dontwarn de.games.engine.graphics.Vector
+-dontwarn de.games.engine.levels.AbstractLevelFactory
+-dontwarn de.games.engine.objects.AbstractGameObject
+-dontwarn de.games.engine.objects.GameObjectChain
+-dontwarn de.games.engine.scenes.Scene
