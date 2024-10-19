@@ -24,7 +24,6 @@ public abstract class AbstractGameObject extends Node {
             final Texture texture,
             final Vector velocity,
             final Vector startPosition) {
-        this.meshes = new HashMap<>();
         this.meshes = meshIds;
         this.texture = texture;
         this.velocity = velocity;
@@ -72,9 +71,7 @@ public abstract class AbstractGameObject extends Node {
     public ArrayList<AbstractBound> getBounds() {
         ArrayList<AbstractBound> list = new ArrayList<>();
         for (Mesh mesh : meshes.keySet()) {
-            for (AbstractBound bound : mesh.getBounds()) {
-                list.add(bound);
-            }
+            list.addAll(mesh.getBounds());
         }
         return list;
     }

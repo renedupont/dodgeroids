@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class Scene {
 
-    private HashMap<String, Text> texts;
-    private HashMap<String, Sprite> sprites;
-    private List<Light> lights;
-    private Background background;
-    private Camera camera;
-    private LinkedList<AbstractGameObject> gameObjects;
-    private Map<String, GameObjectChain<? extends AbstractGameObject>> gameObjectChains;
+    private final HashMap<String, Text> texts;
+    private final HashMap<String, Sprite> sprites;
+    private final List<Light> lights;
+    private final Background background;
+    private final Camera camera;
+    private final LinkedList<AbstractGameObject> gameObjects;
+    private final Map<String, GameObjectChain<? extends AbstractGameObject>> gameObjectChains;
 
     /** Constructor for a scene without any ingame objects, use-case could be a menu. * */
     public Scene(
@@ -59,7 +59,7 @@ public class Scene {
                 .forEach(
                         chain ->
                                 chain.getGameObjects()
-                                        .forEach(gameObject -> addGameObject(gameObject)));
+                                        .forEach(this::addGameObject));
     }
 
     public void update(float delta) {
@@ -94,10 +94,6 @@ public class Scene {
         } else {
             gameObjects.addFirst(o);
         }
-    }
-
-    public boolean removeGameObject(AbstractGameObject o) {
-        return gameObjects.remove(o);
     }
 
     public Camera getCamera() {

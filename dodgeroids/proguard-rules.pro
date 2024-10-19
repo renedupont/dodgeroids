@@ -21,6 +21,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# Please add these rules to your existing keep rules in order to suppress warnings.
+# This is generated automatically by the Android Gradle plugin.
 -dontwarn de.games.engine.graphics.AbstractBound$DetectionMethod
 -dontwarn de.games.engine.graphics.AbstractBound
 -dontwarn de.games.engine.graphics.Background
@@ -49,3 +51,32 @@
 -dontwarn de.games.engine.objects.AbstractGameObject
 -dontwarn de.games.engine.objects.GameObjectChain
 -dontwarn de.games.engine.scenes.Scene
+
+-keep class de.games.engine.graphics.AbstractBound$DetectionMethod { *; }
+-keep class de.games.engine.graphics.AbstractBound { *; }
+-keep class de.games.engine.graphics.Background { *; }
+-keep class de.games.engine.graphics.Camera { *; }
+-keep class de.games.engine.graphics.Color { *; }
+-keep class de.games.engine.graphics.Font$FontStyle { *; }
+-keep class de.games.engine.graphics.Font$HorizontalAlign { *; }
+-keep class de.games.engine.graphics.Font$SizeType { *; }
+-keep class de.games.engine.graphics.Font$Text { *; }
+-keep class de.games.engine.graphics.Font$VerticalAlign { *; }
+-keep class de.games.engine.graphics.Font { *; }
+-keep class de.games.engine.graphics.GameRenderer { *; }
+-keep class de.games.engine.graphics.Light$Id { *; }
+-keep class de.games.engine.graphics.Light$Type { *; }
+-keep class de.games.engine.graphics.Light { *; }
+-keep class de.games.engine.graphics.Mesh { *; }
+-keep class de.games.engine.graphics.Node { *; }
+-keep class de.games.engine.graphics.RotationSettings { *; }
+-keep class de.games.engine.graphics.SphereBound { *; }
+-keep class de.games.engine.graphics.Sprite { *; }
+-keep class de.games.engine.graphics.Texture$TextureFilter { *; }
+-keep class de.games.engine.graphics.Texture$TextureWrap { *; }
+-keep class de.games.engine.graphics.Texture { *; }
+-keep class de.games.engine.graphics.Vector { *; }
+-keep class de.games.engine.levels.AbstractLevelFactory { *; }
+-keep class de.games.engine.objects.AbstractGameObject { *; }
+-keep class de.games.engine.objects.GameObjectChain { *; }
+-keep class de.games.engine.scenes.Scene { *; }

@@ -9,14 +9,13 @@ import java.util.function.Function;
 // TODO: make iterable or collection (and rename) and get rid of getGameObjects() + getFirst()
 public class GameObjectChain<T extends AbstractGameObject> {
 
-    private Function<Vector, T> gameObjectCreator;
-    private float zPosOfFirstObject;
-    private float distanceToNextObject;
-    private Vector deathThresholdMin;
-    private Vector deathThresholdMax;
-    private List<T> gameObjects;
+    private final Function<Vector, T> gameObjectCreator;
+    private final float zPosOfFirstObject;
+    private final float distanceToNextObject;
+    private final Vector deathThresholdMin;
+    private final Vector deathThresholdMax;
+    private final List<T> gameObjects;
 
-    @SuppressWarnings("unchecked")
     public GameObjectChain(
             Function<Vector, T> gameObjectCreator,
             int gameObjectsCount,
@@ -41,7 +40,6 @@ public class GameObjectChain<T extends AbstractGameObject> {
         gameObjects.add(gameObject);
     }
 
-    @SuppressWarnings("unchecked")
     public void update(LinkedList<AbstractGameObject> allObjects) {
         int removedCounter = 0;
         // Iterator was used due to the need of removing objects while iterating

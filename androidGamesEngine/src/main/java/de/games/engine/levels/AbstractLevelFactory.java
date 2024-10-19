@@ -172,9 +172,6 @@ public abstract class AbstractLevelFactory {
             }
             os.close();
             is.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -183,9 +180,6 @@ public abstract class AbstractLevelFactory {
         try {
             fileReader = new BoxFileReader(cacheFile);
             data = fileReader.read();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
